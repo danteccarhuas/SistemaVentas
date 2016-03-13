@@ -1,9 +1,9 @@
 INSERT INTO `tb_menu` (`descripcion`,`estado`,`fechacreacion`,`fechamodificacion`,`tipografia`) VALUES
 ('Mantenimiento',1,'2016-01-01','2016-01-01','fa fa-fw fa-table'),
-('Compras',1,'2016-01-01','2016-01-01',''),
-('Ventas',1,'2016-01-01','2016-01-01',''),
-('Caja',1,'2016-01-01','2016-01-01',''),
-('Inventario',1,'2016-01-01','2016-01-01',''),
+('Compras',1,'2016-01-01','2016-01-01','fa fa-shopping-cart '),
+('Ventas',1,'2016-01-01','2016-01-01','fa fa-file-text-o'),
+('Caja',1,'2016-01-01','2016-01-01','fa fa-calculator'),
+('Inventario',1,'2016-01-01','2016-01-01','fa fa-fw fa-dashboard'),
 ('Reportes',1,'2016-01-01','2016-01-01','fa fa-fw fa-bar-chart-o');
 
 /*********************************************/

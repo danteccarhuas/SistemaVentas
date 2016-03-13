@@ -181,6 +181,7 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_menu` (
   `estado` INT NULL ,
   `fechacreacion` DATETIME NULL ,
   `fechamodificacion` DATETIME NULL ,
+  `tipografia` VARCHAR(100) NULL ,
   PRIMARY KEY (`idmenu`) )
 ENGINE = InnoDB;
 
