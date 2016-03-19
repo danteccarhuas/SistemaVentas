@@ -246,7 +246,7 @@
 
 											<div class="form-group">
 												<div class="col-md-2 col-md-offset-2">
-													<button disabled class="btn btn-primary">Enviar</button>
+													<button id="btn_enviar" class="btn btn-primary">Enviar</button>
 												</div>
 											</div>
 
@@ -271,7 +271,9 @@
 		</div>
 		<!-- /.row -->
 	</div>
-	</div>
+	
 
 </body>
+
+<script src="js/function-proveedor.js"></script>
 </html>
