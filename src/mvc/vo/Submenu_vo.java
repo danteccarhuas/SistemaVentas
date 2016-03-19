@@ -1,8 +1,9 @@
 package mvc.vo;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Submenu_vo {
+public class Submenu_vo implements Serializable{
 
 	private int idsubmenu;
 	private String descripcion;

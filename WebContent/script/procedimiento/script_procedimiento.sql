@@ -14,14 +14,6 @@ END //
 DELIMITER ;
 call usp_Sel_Menu('admin','admin')
 
-
-
-
-
-
-
-
-
 drop procedure if exists usp_Sel_validarusuario;
 DELIMITER //
 CREATE PROCEDURE usp_Sel_validarusuario(IN p_usuario varchar(45), IN p_password varchar(45) )
@@ -37,3 +29,40 @@ END //
 DELIMITER ;
 call usp_Sel_validarusuario('admin','admin')
 
+
+
+drop procedure if exists usp_Sel_Departamento;
+DELIMITER //
+CREATE PROCEDURE usp_Sel_Departamento()
+BEGIN 
+
+	SELECT iddepar,departamento from tb_departamento order by iddepar asc ;
+END //
+DELIMITER ;
+call usp_Sel_Departamento
+
+
+drop procedure if exists usp_Sel_Provincia;
+DELIMITER //
+CREATE PROCEDURE usp_Sel_Provincia(
+IN p_iddepar int
+)
+BEGIN 
+
+	SELECT idProv,provincia from tb_provincia where  iddepar= p_iddepar order by idProv asc ;
+END //
+DELIMITER ;
+call usp_Sel_Provincia(1);
+
+
+drop procedure if exists usp_Sel_Distrito;
+DELIMITER //
+CREATE PROCEDURE usp_Sel_Distrito(
+IN p_idProv int
+)
+BEGIN 
+
+	SELECT idDist,distrito from tb_distrito where idProv = p_idProv order by idDist asc ;
+END //
+DELIMITER ;
+call usp_Sel_Distrito(1)

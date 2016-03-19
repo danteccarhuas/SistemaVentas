@@ -1,9 +1,10 @@
 package mvc.vo;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Menu_vo {
+public class Menu_vo  implements Serializable {
 
 	private int idmenu ;
 	private String descripcion;
