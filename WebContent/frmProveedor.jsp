@@ -174,7 +174,7 @@
 														</label>
 														<div class="col-lg-7">
 															<input class="form-control" type="text" id="correo"
-																name="txt_correo" placeholder="Contacto" />
+																name="txt_contacto" placeholder="Contacto" />
 														</div>
 													</div>
 												</div>
@@ -259,7 +259,7 @@
 
 														<label class="control-label col-lg-5" for="nombre">Departamento:</label>
 														<div class="col-lg-7">
-															<select class="form-control" id="cbo_departamento">
+															<select class="form-control" name="cbo_departamento" id="cbo_departamento">
 															</select>
 														</div>
 													</div>
@@ -269,8 +269,8 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Provincia:</label>
 														<div class="col-lg-9">
-															<select class="form-control" id="cbo_provincia">
-																<option value="0">- Seleccione -</option>
+															<select class="form-control" name="cbo_provincia" id="cbo_provincia">
+																<option value="">- Seleccione -</option>
 															</select>
 														</div>
 													</div>
@@ -281,8 +281,8 @@
 
 														<label class="control-label col-lg-3" for="nombre">Distrito:</label>
 														<div class="col-lg-9">
-															<select class="form-control" id="cbo_distrito">
-																<option value="0">- Seleccione -</option>
+															<select class="form-control" name="cbo_distrito" id="cbo_distrito">
+																<option value="">- Seleccione -</option>
 															</select>
 														</div>
 													</div>
