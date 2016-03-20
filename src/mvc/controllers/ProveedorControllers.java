@@ -43,10 +43,10 @@ public class ProveedorControllers extends HttpServlet {
 			String metodo = request.getParameter("metodo");
 			if (metodo.equalsIgnoreCase("loadProveedor")) {
 				LoadProveedor(request, response);
-			} else if (metodo.equalsIgnoreCase("LoadComboDepartamento")) {
+			} 
+			else if (metodo.equalsIgnoreCase("LoadComboDepartamento")) {
 				LoadComboDepartamento(request, response);
 			}
-
 			else if (metodo.equals("LoadComboProvincia")) {
 				LoadComboProvincia(request, response);
 			} else if (metodo.equals("LoadComboDistrito")) {

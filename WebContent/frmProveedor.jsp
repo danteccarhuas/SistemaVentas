@@ -34,8 +34,10 @@
 						<div class="panel with-nav-tabs panel-primary">
 							<div class="panel-heading">
 								<ul class="nav nav-tabs">
-									<li class="active"><a href="#tab1primary" id="tab1" data-toggle="tab">Consulta Proveedor</a></li>
-									<li id="eventotab2primary"><a id="tab2"  href="#tab2primary" data-toggle="tab">Datos	Proveedor</a></li>
+									<li class="active"><a href="#tab1primary" id="tab1"
+										data-toggle="tab">Consulta Proveedor</a></li>
+									<li id="eventotab2primary"><a id="tab2"
+										href="#tab2primary" data-toggle="tab">Datos Proveedor</a></li>
 									<!-- <li><a href="#tab3primary" data-toggle="tab">Primary 3</a></li>
                             <li class="dropdown">
                                 <a href="#" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
@@ -51,10 +53,13 @@
 									<div class="tab-pane fade in active" id="tab1primary">
 										<div class="row">
 											<div class="form-group">
-												<label class="col-lg-2" for="nombre">codigo Proveedor:</label>
+												<label class="col-lg-2" for="nombre">codigo
+													Proveedor:</label>
 												<div class="col-lg-2">
-													<input class="form-control" type="text" id="txt_codigoprov_buscar"
-														name="txt_codigoproveedor_buscar" placeholder="Codigo proveedor" />
+													<input class="form-control" type="text"
+														id="txt_codigoprov_buscar"
+														name="txt_codigoproveedor_buscar"
+														placeholder="Codigo proveedor" />
 												</div>
 
 												<label class="col-lg-1" for="nombre">Ruc:</label>
@@ -62,33 +67,38 @@
 													<input class="form-control" type="text" id="txt_ruc_buscar"
 														name="txt_ruc_buscar" placeholder="Ruc" />
 												</div>
-												
+
 												<div class="col-lg-3">
-													<button id="btn_buscar" class="btn btn-primary">Buscar <span class="fa fa-search"></span> </button>
-													<button id="btn_nuevo" class="btn btn-primary">Nuevo <span class="fa fa-file-o"></span></button>
+													<button id="btn_buscar" class="btn btn-primary">
+														Buscar <span class="fa fa-search"></span>
+													</button>
+													<button id="btn_nuevo" class="btn btn-primary">
+														Nuevo <span class="fa fa-file-o"></span>
+													</button>
 												</div>
-											</div>											
+											</div>
 										</div>
 										<br>
 										<div class="row">
 											<div class="form-group">
 												<label class="col-lg-2" for="nombre">Razón Social:</label>
 												<div class="col-lg-6">
-													<input class="form-control" type="text" id="txt_razonsocial_buscar"
-														name="txt_razonsocial_buscar" placeholder="Razón Social" />
+													<input class="form-control" type="text"
+														id="txt_razonsocial_buscar" name="txt_razonsocial_buscar"
+														placeholder="Razón Social" />
 												</div>
-												
+
 											</div>
 										</div>
 										<br>
-										
+
 										<div class="row">
 											<div class="form-group">
 												<div class="col-lg-12">
 													<div class="table-responsive">
 														<table id="miTabla" class="table table-bordered">
-														<thead>
-															<tr class="">
+															<thead>
+																<tr class="">
 																	<th>Codigo Prov.</th>
 																	<th>Razón Social</th>
 																	<th>Ruc</th>
@@ -96,13 +106,14 @@
 																	<th>Telefono</th>
 																	<th>Dirección</th>
 																	<th>Contacto</th>
+																	<th colspan="2">Acción</th>
 																</tr>
-														</thead>
-														<tbody id="rellenar">
-														
-														</tbody>
-															
-															
+															</thead>
+															<tbody id="rellenar">
+
+															</tbody>
+
+
 
 														</table>
 														<div class="col-md-12 text-center">
@@ -172,20 +183,15 @@
 
 												<div class="col-lg-3">
 													<div class="form-group">
-
 														<label class="control-label col-lg-3" for="nombre">Fax:</label>
 														<div class="col-lg-9">
 															<input class="form-control" type="text" id="fax"
 																name="txt_fax" placeholder="Fax" />
 														</div>
-
 													</div>
-
 												</div>
-
 												<div class="col-lg-4">
 													<div class="form-group">
-
 														<label class="control-label col-lg-3" for="nombre">Telefono:</label>
 														<div class="col-lg-9">
 															<input class="form-control" type="text" id="ruc"
@@ -195,14 +201,9 @@
 
 												</div>
 											</div>
-
-
-
 											<div class="row">
-
 												<div class="col-lg-5">
 													<div class="form-group">
-
 														<label class="control-label col-lg-5" for="nombre">Sitio
 															Web: </label>
 														<div class="col-lg-7">
@@ -226,7 +227,8 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Estado:</label>
 														<div class="col-lg-9">
-															<select class="form-control" name="cbo_estado" id="opcion">
+															<select class="form-control" name="cbo_estado"
+																id="opcion">
 																<option value="1">Activo</option>
 																<option value="2">Desactivo</option>
 															</select>
@@ -235,12 +237,9 @@
 
 												</div>
 											</div>
-
 											<div class="row">
-
 												<div class="col-lg-5">
 													<div class="form-group">
-
 														<label class="control-label col-lg-5" for="nombre">Departamento:</label>
 														<div class="col-lg-7">
 															<select class="form-control" name="cbo_departamento"
@@ -264,7 +263,6 @@
 
 												<div class="col-lg-4">
 													<div class="form-group">
-
 														<label class="control-label col-lg-3" for="nombre">Distrito:</label>
 														<div class="col-lg-9">
 															<select class="form-control" name="cbo_distrito"
@@ -275,9 +273,7 @@
 													</div>
 												</div>
 											</div>
-
 											<div class="row">
-
 												<div class="col-lg-6">
 													<div class="form-group">
 														<label class="control-label col-lg-4" for="nombre">Dirección:</label>
@@ -287,7 +283,6 @@
 														</div>
 													</div>
 												</div>
-
 												<div class="col-lg-6">
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Referencia:</label>
@@ -298,12 +293,12 @@
 													</div>
 												</div>
 											</div>
-
-
 											<div class="form-group">
 												<div class="col-md-3 col-md-offset-1">
 													<button id="btn_salir" type="reset" class="btn btn-primary">Salir</button>
-													<button id="btn_enviar" class="btn btn-primary">Guardar  <span class="fa  fa-save"></span></button>
+													<button id="btn_enviar" class="btn btn-primary">
+														Guardar <span class="fa  fa-save"></span>
+													</button>
 												</div>
 												<div class="col-md-7" id="mensajeAlerta"></div>
 											</div>
@@ -345,7 +340,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Modal ends Here -->
 </body>
 

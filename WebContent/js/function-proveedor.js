@@ -14,8 +14,8 @@ $(document)	.ready(function(e) {
 	});
 	
 	$('#btn_buscar').on('click', function () {
-		
-		
+		$("#paginador").html("");/**/
+		initGrilla();		
 	});
 	
 	/* Valida las etiquedas del formulario */
@@ -263,8 +263,7 @@ function creaPaginador(totalItems)
 		$(".page_link").hide();
 		$(".page_link").slice(0,numerosPorPagina).show();
 	}
-	
-	
+		
 	$('<li><a href="#" class="next_link">»</a></li>').appendTo(paginador);
 	$('<li><a href="#" class="last_link">></a></li>').appendTo(paginador);
 
@@ -307,9 +306,7 @@ function creaPaginador(totalItems)
 		cargaPagina(irpagina);
 		return false;
 	});
-
 	cargaPagina(0);
-
 }
 
 
@@ -318,7 +315,7 @@ function cargaPagina(pagina){
 	
 	var txt_codigoprov_buscar = $("#txt_codigoprov_buscar").val();
 	var txt_ruc_buscar = $("#txt_ruc_buscar").val();
-	var txt_razonsocial_buscar = $("#txt_ruc_buscar").val();
+	var txt_razonsocial_buscar = $("#txt_razonsocial_buscar").val();
 	$.ajax({
 		url : 'proveedor?metodo=LoadProveedores',
 		type : 'post',
@@ -344,26 +341,22 @@ function cargaPagina(pagina){
 						+ lista[i]['direccion']
 						+ '</td><td>'
 						+ lista[i]['contacto']
-						+ '</td><td><a  data-id="'+lista[i]['codigoproveedor']+'" class="glyphicon_ver_detalle_proveedor glyphicon glyphicon-eye-open"></a></td>';
-						
+						+ '</td><td><button  data-id="'+lista[i]['codigoproveedor']+'" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </button></td>'
+						+ '</td><td><button  data-id="'+lista[i]['codigoproveedor']+'" class="btn btn-danger"><span class="fa fa-trash-o" ></span></button></td>';
 				}
 				$('#rellenar').append(trHTML);
-			}
-						
+			}			
 		}
 	});
 	
 	if(pagina >= 1)
 	{
 		paginador.find(".prev_link").show();
-
 	}
 	else
 	{
 		paginador.find(".prev_link").hide();
 	}
-
-
 	if(pagina <(totalPaginas- numerosPorPagina))
 	{
 		paginador.find(".next_link").show();
@@ -399,7 +392,7 @@ function cargaPagina(pagina){
 function initGrilla(){
 	var txt_codigoprov_buscar = $("#txt_codigoprov_buscar").val();
 	var txt_ruc_buscar = $("#txt_ruc_buscar").val();
-	var txt_razonsocial_buscar = $("#txt_ruc_buscar").val();
+	var txt_razonsocial_buscar = $("#txt_razonsocial_buscar").val();
 	$.ajax({
 		url : 'proveedor?metodo=TotalRegistrosProveedores',
 		type : 'post',
