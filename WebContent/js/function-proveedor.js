@@ -1,6 +1,5 @@
 $(document)	.ready(function(e) {
 	
-	
 	$('#btn_nuevo').on('click', function () {		
 		 $('#tab1').prop( "disabled", true ).addClass('disabled');
 		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
@@ -12,9 +11,7 @@ $(document)	.ready(function(e) {
 		$('#tab1').prop( "disabled", false ).removeClass('disabled');
 		$('#tab2').prop( "disabled", true ).addClass('disabled');
 		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');    
-		
 	});
-	
 	
 	$('#btn_buscar').on('click', function () {
 		alert("soy el btn_buscar");
@@ -178,7 +175,6 @@ $(document)	.ready(function(e) {
 				success:function(result){
 					$('#ModalLoading').modal('hide');
 					var valor=eval(result);
-					alert(valor.codigoproveedor);
 					if(valor.codigoproveedor=="-1"){
 						$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del Proveedor</div>");
 					}else{
@@ -188,8 +184,6 @@ $(document)	.ready(function(e) {
 				error : function(xhr, ajaxOptions, thrownError) {
 					$('#ModalLoading').modal('hide');
 					$('#mensajeAlerta').html("<div class='alert alert-danger'>Ocurrio un error al registrar los datos del Proveedor</div>");
-					alert("Error status code: " + xhr.status);
-					alert("Error details: " + thrownError);
 				}
 		  });
 		
@@ -241,6 +235,7 @@ $(document)	.ready(function(e) {
 /* Se ejecuta cuando carga por primera vez la pagina */
 $(window).load(function() {
 	LoadCombos();
+	 $('#eventotab2primary').prop( "disabled", true ).addClass('disabled');
 });
 function LoadCombos() {
 	$.ajax({

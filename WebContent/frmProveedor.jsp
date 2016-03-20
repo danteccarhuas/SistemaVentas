@@ -51,24 +51,34 @@
 									<div class="tab-pane fade in active" id="tab1primary">
 										<div class="row">
 											<div class="form-group">
-												<label class="col-lg-1" for="nombre">RUC:</label>
+												<label class="col-lg-2" for="nombre">codigo Proveedor:</label>
 												<div class="col-lg-2">
-													<input class="form-control" type="text" id="ruc"
-														name="txt_ruc" placeholder="Ruc" />
+													<input class="form-control" type="text" id="rucbucar"
+														name="txt_codigoproveedor_buscar" placeholder="Codigo proveedor" />
 												</div>
 
-												<label class="col-lg-1" for="nombre">Razón Social:</label>
-												<div class="col-lg-5">
-													<input class="form-control" type="text" id="razonsocial"
-														name="txt_razonsocial" placeholder="Razón Social" />
+												<label class="col-lg-1" for="nombre">Ruc:</label>
+												<div class="col-lg-3">
+													<input class="form-control" type="text" id="razonsocialbuscar"
+														name="txt_razonsocial_buscar" placeholder="Ruc" />
 												</div>
 												
 												<div class="col-lg-3">
 													<button id="btn_buscar" class="btn btn-primary">Buscar <span class="fa fa-search"></span> </button>
 													<button id="btn_nuevo" class="btn btn-primary">Nuevo <span class="fa fa-file-o"></span></button>
 												</div>
+											</div>											
+										</div>
+										<br>
+										<div class="row">
+											<div class="form-group">
+												<label class="col-lg-2" for="nombre">Razón Social:</label>
+												<div class="col-lg-6">
+													<input class="form-control" type="text" id="razonsocial"
+														name="txt_razonsocial" placeholder="Razón Social" />
+												</div>
+												
 											</div>
-
 										</div>
 										<br>
 										
@@ -229,9 +239,9 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Estado:</label>
 														<div class="col-lg-9">
-															<select class="form-control" id="opcion">
-																<option value="">Activo #1</option>
-																<option value="">Desactivo #2</option>
+															<select class="form-control" name="cbo_estado" id="opcion">
+																<option value="1">Activo</option>
+																<option value="2">Desactivo</option>
 															</select>
 														</div>
 													</div>

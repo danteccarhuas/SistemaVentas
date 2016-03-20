@@ -5,20 +5,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
+import mvc.models.Proveedor_models;
 import mvc.models.Ubigeo_models;
 import mvc.vo.Departamento_vo;
 import mvc.vo.Distrito_vo;
+import mvc.vo.Proveedor_vo;
 import mvc.vo.Provincia_vo;
+import mvc.vo.Ubigeo_vo;
 
 /**
  * Servlet implementation class ProveedorControllers
@@ -127,18 +127,43 @@ public class ProveedorControllers extends HttpServlet {
 	private void RegistrarProveedor(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-
-			String txt_sitioweb=request.getParameter("txt_sitioweb");
-			System.out.println(txt_sitioweb);
-			Map<String, String> Beanmap= new HashMap<String, String>();
-			Beanmap.put("codigoproveedor", String.valueOf("-1"));
-			Gson gson= new GsonBuilder().setPrettyPrinting().create();
-			String json= gson.toJson(Beanmap);
-			response.getWriter().write(json);
+ 
+			Proveedor_vo vo_proveedor= new Proveedor_vo();
+			Ubigeo_vo vo_ubigeo =  new Ubigeo_vo();
 			
+			String strubigeo = "";
+			strubigeo= request.getParameter("cbo_departamento") + request.getParameter("cbo_provincia")+request.getParameter("cbo_distrito");
+			vo_proveedor.setRazonsocial(request.getParameter("txt_razon_social"));
+			vo_proveedor.setCorreo(request.getParameter("txt_correo"));
+			vo_proveedor.setFax(request.getParameter("txt_fax"));
+			vo_proveedor.setTelefono(request.getParameter("txt_telefono"));
+			vo_proveedor.setCelular(request.getParameter("txt_celular"));
+			vo_proveedor.setSitioweb(request.getParameter("txt_sitioweb"));
+			vo_proveedor.setRuc(request.getParameter("txt_ruc"));
+			vo_proveedor.setDireccion(request.getParameter("txt_direccion"));
+			vo_proveedor.setReferencia(request.getParameter("txt_referencia"));
+			vo_proveedor.setContacto(request.getParameter("txt_contacto"));
+			vo_proveedor.setEstado(Integer.parseInt( request.getParameter("cbo_estado")));
+			vo_ubigeo.setUbigeo(Integer.parseInt( strubigeo));
+			vo_proveedor.setUbigeo(vo_ubigeo);
+			String codigoprovedor  = "";
+			
+			Map<String, String> Beanmap= new HashMap<String, String>();
+			codigoprovedor = new Proveedor_models().RegistrarProveedor(vo_proveedor);
+			if(codigoprovedor.equals("-1")){
+				Beanmap.put("codigoproveedor", String.valueOf("-1"));
+				Gson gson= new GsonBuilder().setPrettyPrinting().create();
+				String json= gson.toJson(Beanmap);
+				response.getWriter().write(json);
+			}else if(!codigoprovedor.equals("")){
+				Beanmap.put("codigoproveedor", codigoprovedor);
+				Gson gson= new GsonBuilder().setPrettyPrinting().create();
+				String json= gson.toJson(Beanmap);
+				response.getWriter().write(json);
+			}
 			
 		} catch (Exception e) {
-			// TODO: handle exception
+			System.out.println("Error en el metodo RegistrarProveedor : "+e.getMessage());
 		}
 
 	}

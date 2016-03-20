@@ -364,7 +364,8 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `bdsistemaventas`.`tb_proveedor` ;
 
 CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_proveedor` (
-  `idproveedor` SMALLINT NOT NULL ,
+  `idproveedor` SMALLINT NOT NULL AUTO_INCREMENT ,
+  `codigoproveedor` VARCHAR(12) NOT NULL ,
   `razonsocial` VARCHAR(255) NULL ,
   `correo` VARCHAR(45) NULL ,
   `fax` VARCHAR(45) NULL ,
@@ -376,11 +377,11 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_proveedor` (
   `referencia` VARCHAR(255) NULL ,
   `contacto` VARCHAR(45) NULL ,
   `estado` INT NULL ,
-  `tb_ubigeo_ubigeo` INT NOT NULL ,
+  `ubigeo` INT NOT NULL ,
   PRIMARY KEY (`idproveedor`) ,
-  INDEX `fk_tb_proveedor_tb_ubigeo1_idx` (`tb_ubigeo_ubigeo` ASC) ,
+  INDEX `fk_tb_proveedor_tb_ubigeo1_idx` (`ubigeo` ASC) ,
   CONSTRAINT `fk_tb_proveedor_tb_ubigeo1`
-    FOREIGN KEY (`tb_ubigeo_ubigeo` )
+    FOREIGN KEY (`ubigeo` )
     REFERENCES `bdsistemaventas`.`tb_ubigeo` (`ubigeo` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)

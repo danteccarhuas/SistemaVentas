@@ -66,3 +66,71 @@ BEGIN
 END //
 DELIMITER ;
 call usp_Sel_Distrito(1)
+
+
+
+drop procedure if exists usp_Ins_proveedor;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_proveedor( 
+IN  p_razonsocial VARCHAR(225), 
+IN  p_correo VARCHAR(45),
+IN 	p_fax VARCHAR(45),
+IN	p_telefono varchar(45),
+IN	p_celular varchar(25),
+In	p_sitioweb varchar(15),
+IN	p_ruc varchar(11), 
+IN	p_direccion VARCHAR(45),
+IN	p_referencia varchar(255),
+IN	p_contacto varchar(45),
+IN  p_estado INT,
+In	p_ubigeo int,
+out p_codigoproveedor VARCHAR(12)
+     )
+BEGIN
+	declare v_cod_prov VARCHAR(12);
+	set v_cod_prov='';
+	 
+	select  concat('PROV',CAST(RIGHT(CONCAT('00000000' , CAST(RTRIM(CAST(RIGHT(IFNULL(MAX(codigoproveedor),0),8) 
+	as signed integer)+1)AS CHAR(10000) CHARACTER SET utf8) ),8)AS CHAR(10000) CHARACTER SET utf8)) 
+	into v_cod_prov
+	from tb_proveedor;
+
+    INSERT INTO tb_proveedor
+         (
+		codigoproveedor, 
+		razonsocial,
+		correo,
+		fax,	
+		telefono,
+		celular,
+		sitioweb,
+		ruc,
+		direccion,
+		referencia,
+		contacto,
+		estado,
+		ubigeo
+         )
+    VALUES 
+         ( 
+		v_cod_prov,
+		p_razonsocial , 
+		p_correo ,
+		p_fax ,
+		p_telefono ,
+		p_celular ,
+		p_sitioweb ,
+		p_ruc , 
+		p_direccion ,
+		p_referencia ,
+		p_contacto ,
+		p_estado ,
+		p_ubigeo 
+         ); 
+/*		(select CURDATE()),*/
+
+   /* select max(cod_cliente) into v_cod_aux
+	from tb_cliente;*/
+	set p_codigoproveedor=v_cod_prov;
+END
