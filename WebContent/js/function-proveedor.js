@@ -1,4 +1,44 @@
 $(document)	.ready(function(e) {
+	/*Metodo para eliminar proveedores*/
+	$(document).on("click","#btn_modaleliminar",function(e) {
+		e.preventDefault();		
+		$('#hiddencodprov').val($(this).data('id'));
+		$("#modalRemove").modal({
+			keyboard : false
+		});
+	});
+	$(".removeBtn").click(function(e){
+		$("#modalRemove").modal("hide");
+		$.ajax({
+			url : 'proveedor?metodo=EliminarProveedor',
+			type : 'get',
+			data : {codprov:$('#hiddencodprov').val()},
+			contentType: "application/json; charset=utf-8",
+			dataType : 'json',
+			success : function(result) {
+				$("#paginador").html("");/*Limpiar los numero de paginacion*/
+				initGrilla();
+			}
+		});
+		
+	});
+	/*Metodo para modificar proveedores*/
+	$(document).on("click",".glyphicon_remover_cuenta_proveedor",function(e) {		
+		var codigoproveedor= $(this).data('id');
+		alert(codigoproveedor);
+		/*$.ajax({
+			url : 'ServletProveedores?metodo=RemoverCuentaBancaria_Proveedor',
+			type : 'get',
+			data : {nro_correlativo_provee:nro_correlativo_provee},
+			contentType: "application/json; charset=utf-8",
+			dataType : 'json',
+			success : function(result) {
+				var data=result[0];
+				ListarCuentasBancariaProveedor(data);
+			}
+		});*/
+	});
+	
 	
 	$('#btn_nuevo').on('click', function () {		
 		 $('#tab1').prop( "disabled", true ).addClass('disabled');
@@ -14,7 +54,7 @@ $(document)	.ready(function(e) {
 	});
 	
 	$('#btn_buscar').on('click', function () {
-		$("#paginador").html("");/**/
+		$("#paginador").html("");/*Limpiar los numero de paginacion*/
 		initGrilla();		
 	});
 	
@@ -341,8 +381,8 @@ function cargaPagina(pagina){
 						+ lista[i]['direccion']
 						+ '</td><td>'
 						+ lista[i]['contacto']
-						+ '</td><td><button  data-id="'+lista[i]['codigoproveedor']+'" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </button></td>'
-						+ '</td><td><button  data-id="'+lista[i]['codigoproveedor']+'" class="btn btn-danger"><span class="fa fa-trash-o" ></span></button></td>';
+						+ '</td><td><a href="" data-id="'+lista[i]['codigoproveedor']+'" id="btn_editar" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </a></td>'
+						+ '</td><td><a  data-id="'+lista[i]['codigoproveedor']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>';
 				}
 				$('#rellenar').append(trHTML);
 			}			

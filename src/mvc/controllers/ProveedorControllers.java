@@ -52,65 +52,13 @@ public class ProveedorControllers extends HttpServlet {
 			} else if (metodo.equals("LoadComboDistrito")) {
 				LoadComboDistrito(request, response);
 			}
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void LoadComboDistrito(HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-			Provincia_vo bean = new Provincia_vo();
-			bean.setIdprov(Integer.parseInt(request.getParameter("idvalue")));
-			List<Distrito_vo> listDistrito = new ArrayList<Distrito_vo>();
-			listDistrito = new Ubigeo_models().ListarDistrito(bean);
-			String jsonDistrito = new Gson().toJson(listDistrito);
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			String bothJson = "[" + jsonDistrito + "]";
-			response.getWriter().write(bothJson);
-		} catch (Exception e) {
-			System.out.println("Error en el metodo LoadComboDistrito "
-					+ e.getMessage());
-		}
-	}
-
-	private void LoadComboProvincia(HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-			Departamento_vo bean = new Departamento_vo();
-			bean.setIddepar(Integer.parseInt(request.getParameter("idvalue")));
-			List<Provincia_vo> listProvincia = new ArrayList<Provincia_vo>();
-			listProvincia = new Ubigeo_models().ListarProvincia(bean);
-			String jsonProvincia = new Gson().toJson(listProvincia);
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			String bothJson = "[" + jsonProvincia + "]";
-			response.getWriter().write(bothJson);
-		} catch (Exception e) {
-			System.out.println("Error en el metodo LoadComboProvincia "
-					+ e.getMessage());
-		}
-	}
-
-	private void LoadComboDepartamento(HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-			List<Departamento_vo> listDepartamento = new ArrayList<Departamento_vo>();
-			listDepartamento = new Ubigeo_models().ListarDepartamento();
-			String jsonDepartamento = new Gson().toJson(listDepartamento);
-			response.setContentType("application/json");
-			response.setCharacterEncoding("utf-8");
-			String bothJson = "[" + jsonDepartamento + "]";
-			response.getWriter().write(bothJson);
-		} catch (Exception e) {
-			System.out.println("Error en el metodo LoadComboDepartamento "
-					+ e.getMessage());
-		}
-
-	}
-
+	
+	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
@@ -125,12 +73,21 @@ public class ProveedorControllers extends HttpServlet {
 			else if (metodo.equalsIgnoreCase("TotalRegistrosProveedores")) {
 				TotalRegistrosProveedores(request, response);
 			}
+			else if (metodo.equalsIgnoreCase("EliminarProveedor")) {
+				EliminarProveedor(request, response);
+			}
 			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void EliminarProveedor(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void TotalRegistrosProveedores(HttpServletRequest request,
@@ -191,7 +148,58 @@ public class ProveedorControllers extends HttpServlet {
 		}
 		
 	}
+	private void LoadComboDistrito(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			Provincia_vo bean = new Provincia_vo();
+			bean.setIdprov(Integer.parseInt(request.getParameter("idvalue")));
+			List<Distrito_vo> listDistrito = new ArrayList<Distrito_vo>();
+			listDistrito = new Ubigeo_models().ListarDistrito(bean);
+			String jsonDistrito = new Gson().toJson(listDistrito);
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			String bothJson = "[" + jsonDistrito + "]";
+			response.getWriter().write(bothJson);
+		} catch (Exception e) {
+			System.out.println("Error en el metodo LoadComboDistrito "
+					+ e.getMessage());
+		}
+	}
 
+	private void LoadComboProvincia(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			Departamento_vo bean = new Departamento_vo();
+			bean.setIddepar(Integer.parseInt(request.getParameter("idvalue")));
+			List<Provincia_vo> listProvincia = new ArrayList<Provincia_vo>();
+			listProvincia = new Ubigeo_models().ListarProvincia(bean);
+			String jsonProvincia = new Gson().toJson(listProvincia);
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			String bothJson = "[" + jsonProvincia + "]";
+			response.getWriter().write(bothJson);
+		} catch (Exception e) {
+			System.out.println("Error en el metodo LoadComboProvincia "
+					+ e.getMessage());
+		}
+	}
+
+	private void LoadComboDepartamento(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			List<Departamento_vo> listDepartamento = new ArrayList<Departamento_vo>();
+			listDepartamento = new Ubigeo_models().ListarDepartamento();
+			String jsonDepartamento = new Gson().toJson(listDepartamento);
+			response.setContentType("application/json");
+			response.setCharacterEncoding("utf-8");
+			String bothJson = "[" + jsonDepartamento + "]";
+			response.getWriter().write(bothJson);
+		} catch (Exception e) {
+			System.out.println("Error en el metodo LoadComboDepartamento "
+					+ e.getMessage());
+		}
+
+	}
 	private void RegistrarProveedor(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {

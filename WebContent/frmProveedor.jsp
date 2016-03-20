@@ -110,11 +110,7 @@
 																</tr>
 															</thead>
 															<tbody id="rellenar">
-
 															</tbody>
-
-
-
 														</table>
 														<div class="col-md-12 text-center">
 															<ul class="pagination" id="paginador"></ul>
@@ -133,12 +129,16 @@
 											<div class="row">
 												<div class="col-lg-5">
 													<div class="form-group">
-														<label class="control-label col-lg-5" for="nombre">Razon
-															Social:</label>
+
+														<label class="control-label col-lg-5" for="nombre">Cod.
+															Prov:</label>
 														<div class="col-lg-7">
-															<input class="form-control" type="text" id="razonsocial"
-																name="txt_razon_social" placeholder="Razón Social" />
+															<input class="form-control" type="text"
+																id="cod_prov_guardar" name="txt_cod_prov_guardar"
+																disabled="disabled" />
 														</div>
+
+
 													</div>
 
 												</div>
@@ -172,12 +172,14 @@
 												<div class="col-lg-5">
 													<div class="form-group">
 
-														<label class="control-label col-lg-5" for="nombre">Contacto:
-														</label>
+
+														<label class="control-label col-lg-5" for="nombre">Razon
+															Social:</label>
 														<div class="col-lg-7">
-															<input class="form-control" type="text" id="correo"
-																name="txt_contacto" placeholder="Contacto" />
+															<input class="form-control" type="text" id="razonsocial"
+																name="txt_razon_social" placeholder="Razón Social" />
 														</div>
+
 													</div>
 												</div>
 
@@ -276,7 +278,7 @@
 											<div class="row">
 												<div class="col-lg-6">
 													<div class="form-group">
-														<label class="control-label col-lg-4" for="nombre">Dirección:</label>
+														<label class="control-label col-lg-4 " for="nombre">Dirección:</label>
 														<div class="col-lg-8">
 															<input class="form-control" type="text" id="direccion"
 																name="txt_direccion" placeholder="Dirección" />
@@ -284,14 +286,25 @@
 													</div>
 												</div>
 												<div class="col-lg-6">
+													<label class="control-label col-lg-2" for="nombre">Contacto:
+													</label>
+													<div class="col-lg-10">
+														<input class="form-control" type="text" id="contacto"
+															name="txt_contacto" placeholder="Contacto" />
+													</div>
+												</div>
+											</div>
+											<div class="row">
+												<div class="col-lg-12">
 													<div class="form-group">
-														<label class="control-label col-lg-3" for="nombre">Referencia:</label>
-														<div class="col-lg-9">
+														<label class="control-label col-lg-2" for="nombre">Referencia:</label>
+														<div class="col-lg-10">
 															<textarea class="form-control" id="referencia"
 																name="txt_referencia" rows="4" placeholder="Referencia"></textarea>
 														</div>
 													</div>
 												</div>
+
 											</div>
 											<div class="form-group">
 												<div class="col-md-3 col-md-offset-1">
@@ -341,8 +354,28 @@
 		</div>
 	</div>
 
+	<!-- Modal -->
+	<div class="modal fade" id="modalRemove" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">Mensaje de
+						Confirmacion</h4>
+				</div>
+				<div class="modal-body">Esta seguro que desea eliminar el
+					registro seleccionado?</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+					<button type="button" class="btn btn-danger removeBtn">Remove</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<!-- Modal ends Here -->
 </body>
-
+<input type="hidden" id="hiddencodprov" value="0" />
 <script src="js/function-proveedor.js"></script>
 </html>
