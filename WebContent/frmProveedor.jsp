@@ -6,9 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>.: Sistema Ventas - Mantenimiento Proveedor</title>
 </head>
-
-
-<body  >
+<body>
 
 	<div id="wrapper">
 		<jsp:include page="MenuPrincipal.jsp"></jsp:include>
@@ -36,10 +34,8 @@
 						<div class="panel with-nav-tabs panel-primary">
 							<div class="panel-heading">
 								<ul class="nav nav-tabs">
-									<li class="active"><a href="#tab1primary"
-										data-toggle="tab">Consulta Proveedor</a></li>
-									<li><a href="#tab2primary" data-toggle="tab">Datos
-											Proveedor</a></li>
+									<li class="active"><a href="#tab1primary" id="tab1" data-toggle="tab">Consulta Proveedor</a></li>
+									<li id="eventotab2primary"><a id="tab2"  href="#tab2primary" data-toggle="tab">Datos	Proveedor</a></li>
 									<!-- <li><a href="#tab3primary" data-toggle="tab">Primary 3</a></li>
                             <li class="dropdown">
                                 <a href="#" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
@@ -66,18 +62,16 @@
 													<input class="form-control" type="text" id="razonsocial"
 														name="txt_razonsocial" placeholder="Razón Social" />
 												</div>
-
-												<label class="col-lg-1" for="estado">Estado:</label>
-												<div class="col-lg-2">
-													<select class="form-control" id="opcion">
-														<option value="">Activo #1</option>
-														<option value="">Desactivo #2</option>
-													</select>
+												
+												<div class="col-lg-3">
+													<button id="btn_buscar" class="btn btn-primary">Buscar <span class="fa fa-search"></span> </button>
+													<button id="btn_nuevo" class="btn btn-primary">Nuevo <span class="fa fa-file-o"></span></button>
 												</div>
 											</div>
 
 										</div>
 										<br>
+										
 										<div class="row">
 											<div class="form-group">
 												<div class="col-lg-12">
@@ -245,13 +239,6 @@
 												</div>
 											</div>
 
-
-
-
-
-
-
-
 											<div class="row">
 
 												<div class="col-lg-5">
@@ -259,7 +246,8 @@
 
 														<label class="control-label col-lg-5" for="nombre">Departamento:</label>
 														<div class="col-lg-7">
-															<select class="form-control" name="cbo_departamento" id="cbo_departamento">
+															<select class="form-control" name="cbo_departamento"
+																id="cbo_departamento">
 															</select>
 														</div>
 													</div>
@@ -269,7 +257,8 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Provincia:</label>
 														<div class="col-lg-9">
-															<select class="form-control" name="cbo_provincia" id="cbo_provincia">
+															<select class="form-control" name="cbo_provincia"
+																id="cbo_provincia">
 																<option value="">- Seleccione -</option>
 															</select>
 														</div>
@@ -281,7 +270,8 @@
 
 														<label class="control-label col-lg-3" for="nombre">Distrito:</label>
 														<div class="col-lg-9">
-															<select class="form-control" name="cbo_distrito" id="cbo_distrito">
+															<select class="form-control" name="cbo_distrito"
+																id="cbo_distrito">
 																<option value="">- Seleccione -</option>
 															</select>
 														</div>
@@ -305,8 +295,8 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Referencia:</label>
 														<div class="col-lg-9">
-															<textarea  class="form-control" id="referencia"
-																name="txt_referencia" rows="4" placeholder="Referencia" ></textarea>
+															<textarea class="form-control" id="referencia"
+																name="txt_referencia" rows="4" placeholder="Referencia"></textarea>
 														</div>
 													</div>
 												</div>
@@ -314,9 +304,11 @@
 
 
 											<div class="form-group">
-												<div class="col-md-2 col-md-offset-2">
-													<button id="btn_enviar" class="btn btn-primary">Guardar</button>
+												<div class="col-md-3 col-md-offset-1">
+													<button id="btn_salir" type="reset" class="btn btn-primary">Salir</button>
+													<button id="btn_enviar" class="btn btn-primary">Guardar  <span class="fa  fa-save"></span></button>
 												</div>
+												<div class="col-md-7" id="mensajeAlerta"></div>
 											</div>
 										</form>
 									</div>
@@ -329,16 +321,35 @@
 						</div>
 					</div>
 				</div>
-
 			</div>
-
-
 			<!-- /.row -->
 		</div>
 		<!-- /.row -->
 	</div>
 
-
+	<!-- Modal Start here-->
+	<div class="modal fade bs-example-modal-sm" id="ModalLoading"
+		tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
+		<div class="modal-dialog modal-sm">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title">
+						<span class="glyphicon glyphicon-time"> </span>Por favor,
+						espere....
+					</h4>
+				</div>
+				<div class="modal-body">
+					<div class="progress">
+						<div
+							class="progress-bar progress-bar-info progress-bar-striped active"
+							style="width: 100%"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!-- Modal ends Here -->
 </body>
 
 <script src="js/function-proveedor.js"></script>
