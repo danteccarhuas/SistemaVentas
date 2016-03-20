@@ -12,7 +12,6 @@ BEGIN
 	where USU.usuario = p_usuario and USU.password = p_password order by M.idmenu,SM.descripcion asc ;
 END //
 DELIMITER ;
-call usp_Sel_Menu('admin','admin')
 
 drop procedure if exists usp_Sel_validarusuario;
 DELIMITER //
@@ -27,8 +26,6 @@ BEGIN
 	where USU.usuario = p_usuario and USU.password = p_password ;
 END //
 DELIMITER ;
-call usp_Sel_validarusuario('admin','admin')
-
 
 
 drop procedure if exists usp_Sel_Departamento;
@@ -39,8 +36,6 @@ BEGIN
 	SELECT iddepar,departamento from tb_departamento order by iddepar asc ;
 END //
 DELIMITER ;
-call usp_Sel_Departamento
-
 
 drop procedure if exists usp_Sel_Provincia;
 DELIMITER //
@@ -52,8 +47,6 @@ BEGIN
 	SELECT idProv,provincia from tb_provincia where  iddepar= p_iddepar order by idProv asc ;
 END //
 DELIMITER ;
-call usp_Sel_Provincia(1);
-
 
 drop procedure if exists usp_Sel_Distrito;
 DELIMITER //
@@ -65,9 +58,6 @@ BEGIN
 	SELECT idDist,distrito from tb_distrito where idProv = p_idProv order by idDist asc ;
 END //
 DELIMITER ;
-call usp_Sel_Distrito(1)
-
-
 
 drop procedure if exists usp_Ins_proveedor;
 DELIMITER //
@@ -133,42 +123,8 @@ BEGIN
    /* select max(cod_cliente) into v_cod_aux
 	from tb_cliente;*/
 	set p_codigoproveedor=v_cod_prov;
-END;
-/*
-
-call usp_Cons_Proveedores ('0','asdas','0',@P_TOTALREGISTRO);
-SELECT @P_TOTALREGISTRO;
-
-call usp_Cons_Proveedores ('0','asdas','0');
-
-
-drop procedure if exists usp_Cons_Proveedores;
-DELIMITER //
-CREATE  PROCEDURE usp_Cons_Proveedores(
-IN p_codigoproveedor varchar(12),
-IN p_razonsocial varchar(255),
-IN p_ruc varchar(11)
-)
-BEGIN 
-
-
-
-   select	p.codigoproveedor, 
-			p.razonsocial,
-            p.ruc,
-			p.correo,
-			p.telefono,			
-			p.direccion,
-			p.contacto
-   from tb_proveedor  p
-   where (CONCAT(p.razonsocial) like CONCAT("%",p_razonsocial,"%") or ''= CONCAT("%",p_razonsocial,"%"))
-	and (p.codigoproveedor= p_codigoproveedor or p_codigoproveedor = '0')
-	and (p.ruc= p_ruc or '0' = p_ruc)
-	order by p.razonsocial asc;
-
-END;*/
-
-
+END //
+DELIMITER ;
 
 drop procedure if exists usp_Cons_Proveedores;
 DELIMITER //
@@ -200,12 +156,8 @@ BEGIN
 	SET @p_desde = p_desde; 
 	EXECUTE STMT USING @p_razonsocial,@p_razonsocial,@p_codigoproveedor,@p_codigoproveedor,@p_ruc,@p_ruc, @p_limit,@p_desde;
 	DEALLOCATE PREPARE STMT;
-END;
-
-call usp_Cons_Proveedores ('','','0',10,100);
-
-call usp_TotaRegist_Proveedores ('0','asdas','0',@P_TOTALREGISTRO);
-select @P_TOTALREGISTRO
+END //
+DELIMITER ;
 
 drop procedure if exists usp_TotaRegist_Proveedores;
 DELIMITER //
@@ -225,9 +177,5 @@ BEGIN
 	and (p.codigoproveedor= p_codigoproveedor or p_codigoproveedor = '0')
 	and (p.ruc= p_ruc or '0' = p_ruc);
 	set P_TOTALREGISTRO = v_TOTALREGISTRO;
-END;
-
-
-
-
-
+END //
+DELIMITER ;
