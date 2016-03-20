@@ -14,8 +14,8 @@ $(document)	.ready(function(e) {
 	});
 	
 	$('#btn_buscar').on('click', function () {
-		alert("soy el btn_buscar");
-       // $("#frm_Proveedor").bootstrapValidator().resetForm();        
+		
+		
 	});
 	
 	/* Valida las etiquedas del formulario */
@@ -234,9 +234,185 @@ $(document)	.ready(function(e) {
 
 /* Se ejecuta cuando carga por primera vez la pagina */
 $(window).load(function() {
+	initGrilla();
 	LoadCombos();
 	 $('#eventotab2primary').prop( "disabled", true ).addClass('disabled');
 });
+
+var paginador;
+var totalPaginas;
+var itemsPorPagina = 5;
+var numerosPorPagina = 10;
+
+function creaPaginador(totalItems)
+{
+	paginador = $(".pagination");
+	totalPaginas = Math.ceil(totalItems/itemsPorPagina);
+	$('<li><a href="#" class="first_link"><</a></li>').appendTo(paginador);
+	$('<li><a href="#" class="prev_link">«</a></li>').appendTo(paginador);
+	
+	var pag = 0;
+	while(totalPaginas > pag)
+	{
+		$('<li><a href="#" class="page_link">'+(pag+1)+'</a></li>').appendTo(paginador);
+		pag++;
+	}
+	
+	if(numerosPorPagina > 1)
+	{
+		$(".page_link").hide();
+		$(".page_link").slice(0,numerosPorPagina).show();
+	}
+	
+	
+	$('<li><a href="#" class="next_link">»</a></li>').appendTo(paginador);
+	$('<li><a href="#" class="last_link">></a></li>').appendTo(paginador);
+
+	paginador.find(".page_link:first").addClass("active");
+	paginador.find(".page_link:first").parents("li").addClass("active");
+
+	paginador.find(".prev_link").hide();
+
+	paginador.find("li .page_link").click(function()
+	{
+		var irpagina =$(this).html().valueOf()-1;
+		cargaPagina(irpagina);
+		return false;
+	});
+
+	paginador.find("li .first_link").click(function()
+	{
+		var irpagina =0;
+		cargaPagina(irpagina);
+		return false;
+	});
+
+	paginador.find("li .prev_link").click(function()
+	{
+		var irpagina =parseInt(paginador.data("pag")) -1;
+		cargaPagina(irpagina);
+		return false;
+	});
+
+	paginador.find("li .next_link").click(function()
+	{
+		var irpagina =parseInt(paginador.data("pag")) +1;
+		cargaPagina(irpagina);
+		return false;
+	});
+
+	paginador.find("li .last_link").click(function()
+	{
+		var irpagina =totalPaginas -1;
+		cargaPagina(irpagina);
+		return false;
+	});
+
+	cargaPagina(0);
+
+}
+
+
+function cargaPagina(pagina){
+	var desde = pagina * itemsPorPagina;
+	
+	var txt_codigoprov_buscar = $("#txt_codigoprov_buscar").val();
+	var txt_ruc_buscar = $("#txt_ruc_buscar").val();
+	var txt_razonsocial_buscar = $("#txt_ruc_buscar").val();
+	$.ajax({
+		url : 'proveedor?metodo=LoadProveedores',
+		type : 'post',
+		data : {txt_codigoprov_buscar:txt_codigoprov_buscar,txt_ruc_buscar:txt_ruc_buscar,txt_razonsocial_buscar:txt_razonsocial_buscar,limit:itemsPorPagina,offset:desde},
+		dataType : 'json',
+		success : function(result) {
+			var lista=result[0];
+			$("#rellenar").html("");
+			var trHTML = '';
+			if (lista.length > 0){
+				for ( var i = 0; i < lista.length; i++) {
+					trHTML += '<tr><td>'
+						+ lista[i]['codigoproveedor']
+						+ '</td><td>'
+						+ lista[i]['razonsocial']
+						+ '</td><td>'
+						+ lista[i]['ruc']
+						+ '</td><td>'
+						+ lista[i]['correo']
+						+ '</td><td>'
+						+ lista[i]['telefono']
+						+ '</td><td>'
+						+ lista[i]['direccion']
+						+ '</td><td>'
+						+ lista[i]['contacto']
+						+ '</td><td><a  data-id="'+lista[i]['codigoproveedor']+'" class="glyphicon_ver_detalle_proveedor glyphicon glyphicon-eye-open"></a></td>';
+						
+				}
+				$('#rellenar').append(trHTML);
+			}
+						
+		}
+	});
+	
+	if(pagina >= 1)
+	{
+		paginador.find(".prev_link").show();
+
+	}
+	else
+	{
+		paginador.find(".prev_link").hide();
+	}
+
+
+	if(pagina <(totalPaginas- numerosPorPagina))
+	{
+		paginador.find(".next_link").show();
+	}else
+	{
+		paginador.find(".next_link").hide();
+	}
+
+	paginador.data("pag",pagina);
+
+	if(numerosPorPagina>1)
+	{
+		$(".page_link").hide();
+		if(pagina < (totalPaginas- numerosPorPagina))
+		{
+			$(".page_link").slice(pagina,numerosPorPagina + pagina).show();
+		}
+		else{
+			if(totalPaginas > numerosPorPagina)
+				$(".page_link").slice(totalPaginas- numerosPorPagina).show();
+			else
+				$(".page_link").slice(0).show();
+
+		}
+	}
+
+	paginador.children().removeClass("active");
+	paginador.children().eq(pagina+2).addClass("active");
+
+	
+}
+
+function initGrilla(){
+	var txt_codigoprov_buscar = $("#txt_codigoprov_buscar").val();
+	var txt_ruc_buscar = $("#txt_ruc_buscar").val();
+	var txt_razonsocial_buscar = $("#txt_ruc_buscar").val();
+	$.ajax({
+		url : 'proveedor?metodo=TotalRegistrosProveedores',
+		type : 'post',
+		data : {txt_codigoprov_buscar:txt_codigoprov_buscar,txt_ruc_buscar:txt_ruc_buscar,txt_razonsocial_buscar:txt_razonsocial_buscar},
+		dataType : 'json',
+		success : function(result) {
+			var valor=eval(result);
+			var total = valor.TotalRegistro;
+			creaPaginador(total);
+		}
+	});
+	
+}
 function LoadCombos() {
 	$.ajax({
 		url : 'proveedor?metodo=LoadComboDepartamento',

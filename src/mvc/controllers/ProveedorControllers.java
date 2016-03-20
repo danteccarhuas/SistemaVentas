@@ -16,6 +16,7 @@ import mvc.models.Proveedor_models;
 import mvc.models.Ubigeo_models;
 import mvc.vo.Departamento_vo;
 import mvc.vo.Distrito_vo;
+import mvc.vo.Paginador_vo;
 import mvc.vo.Proveedor_vo;
 import mvc.vo.Provincia_vo;
 import mvc.vo.Ubigeo_vo;
@@ -118,10 +119,77 @@ public class ProveedorControllers extends HttpServlet {
 			if (metodo.equalsIgnoreCase("RegistrarProveedor")) {
 				RegistrarProveedor(request, response);
 			}
+			else if (metodo.equalsIgnoreCase("LoadProveedores")) {
+				LoadProveedores(request, response);
+			}
+			else if (metodo.equalsIgnoreCase("TotalRegistrosProveedores")) {
+				TotalRegistrosProveedores(request, response);
+			}
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
+	}
+
+	private void TotalRegistrosProveedores(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			int TotalRegistro = 0;
+			Proveedor_vo  proveedor_vo= new Proveedor_vo();
+			proveedor_vo.setCodigoproveedor(request.getParameter("txt_codigoprov_buscar").trim().equals("")?"0": request.getParameter("txt_codigoprov_buscar"));
+			proveedor_vo.setRuc(request.getParameter("txt_ruc_buscar").trim().equals("")?"0": request.getParameter("txt_ruc_buscar"));
+			proveedor_vo.setRazonsocial(request.getParameter("txt_razonsocial_buscar").trim());
+			TotalRegistro  = new Proveedor_models().TotalRegistroProveedores(proveedor_vo);
+			Map<String, String> Beanmap= new HashMap<String, String>();
+			Beanmap.put("TotalRegistro", String.valueOf(TotalRegistro));
+			Gson gson= new GsonBuilder().setPrettyPrinting().create();
+			String json= gson.toJson(Beanmap);
+			response.getWriter().write(json);
+		
+		} catch (Exception e) {
+			System.out.println("Error en el metodo LoadComboDistrito "
+					+ e.getMessage());
+		}
+		
+	}
+
+	private void LoadProveedores(HttpServletRequest request,
+			HttpServletResponse response) {
+
+		try {
+			Proveedor_vo  proveedor_vo= new Proveedor_vo();
+			List<Proveedor_vo> listProveedor = new ArrayList<Proveedor_vo>();
+			Paginador_vo paginador_vo= new Paginador_vo();
+			proveedor_vo.setCodigoproveedor(request.getParameter("txt_codigoprov_buscar").trim().equals("")?"0": request.getParameter("txt_codigoprov_buscar"));
+			proveedor_vo.setRuc(request.getParameter("txt_ruc_buscar").trim().equals("")?"0": request.getParameter("txt_ruc_buscar"));
+			proveedor_vo.setRazonsocial(request.getParameter("txt_razonsocial_buscar").trim());
+			paginador_vo.setLimit(Integer.parseInt(request.getParameter("limit")));
+			paginador_vo.setOffset(Integer.parseInt(request.getParameter("offset")));
+			proveedor_vo.setPaginador(paginador_vo);
+			
+			listProveedor = new Proveedor_models().ListarProveedores(proveedor_vo);
+			
+			String json= new Gson().toJson(listProveedor);			
+			response.setContentType("application/json"); 
+			response.setCharacterEncoding("utf-8"); 
+			String bothJson = "["+json+"]";				
+			response.getWriter().write(bothJson);
+			
+		/*	String jsonTotalRegistro= new Gson().toJson(listProveedor);
+			Map<String, String> Beanmap= new HashMap<String, String>();
+			Beanmap.put("listProveedor", jsonTotalRegistro);
+			Gson gson= new GsonBuilder().setPrettyPrinting().create();
+			String json= gson.toJson(Beanmap);
+			response.getWriter().write(json);*/
+			
+		
+		} catch (Exception e) {
+			System.out.println("Error en el metodo LoadComboDistrito "
+					+ e.getMessage());
+		}
+		
 	}
 
 	private void RegistrarProveedor(HttpServletRequest request,

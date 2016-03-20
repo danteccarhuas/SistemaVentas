@@ -18,6 +18,15 @@ public class Proveedor_vo {
 	private String contacto;
 	private int estado;
 	private Ubigeo_vo ubigeo;
+	private Paginador_vo paginador;
+	
+	
+	public Paginador_vo getPaginador() {
+		return paginador;
+	}
+	public void setPaginador(Paginador_vo paginador) {
+		this.paginador = paginador;
+	}
 	public int getIdproveedor() {
 		return idproveedor;
 	}
