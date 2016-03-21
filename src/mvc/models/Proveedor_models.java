@@ -52,6 +52,34 @@ public class Proveedor_models {
 		return codigo;
 	}
 	
+	public String EliminarProveedor(Proveedor_vo bean) {
+		String codigo = "";
+		Connection con = null;
+		CallableStatement cs = null;
+		try {
+			con = MysqlDBConexion.getConexion();
+			String sql = "call usp_eliminar_Proveedores(?)";
+			cs = con.prepareCall(sql);
+			cs.setString(1, bean.getCodigoproveedor());			
+			cs.execute();	
+			codigo = "1";
+		} catch (Exception e) {
+			e.printStackTrace();
+			codigo = "-1";
+		} finally {
+			try {
+				if (con != null)
+					con.close();
+				if (cs != null)
+					cs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return codigo;
+	}
+	
+	
 	public int TotalRegistroProveedores(Proveedor_vo proveedor_vo) {
 		Connection con=null;
 		CallableStatement cs=null;

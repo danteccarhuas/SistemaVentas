@@ -31,7 +31,8 @@ INSERT INTO `tb_submenu` (`descripcion`, `url`,`fechacreacion`,`fechamodificacio
 ('Venta por Cliente','ruta','2016-01-01','2016-01-01',6),
 ('Venta por producto','ruta','2016-01-01','2016-01-01',6)
 
-
+/*
 call usp_Ins_proveedor ('segundo mike','c@gmail.com','9898989','89898989','45454545','www.hotmail.com','12356879541'
 			,'Malecon tarapaca','por la calla puhinaua','gisela ccarhuas',1,111, @p_codigoproveedor);
 select @p_codigoproveedor;
+*/

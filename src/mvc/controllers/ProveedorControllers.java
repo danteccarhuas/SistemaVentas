@@ -33,7 +33,6 @@ public class ProveedorControllers extends HttpServlet {
 	 */
 	public ProveedorControllers() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -57,8 +56,6 @@ public class ProveedorControllers extends HttpServlet {
 		}
 	}
 
-	
-	
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 
@@ -76,6 +73,12 @@ public class ProveedorControllers extends HttpServlet {
 			else if (metodo.equalsIgnoreCase("EliminarProveedor")) {
 				EliminarProveedor(request, response);
 			}
+			else if (metodo.equalsIgnoreCase("ObtenerDatosProveedor")) {
+				ObtenerDatosProveedor(request, response);
+			}
+			else if (metodo.equalsIgnoreCase("ModificarProveedor")) {
+				ModificarProveedor(request, response);
+			}
 			
 			
 		} catch (Exception e) {
@@ -84,9 +87,41 @@ public class ProveedorControllers extends HttpServlet {
 
 	}
 
-	private void EliminarProveedor(HttpServletRequest request,
+	private void ModificarProveedor(HttpServletRequest request,
 			HttpServletResponse response) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	private void ObtenerDatosProveedor(HttpServletRequest request,
+			HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void EliminarProveedor(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			String ind_respuesta= ""; 
+			Proveedor_vo vo_proveedor= new Proveedor_vo();
+			vo_proveedor.setCodigoproveedor(request.getParameter("codprov"));			
+			Map<String, String> Beanmap= new HashMap<String, String>();
+			ind_respuesta = new Proveedor_models().EliminarProveedor(vo_proveedor);
+			if(ind_respuesta.equals("-1")){
+				Beanmap.put("ind_respuesta", String.valueOf("-1"));
+				Gson gson= new GsonBuilder().setPrettyPrinting().create();
+				String json= gson.toJson(Beanmap);
+				response.getWriter().write(json);
+			}else if(!ind_respuesta.equals("")){
+				Beanmap.put("ind_respuesta", ind_respuesta);
+				Gson gson= new GsonBuilder().setPrettyPrinting().create();
+				String json= gson.toJson(Beanmap);
+				response.getWriter().write(json);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Error en el metodo RegistrarProveedor : "+e.getMessage());
+		}
 		
 	}
 
@@ -125,22 +160,12 @@ public class ProveedorControllers extends HttpServlet {
 			paginador_vo.setLimit(Integer.parseInt(request.getParameter("limit")));
 			paginador_vo.setOffset(Integer.parseInt(request.getParameter("offset")));
 			proveedor_vo.setPaginador(paginador_vo);
-			
 			listProveedor = new Proveedor_models().ListarProveedores(proveedor_vo);
-			
 			String json= new Gson().toJson(listProveedor);			
 			response.setContentType("application/json"); 
 			response.setCharacterEncoding("utf-8"); 
 			String bothJson = "["+json+"]";				
 			response.getWriter().write(bothJson);
-			
-		/*	String jsonTotalRegistro= new Gson().toJson(listProveedor);
-			Map<String, String> Beanmap= new HashMap<String, String>();
-			Beanmap.put("listProveedor", jsonTotalRegistro);
-			Gson gson= new GsonBuilder().setPrettyPrinting().create();
-			String json= gson.toJson(Beanmap);
-			response.getWriter().write(json);*/
-			
 		
 		} catch (Exception e) {
 			System.out.println("Error en el metodo LoadComboDistrito "
@@ -148,6 +173,7 @@ public class ProveedorControllers extends HttpServlet {
 		}
 		
 	}
+	
 	private void LoadComboDistrito(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
@@ -200,6 +226,7 @@ public class ProveedorControllers extends HttpServlet {
 		}
 
 	}
+	
 	private void RegistrarProveedor(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {

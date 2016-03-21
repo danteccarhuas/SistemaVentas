@@ -134,7 +134,7 @@
 															Prov:</label>
 														<div class="col-lg-7">
 															<input class="form-control" type="text"
-																id="cod_prov_guardar" name="txt_cod_prov_guardar"
+																id="txt_cod_prov_guardar" name="txt_cod_prov_guardar"
 																disabled="disabled" />
 														</div>
 
@@ -286,11 +286,14 @@
 													</div>
 												</div>
 												<div class="col-lg-6">
-													<label class="control-label col-lg-2" for="nombre">Contacto:
-													</label>
-													<div class="col-lg-10">
-														<input class="form-control" type="text" id="contacto"
-															name="txt_contacto" placeholder="Contacto" />
+													<div class="form-group">
+														<label class="control-label col-lg-2" for="nombre">Contacto:
+														</label>
+														<div class="col-lg-10">
+															<input class="form-control" type="text" id="contacto"
+																name="txt_contacto" name="txt_contacto"
+																placeholder="Contacto" />
+														</div>
 													</div>
 												</div>
 											</div>

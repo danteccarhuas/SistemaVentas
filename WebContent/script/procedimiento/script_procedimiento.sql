@@ -147,7 +147,7 @@ BEGIN
 	from tb_proveedor  p
 	where (CONCAT(p.razonsocial) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
 	and (p.codigoproveedor= ? or ? = '0')
-	and (p.ruc= ? or '0' = ?) order by p.razonsocial asc limit ? offset ?"  ;
+	and (p.ruc= ? or '0' = ?) and estado = 1 order by p.razonsocial asc limit ? offset ?"  ;
 	
 	SET @p_codigoproveedor = p_codigoproveedor; 
 	SET @p_razonsocial = p_razonsocial; 
@@ -175,7 +175,37 @@ BEGIN
 	from tb_proveedor  p
 	where (CONCAT(p.razonsocial) like CONCAT("%",p_razonsocial,"%") or ''= CONCAT("%",p_razonsocial,"%"))
 	and (p.codigoproveedor= p_codigoproveedor or p_codigoproveedor = '0')
-	and (p.ruc= p_ruc or '0' = p_ruc);
+	and (p.ruc= p_ruc or '0' = p_ruc) and estado = 1;
 	set P_TOTALREGISTRO = v_TOTALREGISTRO;
 END //
 DELIMITER ;
+
+drop procedure if exists usp_eliminar_Proveedores;
+DELIMITER //
+CREATE  PROCEDURE usp_eliminar_Proveedores(
+IN p_codigoproveedor varchar(12)
+)
+BEGIN 
+	update tb_proveedor set  estado = 0 
+	where codigoproveedor =  p_codigoproveedor;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_obt_datosProveedor;
+DELIMITER //
+CREATE  PROCEDURE usp_obt_datosProveedor(
+IN p_codigoproveedor varchar(12)
+)
+BEGIN 
+	select 
+	p.codigoproveedor,p.razonsocial,p.correo,
+	p.fax,p.telefono,p.celular,p.sitioweb,p.ruc,
+	p.direccion,p.referencia,p.contacto,p.estado,
+	ub.iddepar,ub.idprov,ub.iddist
+	from tb_proveedor p inner join tb_ubigeo ub
+	on p.ubigeo = ub.ubigeo
+	where codigoproveedor =  p_codigoproveedor;
+END //
+DELIMITER ;
+

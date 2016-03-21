@@ -12,8 +12,11 @@ DROP TABLE IF EXISTS `bdsistemaventas`.`tb_ubigeo` ;
 
 CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_ubigeo` (
   `ubigeo` INT NOT NULL ,
+  `iddepar` INT NULL ,
   `departamente` VARCHAR(100) NULL ,
+  `idprov` INT NULL ,
   `provincia` VARCHAR(100) NULL ,
+  `iddist` INT NULL ,
   `distrito` VARCHAR(100) NULL ,
   PRIMARY KEY (`ubigeo`) )
 ENGINE = InnoDB;

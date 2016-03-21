@@ -2059,9 +2059,9 @@ INSERT INTO `tb_distrito` (`idDist`, `distrito`, `idProv`) VALUES
 
 /*****************ubigeo****************/
 
-INSERT INTO `tb_ubigeo` (`ubigeo`, `departamente`, `provincia`, `distrito`) 
+INSERT INTO `tb_ubigeo` (`ubigeo`,`iddepar`, `departamente`,`idprov`, `provincia`,`iddist`, `distrito`) 
 select CAST(CONCAT(d.idDepar,'',p.idProv,'',dis.idDist) AS char) ubigeo,
-		d.departamento,p.provincia,dis.distrito
+		d.idDepar,d.departamento,p.idProv,p.provincia,dis.idDist,dis.distrito
 from tb_departamento d inner join tb_provincia p 
 		on d.idDepar=p.idDepar inner join tb_distrito dis
 		on dis.idProv=p.idProv order by d.idDepar,p.idProv,dis.idDist asc

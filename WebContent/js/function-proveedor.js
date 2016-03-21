@@ -8,14 +8,16 @@ $(document)	.ready(function(e) {
 		});
 	});
 	$(".removeBtn").click(function(e){
-		$("#modalRemove").modal("hide");
+		$("#modalRemove").modal("hide");		
+		console.log($('#hiddencodprov').val());
+		var  codprov=$('#hiddencodprov').val();
 		$.ajax({
 			url : 'proveedor?metodo=EliminarProveedor',
-			type : 'get',
-			data : {codprov:$('#hiddencodprov').val()},
-			contentType: "application/json; charset=utf-8",
+			type : 'post',
+			data : {codprov : codprov},
 			dataType : 'json',
 			success : function(result) {
+				console.log("soy el removebtn");
 				$("#paginador").html("");/*Limpiar los numero de paginacion*/
 				initGrilla();
 			}
@@ -23,7 +25,8 @@ $(document)	.ready(function(e) {
 		
 	});
 	/*Metodo para modificar proveedores*/
-	$(document).on("click",".glyphicon_remover_cuenta_proveedor",function(e) {		
+	$(document).on("click","#btn_editar",function(e) {		
+		e.preventDefault();		
 		var codigoproveedor= $(this).data('id');
 		alert(codigoproveedor);
 		/*$.ajax({
@@ -48,6 +51,7 @@ $(document)	.ready(function(e) {
 	});	
 	
 	$('#btn_salir').on('click', function () {
+		$("#frm_Proveedor").data('bootstrapValidator').resetForm(true);/*Limpiamos todos los controles del formulario frm_Proveedor */
 		$('#tab1').prop( "disabled", false ).removeClass('disabled');
 		$('#tab2').prop( "disabled", true ).addClass('disabled');
 		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');    
@@ -55,7 +59,9 @@ $(document)	.ready(function(e) {
 	
 	$('#btn_buscar').on('click', function () {
 		$("#paginador").html("");/*Limpiar los numero de paginacion*/
+		$('#ModalLoading').modal('show');
 		initGrilla();		
+		$('#ModalLoading').modal('hide');
 	});
 	
 	/* Valida las etiquedas del formulario */
@@ -218,6 +224,7 @@ $(document)	.ready(function(e) {
 					if(valor.codigoproveedor=="-1"){
 						$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del Proveedor</div>");
 					}else{
+						$("#tab2primary #txt_cod_prov_guardar").val(valor.codigoproveedor);
 						$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del Proveedor con el codigo "+ valor.codigoproveedor +"</div>");
 					}
 				},
