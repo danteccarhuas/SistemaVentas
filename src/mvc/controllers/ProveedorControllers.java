@@ -78,8 +78,7 @@ public class ProveedorControllers extends HttpServlet {
 			}
 			else if (metodo.equalsIgnoreCase("ModificarProveedor")) {
 				ModificarProveedor(request, response);
-			}
-			
+			}			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
