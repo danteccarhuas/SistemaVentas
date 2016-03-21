@@ -148,7 +148,7 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Ruc:</label>
 														<div class="col-lg-9">
-															<input class="form-control" type="text" id="ruc"
+															<input class="form-control" type="text" id="txt_ruc"
 																name="txt_ruc" placeholder="Ruc" />
 														</div>
 													</div>
@@ -160,7 +160,7 @@
 
 														<label class="control-label col-lg-3" for="nombre">Email:</label>
 														<div class="col-lg-9">
-															<input class="form-control" type="text" id="correo"
+															<input class="form-control" type="text" id="txt_correo"
 																name="txt_correo" placeholder="Email" />
 														</div>
 													</div>
@@ -177,7 +177,7 @@
 														<label class="control-label col-lg-5" for="nombre">Razon
 															Social:</label>
 														<div class="col-lg-7">
-															<input class="form-control" type="text" id="razonsocial"
+															<input class="form-control" type="text" id="txt_razon_social"
 																name="txt_razon_social" placeholder="Razón Social" />
 														</div>
 
@@ -188,7 +188,7 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Fax:</label>
 														<div class="col-lg-9">
-															<input class="form-control" type="text" id="fax"
+															<input class="form-control" type="text" id="txt_fax"
 																name="txt_fax" placeholder="Fax" />
 														</div>
 													</div>
@@ -197,7 +197,7 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Telefono:</label>
 														<div class="col-lg-9">
-															<input class="form-control" type="text" id="ruc"
+															<input class="form-control" type="text" id="txt_telefono"
 																name="txt_telefono" placeholder="telefono" />
 														</div>
 													</div>
@@ -210,7 +210,7 @@
 														<label class="control-label col-lg-5" for="nombre">Sitio
 															Web: </label>
 														<div class="col-lg-7">
-															<input class="form-control" type="text" id="sitioweb"
+															<input class="form-control" type="text" id="txt_sitioweb"
 																name="txt_sitioweb" placeholder="Sitio Web" />
 														</div>
 													</div>
@@ -220,7 +220,7 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Celular:</label>
 														<div class="col-lg-9">
-															<input class="form-control" type="text" id="celular"
+															<input class="form-control" type="text" id="txt_celular"
 																name="txt_celular" placeholder="Celular" />
 														</div>
 													</div>
@@ -281,7 +281,7 @@
 													<div class="form-group">
 														<label class="control-label col-lg-4 " for="nombre">Dirección:</label>
 														<div class="col-lg-8">
-															<input class="form-control" type="text" id="direccion"
+															<input class="form-control" type="text" id="txt_direccion"
 																name="txt_direccion" placeholder="Dirección" />
 														</div>
 													</div>
@@ -291,7 +291,7 @@
 														<label class="control-label col-lg-2" for="nombre">Contacto:
 														</label>
 														<div class="col-lg-10">
-															<input class="form-control" type="text" id="contacto"
+															<input class="form-control" type="text" id="txt_contacto"
 																name="txt_contacto" name="txt_contacto"
 																placeholder="Contacto" />
 														</div>
@@ -303,7 +303,7 @@
 													<div class="form-group">
 														<label class="control-label col-lg-2" for="nombre">Referencia:</label>
 														<div class="col-lg-10">
-															<textarea class="form-control" id="referencia"
+															<textarea class="form-control" id="txt_referencia"
 																name="txt_referencia" rows="4" placeholder="Referencia"></textarea>
 														</div>
 													</div>

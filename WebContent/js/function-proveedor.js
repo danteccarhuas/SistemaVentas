@@ -16,8 +16,7 @@ $(document)	.ready(function(e) {
 			type : 'post',
 			data : {codprov : codprov},
 			dataType : 'json',
-			success : function(result) {
-				console.log("soy el removebtn");
+			success : function(result) {				
 				$("#paginador").html("");/*Limpiar los numero de paginacion*/
 				initGrilla();
 			}
@@ -29,6 +28,34 @@ $(document)	.ready(function(e) {
 		e.preventDefault();		
 		$('#hiddencodprov').val($(this).data('id'));
 		$('#hiddenindaccion').val(2); 		
+		var codigo_provee = $('#hiddencodprov').val();		
+		$.ajax({
+			url : 'proveedor?metodo=ObtenerDatosProveedor',
+			type : 'post',
+			data : {codigo_provee:codigo_provee},
+			dataType : 'json',
+			success : function(result) {
+				var data1=result[0];					
+				$('#tab1').prop( "disabled", true ).addClass('disabled');
+				$('#tab2').prop( "disabled", false ).removeClass('disabled');
+				$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');			
+				$("#tab2primary #txt_cod_prov_guardar").val(data1.codigoproveedor);
+				$("#tab2primary #txt_razon_social").val(data1.razonsocial);
+				$("#tab2primary #txt_correo").val(data1.correo);
+				$("#tab2primary #txt_fax").val(data1.fax);
+				$("#tab2primary #txt_telefono").val(data1.telefono);
+				$("#tab2primary #txt_celular").val(data1.celular);
+				$("#tab2primary #txt_sitioweb").val(data1.sitioweb);
+				$("#tab2primary #txt_ruc").val(data1.ruc);
+				$("#tab2primary #txt_direccion").val(data1.direccion);
+				$("#tab2primary #txt_referencia").val(data1.referencia);
+				$("#tab2primary #txt_contacto").val(data1.contacto);
+				$("#tab2primary #cbo_estado").val(data1.contacto);
+				$("#tab2primary #cbo_departamento").val(data1.ubigeo.departamento.iddepar).find('select').trigger('click');
+				$("#tab2primary #cbo_provincia").val(data1.ubigeo.distrito.iddist );
+				$("#tab2primary #cbo_distrito").val(data1.ubigeo.provincia.idprov);
+			}
+		});
 	});
 	
 	

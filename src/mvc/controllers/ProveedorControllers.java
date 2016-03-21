@@ -76,9 +76,7 @@ public class ProveedorControllers extends HttpServlet {
 			else if (metodo.equalsIgnoreCase("ObtenerDatosProveedor")) {
 				ObtenerDatosProveedor(request, response);
 			}
-			else if (metodo.equalsIgnoreCase("ModificarProveedor")) {
-				ModificarProveedor(request, response);
-			}			
+					
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -86,15 +84,31 @@ public class ProveedorControllers extends HttpServlet {
 
 	}
 
-	private void ModificarProveedor(HttpServletRequest request,
-			HttpServletResponse response) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	private void ObtenerDatosProveedor(HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		try {
+			Proveedor_vo vo_proveedor= new Proveedor_vo();
+			vo_proveedor.setCodigoproveedor(request.getParameter("codigo_provee"));			
+			vo_proveedor = new Proveedor_models().obtenerDatosProveedor(vo_proveedor);
+			if(vo_proveedor !=null){
+				String json= new Gson().toJson(vo_proveedor);			
+				response.setContentType("application/json"); 
+				response.setCharacterEncoding("utf-8"); 
+				String bothJson = "["+json+"]";				
+				response.getWriter().write(bothJson);
+			}else {
+				/*Beanmap.put("ind_respuesta", ind_respuesta);
+				Gson gson= new GsonBuilder().setPrettyPrinting().create();
+				String json= gson.toJson(Beanmap);
+				response.getWriter().write(json);*/
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Error en el metodo ObtenerDatosProveedor : "+e.getMessage());
+		}
+		
 		
 	}
 
