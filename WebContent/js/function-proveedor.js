@@ -27,19 +27,8 @@ $(document)	.ready(function(e) {
 	/*Metodo para modificar proveedores*/
 	$(document).on("click","#btn_editar",function(e) {		
 		e.preventDefault();		
-		var codigoproveedor= $(this).data('id');
-		alert(codigoproveedor);
-		/*$.ajax({
-			url : 'ServletProveedores?metodo=RemoverCuentaBancaria_Proveedor',
-			type : 'get',
-			data : {nro_correlativo_provee:nro_correlativo_provee},
-			contentType: "application/json; charset=utf-8",
-			dataType : 'json',
-			success : function(result) {
-				var data=result[0];
-				ListarCuentasBancariaProveedor(data);
-			}
-		});*/
+		$('#hiddencodprov').val($(this).data('id'));
+		$('#hiddenindaccion').val(2); 		
 	});
 	
 	
@@ -47,7 +36,7 @@ $(document)	.ready(function(e) {
 		 $('#tab1').prop( "disabled", true ).addClass('disabled');
 		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
 		 $('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');		
-		 
+		 $('#hiddenindaccion').val(1); 
 	});	
 	
 	$('#btn_salir').on('click', function () {
@@ -214,7 +203,7 @@ $(document)	.ready(function(e) {
 	function GuardarProveedor(){		 
 		  $('#ModalLoading').modal('show');
 		  $.ajax({
-				url : 'proveedor?metodo=RegistrarProveedor',
+				url : 'proveedor?metodo=RegistrarModificarProveedor',
 				type : 'post',
 				data : $('#frm_Proveedor').serialize(),
 				dataType:'json',

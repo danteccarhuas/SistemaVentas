@@ -126,6 +126,7 @@
 
 										<br>
 										<form class="form-horizontal" id="frm_Proveedor">
+										<input type="hidden" id="hiddenindaccion" name="hiddenindaccion" value="0" />
 											<div class="row">
 												<div class="col-lg-5">
 													<div class="form-group">
@@ -380,5 +381,11 @@
 	<!-- Modal ends Here -->
 </body>
 <input type="hidden" id="hiddencodprov" value="0" />
+
+<!-- 
+hiddenindaccion : 1 Nuevo
+hiddenindaccion : 2 Modificar
+ -->
+
 <script src="js/function-proveedor.js"></script>
 </html>

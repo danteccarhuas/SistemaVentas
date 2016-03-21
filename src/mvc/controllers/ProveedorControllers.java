@@ -61,8 +61,8 @@ public class ProveedorControllers extends HttpServlet {
 
 		try {
 			String metodo = request.getParameter("metodo");
-			if (metodo.equalsIgnoreCase("RegistrarProveedor")) {
-				RegistrarProveedor(request, response);
+			if (metodo.equalsIgnoreCase("RegistrarModificarProveedor")) {
+				RegistrarModificarProveedor(request, response);
 			}
 			else if (metodo.equalsIgnoreCase("LoadProveedores")) {
 				LoadProveedores(request, response);
@@ -119,7 +119,7 @@ public class ProveedorControllers extends HttpServlet {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("Error en el metodo RegistrarProveedor : "+e.getMessage());
+			System.out.println("Error en el metodo RegistrarModificarProveedor : "+e.getMessage());
 		}
 		
 	}
@@ -226,7 +226,7 @@ public class ProveedorControllers extends HttpServlet {
 
 	}
 	
-	private void RegistrarProveedor(HttpServletRequest request,
+	private void RegistrarModificarProveedor(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
  
@@ -234,8 +234,9 @@ public class ProveedorControllers extends HttpServlet {
 			Ubigeo_vo vo_ubigeo =  new Ubigeo_vo();
 			
 			String strubigeo = "";
+			int indAction = Integer.parseInt(request.getParameter("hiddenindaccion"));
 			strubigeo= request.getParameter("cbo_departamento") + request.getParameter("cbo_provincia")+request.getParameter("cbo_distrito");
-			vo_proveedor.setRazonsocial(request.getParameter("txt_razon_social"));
+			vo_proveedor.setRazonsocial(request.getParameter("txt_razon_social"));			
 			vo_proveedor.setCorreo(request.getParameter("txt_correo"));
 			vo_proveedor.setFax(request.getParameter("txt_fax"));
 			vo_proveedor.setTelefono(request.getParameter("txt_telefono"));
@@ -250,19 +251,25 @@ public class ProveedorControllers extends HttpServlet {
 			vo_proveedor.setUbigeo(vo_ubigeo);
 			String codigoprovedor  = "";
 			
-			Map<String, String> Beanmap= new HashMap<String, String>();
-			codigoprovedor = new Proveedor_models().RegistrarProveedor(vo_proveedor);
-			if(codigoprovedor.equals("-1")){
-				Beanmap.put("codigoproveedor", String.valueOf("-1"));
-				Gson gson= new GsonBuilder().setPrettyPrinting().create();
-				String json= gson.toJson(Beanmap);
-				response.getWriter().write(json);
-			}else if(!codigoprovedor.equals("")){
-				Beanmap.put("codigoproveedor", codigoprovedor);
-				Gson gson= new GsonBuilder().setPrettyPrinting().create();
-				String json= gson.toJson(Beanmap);
-				response.getWriter().write(json);
+			if (indAction == 1) {
+				Map<String, String> Beanmap= new HashMap<String, String>();
+				codigoprovedor = new Proveedor_models().RegistrarProveedor(vo_proveedor);
+				if(codigoprovedor.equals("-1")){
+					Beanmap.put("codigoproveedor", String.valueOf("-1"));
+					Gson gson= new GsonBuilder().setPrettyPrinting().create();
+					String json= gson.toJson(Beanmap);
+					response.getWriter().write(json);
+				}else if(!codigoprovedor.equals("")){
+					Beanmap.put("codigoproveedor", codigoprovedor);
+					Gson gson= new GsonBuilder().setPrettyPrinting().create();
+					String json= gson.toJson(Beanmap);
+					response.getWriter().write(json);
+				}
+			}else {
+				
 			}
+			
+			
 			
 		} catch (Exception e) {
 			System.out.println("Error en el metodo RegistrarProveedor : "+e.getMessage());
