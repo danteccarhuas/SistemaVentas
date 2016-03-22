@@ -51,13 +51,28 @@ $(document)	.ready(function(e) {
 				$("#tab2primary #txt_referencia").val(data1.referencia);
 				$("#tab2primary #txt_contacto").val(data1.contacto);
 				$("#tab2primary #cbo_estado").val(data1.contacto);
-				$("#tab2primary #cbo_departamento").val(data1.ubigeo.departamento.iddepar).find('select').trigger('click');
-				$("#tab2primary #cbo_provincia").val(data1.ubigeo.distrito.iddist );
-				$("#tab2primary #cbo_distrito").val(data1.ubigeo.provincia.idprov);
+				$("#tab2primary #cbo_departamento").val(data1.ubigeo.departamento.iddepar).change();
+				$("#hiddenvalueprovincia").val(data1.ubigeo.provincia.idprov);
+				$("#hiddenvaluedistrito").val(data1.ubigeo.distrito.iddist);
+				programarCargaPronvincia();
 			}
 		});
 	});
 	
+	function programarCargaPronvincia(){	
+		    setTimeout(function(){setearProvincia();},1000); // 1000ms = 1s
+		}
+	function setearProvincia(){
+			$("#tab2primary #cbo_provincia").val($("#hiddenvalueprovincia").val());
+			CargarComboDependiente($("#hiddenvalueprovincia").val(), 'cbo_distrito','LoadComboDistrito');
+			programarDistrito();
+		}	
+	function programarDistrito(){	
+	    setTimeout(function(){setearDistrito();},1000); // 1000ms = 1s
+	}
+	function setearDistrito(){
+		$("#tab2primary #cbo_distrito").val($("#hiddenvaluedistrito").val());
+	}
 	
 	$('#btn_nuevo').on('click', function () {		
 		 $('#tab1').prop( "disabled", true ).addClass('disabled');
@@ -70,7 +85,10 @@ $(document)	.ready(function(e) {
 		$("#frm_Proveedor").data('bootstrapValidator').resetForm(true);/*Limpiamos todos los controles del formulario frm_Proveedor */
 		$('#tab1').prop( "disabled", false ).removeClass('disabled');
 		$('#tab2').prop( "disabled", true ).addClass('disabled');
-		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');    
+		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');  
+		$("#mensajeAlerta").html("");
+		$("#paginador").html("");/*Limpiar los numero de paginacion*/
+		initGrilla();
 	});
 	
 	$('#btn_buscar').on('click', function () {
@@ -217,15 +235,20 @@ $(document)	.ready(function(e) {
 	$('#frm_Proveedor').on('success.form.bv', function(e) {
 		e.preventDefault();
 		GuardarProveedor();
-		$("#btn_enviar").prop("disabled", true);
+		if ($('#hiddenindaccion').val() == 1){/*Si es la accion de insertar se bloqueara el boton btn_enviar*/
+			$("#btn_enviar").prop("disabled", true);
+		}
+		
 	});
 
 	$('#cbo_departamento').change(function() {
-				CargarComboDependiente(this, 'cbo_provincia','LoadComboProvincia');
+		var combodepartamento = $("#cbo_departamento").val(); //(cboFiltro.options[cboFiltro.selectedIndex].value
+		CargarComboDependiente(combodepartamento, 'cbo_provincia','LoadComboProvincia');
 	});
 
 	$('#cbo_provincia').change(function() {
-				CargarComboDependiente(this, 'cbo_distrito','LoadComboDistrito');
+		var comboprovincia = $("#cbo_provincia").val();
+		CargarComboDependiente(comboprovincia, 'cbo_distrito','LoadComboDistrito');
 	});
 	function GuardarProveedor(){		 
 		  $('#ModalLoading').modal('show');
@@ -236,30 +259,38 @@ $(document)	.ready(function(e) {
 				dataType:'json',
 				success:function(result){
 					$('#ModalLoading').modal('hide');
-					var valor=eval(result);
-					if(valor.codigoproveedor=="-1"){
-						$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del Proveedor</div>");
+					var valor=eval(result);					
+					if(valor.indAccion=="1"){
+						if(valor.codigoproveedor=="-1"){
+							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del Proveedor</div>");
+						}else{
+							$("#tab2primary #txt_cod_prov_guardar").val(valor.codigoproveedor);
+							$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del Proveedor con el codigo "+ valor.codigoproveedor +"</div>");
+						}
 					}else{
-						$("#tab2primary #txt_cod_prov_guardar").val(valor.codigoproveedor);
-						$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del Proveedor con el codigo "+ valor.codigoproveedor +"</div>");
+						if(valor.codigoproveedor=="-1"){
+							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos del Proveedor</div>");
+						}else{							
+							$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos del Proveedor</div>");
+						}
 					}
 				},
 				error : function(xhr, ajaxOptions, thrownError) {
 					$('#ModalLoading').modal('hide');
-					$('#mensajeAlerta').html("<div class='alert alert-danger'>Ocurrio un error al registrar los datos del Proveedor</div>");
+					$('#mensajeAlerta').html("<div class='alert alert-danger'>Ocurrio un error por favor comuniquese con el Administrador del Sistema</div>");
 				}
 		  });
 		
 		
 	}
 	function CargarComboDependiente(cboFiltro, cbocascada,action) {
-		var valueSelected = cboFiltro.options[cboFiltro.selectedIndex].value;
+		//var valueSelected = cboFiltro.options[cboFiltro.selectedIndex].value;
 		cbocascada = document.getElementById(cbocascada);
 		LimpiarCombo(cbocascada);
 		$.ajax({
 			type : "get",
 			url : "proveedor?metodo=" + action,
-			data : {idvalue : valueSelected},
+			data : {idvalue : cboFiltro},
 			dataType : 'json',
 			success : function(resultado) {				
 				var data = resultado[0];				

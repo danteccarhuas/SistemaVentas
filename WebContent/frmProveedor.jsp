@@ -126,7 +126,13 @@
 
 										<br>
 										<form class="form-horizontal" id="frm_Proveedor">
+										<input type="hidden" id="hiddencodprov" value="0"  name="hiddencodprov"/>
 										<input type="hidden" id="hiddenindaccion" name="hiddenindaccion" value="0" />
+										<!-- 
+										hiddenindaccion : 1 Nuevo
+										hiddenindaccion : 2 Modificar
+										 -->
+										
 											<div class="row">
 												<div class="col-lg-5">
 													<div class="form-group">
@@ -138,10 +144,7 @@
 																id="txt_cod_prov_guardar" name="txt_cod_prov_guardar"
 																disabled="disabled" />
 														</div>
-
-
 													</div>
-
 												</div>
 
 												<div class="col-lg-3">
@@ -380,12 +383,9 @@
 	</div>
 	<!-- Modal ends Here -->
 </body>
-<input type="hidden" id="hiddencodprov" value="0" />
 
-<!-- 
-hiddenindaccion : 1 Nuevo
-hiddenindaccion : 2 Modificar
- -->
+<input type="hidden" id="hiddenvalueprovincia" value="0" />
+<input type="hidden" id="hiddenvaluedistrito" value="0" />
 
 <script src="js/function-proveedor.js"></script>
 </html>

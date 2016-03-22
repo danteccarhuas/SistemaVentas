@@ -68,7 +68,7 @@ IN  p_correo VARCHAR(45),
 IN 	p_fax VARCHAR(45),
 IN	p_telefono varchar(45),
 IN	p_celular varchar(25),
-In	p_sitioweb varchar(15),
+In	p_sitioweb varchar(45),
 IN	p_ruc varchar(11), 
 IN	p_direccion VARCHAR(45),
 IN	p_referencia varchar(255),
@@ -209,3 +209,42 @@ BEGIN
 END //
 DELIMITER ;
 
+drop procedure if exists usp_UPD_proveedor;
+DELIMITER //
+
+CREATE  PROCEDURE usp_UPD_proveedor( 
+IN  P_codigoproveedor VARCHAR(12),
+IN  p_razonsocial VARCHAR(225), 
+IN  p_correo VARCHAR(45),
+IN 	p_fax VARCHAR(45),
+IN	p_telefono varchar(45),
+IN	p_celular varchar(25),
+In	p_sitioweb varchar(45),
+IN	p_ruc varchar(11), 
+IN	p_direccion VARCHAR(45),
+IN	p_referencia varchar(255),
+IN	p_contacto varchar(45),
+IN  p_estado INT,
+In	p_ubigeo int
+     )
+BEGIN
+	
+	UPDATE tb_proveedor 
+		SET 		
+		razonsocial =  p_razonsocial,
+		correo =  p_correo,
+		fax =  p_fax,	
+		telefono = p_telefono,
+		celular =  p_celular,
+		sitioweb = p_sitioweb,
+		ruc = p_ruc,
+		direccion =  p_direccion,
+		referencia =  p_referencia,
+		contacto = p_contacto,
+		estado = p_estado,
+		ubigeo = p_ubigeo
+	WHERE codigoproveedor = P_codigoproveedor;
+
+	
+END //
+DELIMITER ;

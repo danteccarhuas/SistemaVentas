@@ -248,7 +248,7 @@ public class ProveedorControllers extends HttpServlet {
 			Ubigeo_vo vo_ubigeo =  new Ubigeo_vo();
 			
 			String strubigeo = "";
-			int indAction = Integer.parseInt(request.getParameter("hiddenindaccion"));
+			int indAccion = Integer.parseInt(request.getParameter("hiddenindaccion"));
 			strubigeo= request.getParameter("cbo_departamento") + request.getParameter("cbo_provincia")+request.getParameter("cbo_distrito");
 			vo_proveedor.setRazonsocial(request.getParameter("txt_razon_social"));			
 			vo_proveedor.setCorreo(request.getParameter("txt_correo"));
@@ -265,25 +265,40 @@ public class ProveedorControllers extends HttpServlet {
 			vo_proveedor.setUbigeo(vo_ubigeo);
 			String codigoprovedor  = "";
 			
-			if (indAction == 1) {
+			if (indAccion == 1) {
 				Map<String, String> Beanmap= new HashMap<String, String>();
 				codigoprovedor = new Proveedor_models().RegistrarProveedor(vo_proveedor);
 				if(codigoprovedor.equals("-1")){
 					Beanmap.put("codigoproveedor", String.valueOf("-1"));
+					Beanmap.put("indAccion", String.valueOf(indAccion));
 					Gson gson= new GsonBuilder().setPrettyPrinting().create();
 					String json= gson.toJson(Beanmap);
 					response.getWriter().write(json);
-				}else if(!codigoprovedor.equals("")){
+				}else if(!codigoprovedor.equals("-1")){
 					Beanmap.put("codigoproveedor", codigoprovedor);
+					Beanmap.put("indAccion", String.valueOf(indAccion));
 					Gson gson= new GsonBuilder().setPrettyPrinting().create();
 					String json= gson.toJson(Beanmap);
 					response.getWriter().write(json);
 				}
 			}else {
-				
+				vo_proveedor.setCodigoproveedor(request.getParameter("hiddencodprov"));
+				Map<String, String> Beanmap= new HashMap<String, String>();
+				codigoprovedor = new Proveedor_models().ActualizarProveedor(vo_proveedor);
+				if(codigoprovedor.equals("-1")){
+					Beanmap.put("codigoproveedor", String.valueOf("-1"));
+					Beanmap.put("indAccion", String.valueOf(indAccion));
+					Gson gson= new GsonBuilder().setPrettyPrinting().create();
+					String json= gson.toJson(Beanmap);
+					response.getWriter().write(json);
+				}else if(!codigoprovedor.equals("-1")){
+					Beanmap.put("codigoproveedor", codigoprovedor);
+					Beanmap.put("indAccion", String.valueOf(indAccion));
+					Gson gson= new GsonBuilder().setPrettyPrinting().create();
+					String json= gson.toJson(Beanmap);
+					response.getWriter().write(json);
+				}
 			}
-			
-			
 			
 		} catch (Exception e) {
 			System.out.println("Error en el metodo RegistrarProveedor : "+e.getMessage());

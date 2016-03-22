@@ -55,6 +55,44 @@ public class Proveedor_models {
 		return codigo;
 	}
 	
+	public String ActualizarProveedor(Proveedor_vo bean) {
+		String codigo = "";
+		Connection con = null;
+		CallableStatement cs = null;
+		try {
+			con = MysqlDBConexion.getConexion();
+			String sql = "call usp_UPD_proveedor(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			cs = con.prepareCall(sql);
+			cs.setString(1, bean.getCodigoproveedor());
+			cs.setString(2, bean.getRazonsocial());
+			cs.setString(3, bean.getCorreo());
+			cs.setString(4, bean.getFax());
+			cs.setString(5, bean.getTelefono());
+			cs.setString(6, bean.getCelular());
+			cs.setString(7, bean.getSitioweb());
+			cs.setString(8, bean.getRuc());
+			cs.setString(9, bean.getDireccion());
+			cs.setString(10, bean.getReferencia());
+			cs.setString(11, bean.getContacto());
+			cs.setInt(12, bean.getEstado());
+			cs.setInt(13, bean.getUbigeo().getUbigeo());			
+			cs.execute();
+			codigo = "1";	
+		} catch (Exception e) {
+			e.printStackTrace();
+			codigo = "-1";
+		} finally {
+			try {
+				if (con != null)
+					con.close();
+				if (cs != null)
+					cs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return codigo;
+	}
 	public String EliminarProveedor(Proveedor_vo bean) {
 		String codigo = "";
 		Connection con = null;
@@ -187,7 +225,7 @@ public class Proveedor_models {
 				beandepartamento.setIddepar(rs.getInt("iddepar"));
 				
 				Provincia_vo beanprovincia = new Provincia_vo();
-				beandepartamento.setIddepar(rs.getInt("idprov"));
+				beanprovincia.setIdprov(rs.getInt("idprov"));
 				
 				Distrito_vo beandistrito = new Distrito_vo();
 				beandistrito.setIddist(rs.getInt("iddist"));
