@@ -1,4 +1,28 @@
 $(document)	.ready(function(e) {
+	$('#btn_nuevo').on('click', function () {		
+		 $('#tab1').prop( "disabled", true ).addClass('disabled');
+		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
+		 $('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');		
+		 $('#hiddenindaccion').val(1); 
+	});	
+	
+	$('#btn_salir').on('click', function () {
+		$("#frm_Proveedor").data('bootstrapValidator').resetForm(true);/*Limpiamos todos los controles del formulario frm_Proveedor */
+		$('#tab1').prop( "disabled", false ).removeClass('disabled');
+		$('#tab2').prop( "disabled", true ).addClass('disabled');
+		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');  
+		$("#mensajeAlerta").html("");
+		$("#paginador").html("");/*Limpiar los numero de paginacion*/
+		initGrilla();
+	});
+	
+	$('#btn_buscar').on('click', function () {
+		$("#paginador").html("");/*Limpiar los numero de paginacion*/
+		$('#ModalLoading').modal('show');
+		initGrilla();		
+		$('#ModalLoading').modal('hide');
+	});
+	
 	/*Metodo para eliminar proveedores*/
 	$(document).on("click","#btn_modaleliminar",function(e) {
 		e.preventDefault();		
@@ -58,7 +82,7 @@ $(document)	.ready(function(e) {
 			}
 		});
 	});
-	
+	/*Metodo para setar los combo de ubigeo*/
 	function programarCargaPronvincia(){	
 		    setTimeout(function(){setearProvincia();},1000); // 1000ms = 1s
 		}
@@ -73,31 +97,7 @@ $(document)	.ready(function(e) {
 	function setearDistrito(){
 		$("#tab2primary #cbo_distrito").val($("#hiddenvaluedistrito").val());
 	}
-	
-	$('#btn_nuevo').on('click', function () {		
-		 $('#tab1').prop( "disabled", true ).addClass('disabled');
-		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
-		 $('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');		
-		 $('#hiddenindaccion').val(1); 
-	});	
-	
-	$('#btn_salir').on('click', function () {
-		$("#frm_Proveedor").data('bootstrapValidator').resetForm(true);/*Limpiamos todos los controles del formulario frm_Proveedor */
-		$('#tab1').prop( "disabled", false ).removeClass('disabled');
-		$('#tab2').prop( "disabled", true ).addClass('disabled');
-		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');  
-		$("#mensajeAlerta").html("");
-		$("#paginador").html("");/*Limpiar los numero de paginacion*/
-		initGrilla();
-	});
-	
-	$('#btn_buscar').on('click', function () {
-		$("#paginador").html("");/*Limpiar los numero de paginacion*/
-		$('#ModalLoading').modal('show');
-		initGrilla();		
-		$('#ModalLoading').modal('hide');
-	});
-	
+
 	/* Valida las etiquedas del formulario */
 	$("#frm_Proveedor").bootstrapValidator({
 				message : 'This value is not valid',
@@ -350,14 +350,12 @@ function creaPaginador(totalItems)
 	{
 		$('<li><a href="#" class="page_link">'+(pag+1)+'</a></li>').appendTo(paginador);
 		pag++;
-	}
-	
+	}	
 	if(numerosPorPagina > 1)
 	{
 		$(".page_link").hide();
 		$(".page_link").slice(0,numerosPorPagina).show();
-	}
-		
+	}		
 	$('<li><a href="#" class="next_link">»</a></li>').appendTo(paginador);
 	$('<li><a href="#" class="last_link">></a></li>').appendTo(paginador);
 
@@ -379,7 +377,6 @@ function creaPaginador(totalItems)
 		cargaPagina(irpagina);
 		return false;
 	});
-
 	paginador.find("li .prev_link").click(function()
 	{
 		var irpagina =parseInt(paginador.data("pag")) -1;
@@ -403,10 +400,8 @@ function creaPaginador(totalItems)
 	cargaPagina(0);
 }
 
-
 function cargaPagina(pagina){
-	var desde = pagina * itemsPorPagina;
-	
+	var desde = pagina * itemsPorPagina;	
 	var txt_codigoprov_buscar = $("#txt_codigoprov_buscar").val();
 	var txt_ruc_buscar = $("#txt_ruc_buscar").val();
 	var txt_razonsocial_buscar = $("#txt_razonsocial_buscar").val();
@@ -476,11 +471,8 @@ function cargaPagina(pagina){
 
 		}
 	}
-
 	paginador.children().removeClass("active");
-	paginador.children().eq(pagina+2).addClass("active");
-
-	
+	paginador.children().eq(pagina+2).addClass("active");	
 }
 
 function initGrilla(){

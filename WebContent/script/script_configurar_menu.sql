@@ -9,9 +9,9 @@ INSERT INTO `tb_menu` (`descripcion`,`estado`,`fechacreacion`,`fechamodificacion
 /*********************************************/
 INSERT INTO `tb_submenu` (`descripcion`, `url`,`fechacreacion`,`fechamodificacion`,`idmenu` ) VALUES
 ('Cliente','ruta','2016-01-01','2016-01-01',1),
-('Trajador','ruta','2016-01-01','2016-01-01',1),
+('Trabajador','trabajador?metodo=loadTrabajador','2016-01-01','2016-01-01',1),
 ('Proveedor','proveedor?metodo=loadProveedor','2016-01-01','2016-01-01',1),
-('Marca','ruta','2016-01-01','2016-01-01',1),
+('Marca','marca?metodo=loadMarca','2016-01-01','2016-01-01',1),
 ('Producto','ruta','2016-01-01','2016-01-01',1),
 ('Tipo Documento','ruta','2016-01-01','2016-01-01',1),
 ('Asignar permisos','ruta','2016-01-01','2016-01-01',1),
