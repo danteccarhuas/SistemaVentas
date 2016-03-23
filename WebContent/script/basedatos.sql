@@ -66,6 +66,20 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
+-- Table `bdsistemaventas`.`tb_categoria`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `bdsistemaventas`.`tb_categoria` ;
+
+CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_categoria` (
+  `idcategoria` INT NOT NULL ,
+  `descripcion` VARCHAR(100) NULL ,
+  `fecharegistro` DATETIME NULL ,
+  `fechamodificacion` DATETIME NULL ,
+  PRIMARY KEY (`idcategoria`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
 -- Table `bdsistemaventas`.`tb_producto`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `bdsistemaventas`.`tb_producto` ;
@@ -74,16 +88,26 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_producto` (
   `idproducto` SMALLINT NOT NULL AUTO_INCREMENT ,
   `nombre` VARCHAR(50) NULL ,
   `descripcion` VARCHAR(255) NULL ,
-  `idtipoprendas` INT NOT NULL ,
   `estado` INT NULL ,
+  `preciocompra` DECIMAL(12,5) NULL ,
+  `precioventa` DECIMAL(12,5) NULL ,
   `fechacreacion` DATETIME NULL ,
   `fechamodificacion` DATETIME NULL ,
   `idmarca` INT NOT NULL ,
+  `idcategoria` INT NOT NULL ,
+  `genero` VARCHAR(25) NULL ,
+  `talla` VARCHAR(25) NULL ,
   PRIMARY KEY (`idproducto`) ,
   INDEX `fk_tb_producto_tb_marca1_idx` (`idmarca` ASC) ,
+  INDEX `fk_tb_producto_tb_categoria1_idx` (`idcategoria` ASC) ,
   CONSTRAINT `fk_tb_producto_tb_marca1`
     FOREIGN KEY (`idmarca` )
     REFERENCES `bdsistemaventas`.`tb_marca` (`idmarca` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_tb_producto_tb_categoria1`
+    FOREIGN KEY (`idcategoria` )
+    REFERENCES `bdsistemaventas`.`tb_categoria` (`idcategoria` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
@@ -292,9 +316,6 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_kardex` (
   `idproducto` SMALLINT NOT NULL ,
   `idtienda` SMALLINT NOT NULL ,
   `idtrabajador` SMALLINT NOT NULL ,
-  `idtipoprenda` INT NOT NULL ,
-  `idtalla` INT NOT NULL ,
-  `idsexo` INT NOT NULL ,
   `idtipo_operacion` INT NULL ,
   `idtipodocumento` INT NULL ,
   `nreserie` VARCHAR(10) NULL ,
@@ -491,28 +512,6 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_ordencompra_producto` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_tb_ordencompra_has_tb_producto_tb_producto1`
-    FOREIGN KEY (`idproducto` )
-    REFERENCES `bdsistemaventas`.`tb_producto` (`idproducto` )
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `bdsistemaventas`.`tb_producto_talla`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `bdsistemaventas`.`tb_producto_talla` ;
-
-CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_producto_talla` (
-  `idprodtalla` SMALLINT NOT NULL ,
-  `idsexo` INT NOT NULL ,
-  `preciounitario` VARCHAR(45) NULL ,
-  `idtalla` INT NOT NULL ,
-  `idproducto` SMALLINT NOT NULL ,
-  `imagenurl` VARCHAR(255) NULL ,
-  PRIMARY KEY (`idprodtalla`) ,
-  INDEX `fk_tb_producto_talla_tb_producto1_idx` (`idproducto` ASC) ,
-  CONSTRAINT `fk_tb_producto_talla_tb_producto1`
     FOREIGN KEY (`idproducto` )
     REFERENCES `bdsistemaventas`.`tb_producto` (`idproducto` )
     ON DELETE NO ACTION
