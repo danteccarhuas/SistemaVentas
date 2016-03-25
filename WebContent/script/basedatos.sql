@@ -72,7 +72,7 @@ ENGINE = InnoDB;
 DROP TABLE IF EXISTS `bdsistemaventas`.`tb_categoria` ;
 
 CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_categoria` (
-  `idcategoria` INT NOT NULL ,
+  `idcategoria` INT NOT NULL AUTO_INCREMENT ,
   `descripcion` VARCHAR(100) NULL ,
   `estado` INT NULL ,
   `fecharegistro` DATETIME NULL ,
