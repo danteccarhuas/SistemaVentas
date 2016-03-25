@@ -12,9 +12,10 @@ $(document)	.ready(function(e) {
 		$('#tab1').prop( "disabled", false ).removeClass('disabled');
 		$('#tab2').prop( "disabled", true ).addClass('disabled');
 		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');  
-		$("#mensajeAlerta").html("");
+		$("#mensajeAlerta").html("");		
 		$("#paginador").html("");/*Limpiar los numero de paginacion*/
 		initGrilla();
+		$("#btn_enviar").prop("disabled", false);
 	});
 	
 	$('#btn_buscar').on('click', function () {

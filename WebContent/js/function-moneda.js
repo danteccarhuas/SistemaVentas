@@ -16,6 +16,7 @@ $(document)	.ready(function(e) {
 		$("#mensajeAlerta").html("");
 		$("#paginador").html("");/*Limpiar los numero de paginacion*/
 		initGrilla();
+		$("#btn_enviar").prop("disabled", false);
 	});
 	$('#btn_buscar').on('click', function () {
 		$("#paginador").html("");/*Limpiar los numero de paginacion*/

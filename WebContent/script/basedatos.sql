@@ -229,6 +229,7 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_submenu` (
   `idmenu` INT NOT NULL ,
   PRIMARY KEY (`idsubmenu`) ,
   INDEX `fk_tb_submenu_tb_menu1_idx` (`idmenu` ASC) ,
+  UNIQUE INDEX `descripcion_UNIQUE` (`descripcion` ASC) ,
   CONSTRAINT `fk_tb_submenu_tb_menu1`
     FOREIGN KEY (`idmenu` )
     REFERENCES `bdsistemaventas`.`tb_menu` (`idmenu` )
@@ -534,6 +535,22 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_moneda` (
   `fecharegistro` DATETIME NULL ,
   `fechamodificacion` DATETIME NULL ,
   PRIMARY KEY (`idmoneda`) )
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bdsistemaventas`.`tb_tipodocumento`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `bdsistemaventas`.`tb_tipodocumento` ;
+
+CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_tipodocumento` (
+  `idtipodocumento` INT NOT NULL AUTO_INCREMENT ,
+  `descripcion` VARCHAR(45) NULL ,
+  `abreviatura` VARCHAR(45) NULL ,
+  `estado` INT NULL ,
+  `fecharegistro` DATETIME NULL ,
+  `fechamodificacion` DATETIME NULL ,
+  PRIMARY KEY (`idtipodocumento`) )
 ENGINE = InnoDB;
 
 USE `bdsistemaventas` ;

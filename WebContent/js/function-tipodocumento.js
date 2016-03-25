@@ -9,7 +9,7 @@ $(document)	.ready(function(e) {
 	});	
 	
 	$('#btn_salir').on('click', function () {
-		$("#frm_marca").data('bootstrapValidator').resetForm(true);/*Limpiamos todos los controles del formulario frm_Proveedor */
+		$("#frm_tipodocumento").data('bootstrapValidator').resetForm(true);/*Limpiamos todos los controles del formulario frm_Proveedor */
 		$('#tab1').prop( "disabled", false ).removeClass('disabled');
 		$('#tab2').prop( "disabled", true ).addClass('disabled');
 		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');  
@@ -27,7 +27,7 @@ $(document)	.ready(function(e) {
 	/*Metodo para eliminar proveedores*/
 	$(document).on("click","#btn_modaleliminar",function(e) {
 		e.preventDefault();		
-		$('#hiddencodmarca').val($(this).data('id'));
+		$('#hiddencodTipodocumento').val($(this).data('id'));
 		$("#modalRemove").modal({
 			keyboard : false
 		});
@@ -35,12 +35,12 @@ $(document)	.ready(function(e) {
 	
 	$(".removeBtn").click(function(e){
 		$("#modalRemove").modal("hide");		
-		console.log($('#hiddencodmarca').val());
-		var  codmarca=$('#hiddencodmarca').val();
+		console.log($('#hiddencodTipodocumento').val());
+		var  codtipodocumento=$('#hiddencodTipodocumento').val();
 		$.ajax({
-			url : 'marca?metodo=EliminarMarca',
+			url : 'tipodocumento?metodo=EliminarTipodocumento',
 			type : 'post',
-			data : {codmarca : codmarca},
+			data : {codtipodocumento : codtipodocumento},
 			dataType : 'json',
 			success : function(result) {				
 				$("#paginador").html("");/*Limpiar los numero de paginacion*/
@@ -49,30 +49,37 @@ $(document)	.ready(function(e) {
 		});
 		
 	});
-	/*Metodo para modificar Marca*/
+	/*Metodo para modificar moneda*/
 	$(document).on("click","#btn_editar",function(e) {			
 		e.preventDefault();		
-		$('#hiddencodmarca').val($(this).data('id'));
+		$('#hiddencodTipodocumento').val($(this).data('id'));
 		$('#hiddenindaccion').val(2); 		
-		var codigo_marca = $('#hiddencodmarca').val();		
+		var codigo_tipodocumento = $('#hiddencodTipodocumento').val();		
 		$.ajax({
-			url : 'marca?metodo=ObtenerMarca',
+			url : 'tipodocumento?metodo=ObtenerTipodocumento',
 			type : 'post',
-			data : {codigo_marca:codigo_marca},
+			data : {codigo_tipodocumento:codigo_tipodocumento},
 			dataType : 'json',
 			success : function(result) {
-				var data1=result[0];					
-				$('#tab1').prop( "disabled", true ).addClass('disabled');
-				$('#tab2').prop( "disabled", false ).removeClass('disabled');
-				$('#eventotab2primary').prop( "disabled", false ).removeClass('disabled');/*Quitamos el disabled del tab eventotab2primary*/
-				$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');			
-				$("#tab2primary #txt_codigo_guardar").val(data1.idmarca);
-				$("#tab2primary #txt_descripcion_guardar").val(data1.descripcion);			
+				var data1=result[0];				
+				if( typeof data1 === 'undefined' || data1	 === null ){
+					alert(data1);
+					return;							
+				}else {
+					$('#tab1').prop( "disabled", true ).addClass('disabled');
+					$('#tab2').prop( "disabled", false ).removeClass('disabled');
+					$('#eventotab2primary').prop( "disabled", false ).removeClass('disabled');/*Quitamos el disabled del tab eventotab2primary*/
+					$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');			
+					$("#tab2primary #txt_codigo_guardar").val(data1.idtipodocumento);
+					$("#tab2primary #txt_descripcion_guardar").val(data1.descripcion);		
+					$("#tab2primary #txt_Abreviatura_guardar").val(data1.abreviatura);
+				}
+						
 			}
 		});
 	});
 	/* Valida las etiquedas del formulario */
-	$("#frm_marca").bootstrapValidator({
+	$("#frm_tipodocumento").bootstrapValidator({
 				message : 'This value is not valid',
 			feedbackIcons : {
 				valid : 'glyphicon glyphicon-ok',
@@ -86,40 +93,47 @@ $(document)	.ready(function(e) {
 							message : 'Ingrese Descripcion por favor.'
 						}
 					}
+				},
+				"txt_Abreviatura_guardar" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese abreviatura por favor.'
+						}
+					}
 				}
 			}
 	});
-	$('#frm_marca').on('success.form.bv', function(e) {
+	$('#frm_tipodocumento').on('success.form.bv', function(e) {
 		e.preventDefault();
-		GuardarMarca();
+		GuardarTipodocumento();
 		if ($('#hiddenindaccion').val() == 1){/*Si es la accion de insertar se bloqueara el boton btn_enviar*/
 			$("#btn_enviar").prop("disabled", true);
 		}
 		
 	});
 	
-	function GuardarMarca(){		 
+	function GuardarTipodocumento(){		 
 		  $('#ModalLoading').modal('show');
 		  $.ajax({
-				url : 'marca?metodo=RegistrarModificarMarca',
+				url : 'tipodocumento?metodo=RegistrarModificarTipodocumento',
 				type : 'post',
-				data : $('#frm_marca').serialize(),
+				data : $('#frm_tipodocumento').serialize(),
 				dataType:'json',
 				success:function(result){
 					$('#ModalLoading').modal('hide');
 					var valor=eval(result);					
 					if(valor.indAccion=="1"){
-						if(valor.codigomarca=="-1"){
-							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos de la marca</div>");
+						if(valor.codigotipodocumento=="-1"){
+							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del documento</div>");
 						}else{
-							$("#tab2primary #txt_codigo_guardar").val(valor.codigomarca);
-							$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos de la marca con el codigo : "+ valor.codigomarca +"</div>");
+							$("#tab2primary #txt_codigo_guardar").val(valor.codigotipodocumento);
+							$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del documento con el codigo : "+ valor.codigotipodocumento +"</div>");
 						}
 					}else{
-						if(valor.codigomarca=="-1"){
-							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos de la marca</div>");
+						if(valor.codigomoneda=="-1"){
+							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos del documento</div>");
 						}else{							
-							$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos de la marca</div>");
+							$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos del documento</div>");
 						}
 					}
 				},
@@ -219,7 +233,7 @@ function cargaPagina(pagina){
 	var desde = pagina * itemsPorPagina;	
 	var txt_Descripcion_buscar = $("#txt_Descripcion_buscar").val();
 	$.ajax({
-		url : 'marca?metodo=ListarMarca',
+		url : 'tipodocumento?metodo=ListarTipodocumento',
 		type : 'post',
 		data : {txt_Descripcion_buscar:txt_Descripcion_buscar,limit:itemsPorPagina,offset:desde},
 		dataType : 'json',
@@ -230,11 +244,13 @@ function cargaPagina(pagina){
 			if (lista.length > 0){
 				for ( var i = 0; i < lista.length; i++) {
 					trHTML += '<tr><td>'
-						+ lista[i]['idmarca']
+						+ lista[i]['idtipodocumento']
 						+ '</td><td>'
-						+ lista[i]['descripcion']											
-						+ '</td><td><a href="" data-id="'+lista[i]['idmarca']+'" id="btn_editar" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </a></td>'
-						+ '</td><td><a  data-id="'+lista[i]['idmarca']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>';
+						+ lista[i]['descripcion']	
+						+ '</td><td>'
+						+ lista[i]['abreviatura']
+						+ '</td><td><a href="" data-id="'+lista[i]['idtipodocumento']+'" id="btn_editar" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </a></td>'
+						+ '</td><td><a  data-id="'+lista[i]['idtipodocumento']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>';
 				}
 				$('#rellenar').append(trHTML);
 			}			
@@ -282,7 +298,7 @@ function initGrilla(){
 	
 	var txt_Descripcion_buscar = $("#txt_Descripcion_buscar").val();
 	$.ajax({
-		url : 'marca?metodo=TotalRegistrosMarca',
+		url : 'tipodocumento?metodo=TotalRegistrosTipodocumento',
 		type : 'post',
 		data : {txt_Descripcion_buscar:txt_Descripcion_buscar},
 		dataType : 'json',

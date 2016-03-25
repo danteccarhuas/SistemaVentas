@@ -488,6 +488,130 @@ END //
 DELIMITER ;
 
 
+/*****************procimiento de tipo documento************************/
+
+
+drop procedure if exists usp_Ins_tipodocumento;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_tipodocumento( 
+IN  p_descripcion VARCHAR(45),
+IN  p_abreviatura VARCHAR(45),
+out p_codigo int
+)
+BEGIN
+    INSERT INTO tb_tipodocumento
+         (
+		descripcion,
+		estado,
+		abreviatura,
+		fecharegistro
+         )
+    VALUES 
+         ( 
+		p_descripcion,
+		1,
+		p_abreviatura,
+		CURDATE()
+         ); 
+set p_codigo = LAST_INSERT_ID();
+
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_UPD_tipodocumento;
+DELIMITER //
+
+CREATE  PROCEDURE usp_UPD_tipodocumento( 
+IN  p_descripcion VARCHAR(45),
+IN  p_abreviatura VARCHAR(45),
+IN  p_codigo int
+
+     )
+BEGIN
+	
+	UPDATE tb_tipodocumento 
+		SET 		
+		descripcion =  p_descripcion,
+		abreviatura =  p_abreviatura,
+		fechamodificacion = CURDATE()
+	WHERE idtipodocumento = p_codigo;
+	
+END //
+DELIMITER ;
+
+
+
+drop procedure if exists usp_eliminar_tipodocumento;
+DELIMITER //
+CREATE  PROCEDURE usp_eliminar_tipodocumento(
+IN  p_codigo int
+)
+BEGIN 
+	update tb_tipodocumento set  estado = 0 
+	where idtipodocumento =  p_codigo;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_TotaRegist_tipodocumento;
+DELIMITER //
+CREATE  PROCEDURE usp_TotaRegist_tipodocumento(
+IN  p_descripcion VARCHAR(45),
+OUT P_TOTALREGISTRO INT
+)
+BEGIN 
+	declare v_TOTALREGISTRO INT;
+	set v_TOTALREGISTRO=0;
+
+	select	count(p.idtipodocumento) into v_TOTALREGISTRO
+	from tb_tipodocumento  p
+	where (CONCAT(p.descripcion) like CONCAT("%",p_descripcion,"%") or ''= CONCAT("%",p_descripcion,"%"))	
+	and estado = 1;
+	set P_TOTALREGISTRO = v_TOTALREGISTRO;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_Cons_tipodocumento;
+DELIMITER //
+CREATE  PROCEDURE usp_Cons_tipodocumento(
+IN  p_descripcion VARCHAR(45),
+IN p_limit int,
+IN p_desde int
+
+)
+BEGIN 
+	PREPARE STMT FROM  "select	p.idtipodocumento, 
+	p.descripcion,p.abreviatura
+	from tb_tipodocumento  p
+	where (CONCAT(p.descripcion) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
+	and estado = 1 order by p.descripcion asc limit ? offset ?"  ;
+	
+	SET @p_descripcion = p_descripcion; 	
+	SET @p_limit = p_limit; 
+	SET @p_desde = p_desde; 
+	EXECUTE STMT USING @p_descripcion,@p_descripcion, @p_limit,@p_desde;
+	DEALLOCATE PREPARE STMT;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_obt_datostipodocumento;
+DELIMITER //
+CREATE  PROCEDURE usp_obt_datostipodocumento(
+IN  p_codigo int
+)
+BEGIN 
+	select 
+	p.idtipodocumento,p.descripcion,p.abreviatura
+	from tb_tipodocumento p 
+	where p.idtipodocumento =  p_codigo;
+END //
+DELIMITER ;
+
+
 
 
 
