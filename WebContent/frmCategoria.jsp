@@ -1,10 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>.: Sistema Ventas - Mantenimiento Producto</title>
+<title>.: Sistema Ventas - Mantenimiento Marca</title>
 </head>
 <body>
 	<div id="wrapper">
@@ -15,7 +15,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">
-							Mantenimiento Producto
+							Mantenimiento Marca
 							<!--  <small>Statistics Overview</small> -->
 						</h1>
 						<!-- <ol class="breadcrumb">
@@ -31,9 +31,9 @@
 							<div class="panel-heading">
 								<ul class="nav nav-tabs">
 									<li class="active"><a href="#tab1primary" id="tab1"
-										data-toggle="tab">Consulta Producto</a></li>
+										data-toggle="tab">Consulta Marca</a></li>
 									<li id="eventotab2primary" class="disabled"><a id="tab2"
-										href="#tab2primary" data-toggle="tab">Datos Producto</a></li>
+										href="#tab2primary" data-toggle="tab">Datos Marca</a></li>
 								</ul>
 							</div>
 							<div class="panel-body">

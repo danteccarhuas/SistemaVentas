@@ -8,13 +8,13 @@
 	
 	/*********************************************/
 	INSERT INTO `tb_submenu` (`descripcion`, `url`,`fechacreacion`,`fechamodificacion`,`idmenu` ) VALUES
-	('Cliente','ruta','2016-01-01','2016-01-01',1),
+	('Cliente','cliente?metodo=loadCliente','2016-01-01','2016-01-01',1),
 	('Trabajador','trabajador?metodo=loadTrabajador','2016-01-01','2016-01-01',1),
 	('Proveedor','proveedor?metodo=loadProveedor','2016-01-01','2016-01-01',1),
 	('Marca','marca?metodo=loadMarca','2016-01-01','2016-01-01',1),
-	('Producto','ruta','2016-01-01','2016-01-01',1),
+	('Producto','producto?metodo=loadProducto','2016-01-01','2016-01-01',1),
 	('Tipo Documento','tipodocumento?metodo=loadTipodocumento','2016-01-01','2016-01-01',1),
-	('Asignar permisos','ruta','2016-01-01','2016-01-01',1),
+	('Categoria','categoria?metodo=loadCategoria','2016-01-01','2016-01-01',1),
 	('Moneda','moneda?metodo=loadMoneda','2016-01-01','2016-01-01',1),
 	('Almacen','ruta','2016-01-01','2016-01-01',1),
 	('Orden de Compra','ruta','2016-01-01','2016-01-01',2),

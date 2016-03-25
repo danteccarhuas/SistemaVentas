@@ -97,7 +97,7 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_producto` (
   `fechamodificacion` DATETIME NULL ,
   `idmarca` INT NOT NULL ,
   `idcategoria` INT NOT NULL ,
-  `genero` VARCHAR(25) NULL ,
+  `idgenero` INT NOT NULL ,
   `talla` VARCHAR(25) NULL ,
   PRIMARY KEY (`idproducto`) ,
   INDEX `fk_tb_producto_tb_marca1_idx` (`idmarca` ASC) ,
