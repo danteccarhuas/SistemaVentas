@@ -2,6 +2,7 @@ $(document)	.ready(function(e) {
 	$('#btn_nuevo').on('click', function () {		
 		 $('#tab1').prop( "disabled", true ).addClass('disabled');
 		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
+		 $('#eventotab2primary').prop( "disabled", false ).removeClass('disabled');/*Quitamos el disabled del tab eventotab2primary*/
 		 $('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');		
 		 $('#hiddenindaccion').val(1); 
 	});	
@@ -62,8 +63,9 @@ $(document)	.ready(function(e) {
 				var data1=result[0];					
 				$('#tab1').prop( "disabled", true ).addClass('disabled');
 				$('#tab2').prop( "disabled", false ).removeClass('disabled');
-				$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');			
-				$("#tab2primary #txt_cod_prov_guardar").val(data1.codigoproveedor);
+				$('#eventotab2primary').prop( "disabled", false ).removeClass('disabled');/*Quitamos el disabled del tab eventotab2primary*/
+			 	$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');		
+			 	$("#tab2primary #txt_cod_prov_guardar").val(data1.codigoproveedor);
 				$("#tab2primary #txt_razon_social").val(data1.razonsocial);
 				$("#tab2primary #txt_correo").val(data1.correo);
 				$("#tab2primary #txt_fax").val(data1.fax);
@@ -330,7 +332,13 @@ $(document)	.ready(function(e) {
 $(window).load(function() {
 	initGrilla();
 	LoadCombos();
-	 $('#eventotab2primary').prop( "disabled", true ).addClass('disabled');
+	/*Desabilitamos el tab eventotab2primary*/
+	$('#eventotab2primary').click(function(event){
+	        if ($(this).hasClass('disabled')) {
+	            return false;
+	        }
+	    });
+		
 });
 
 var paginador;
@@ -406,7 +414,7 @@ function cargaPagina(pagina){
 	var txt_ruc_buscar = $("#txt_ruc_buscar").val();
 	var txt_razonsocial_buscar = $("#txt_razonsocial_buscar").val();
 	$.ajax({
-		url : 'proveedor?metodo=LoadProveedores',
+		url : 'proveedor?metodo=ListarProveedores',
 		type : 'post',
 		data : {txt_codigoprov_buscar:txt_codigoprov_buscar,txt_ruc_buscar:txt_ruc_buscar,txt_razonsocial_buscar:txt_razonsocial_buscar,limit:itemsPorPagina,offset:desde},
 		dataType : 'json',

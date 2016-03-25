@@ -248,3 +248,246 @@ BEGIN
 	
 END //
 DELIMITER ;
+
+drop procedure if exists usp_Ins_marca;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_marca( 
+IN  p_descripcion VARCHAR(45),
+out p_codigo int
+)
+BEGIN
+    INSERT INTO tb_marca
+         (
+		descripcion,
+		estado,
+		fecharegistro
+         )
+    VALUES 
+         ( 
+		p_descripcion,
+		1,
+		CURDATE()
+         ); 
+set p_codigo = LAST_INSERT_ID();
+
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_UPD_marca;
+DELIMITER //
+
+CREATE  PROCEDURE usp_UPD_marca( 
+IN  p_descripcion VARCHAR(45),
+IN  p_codigo int
+
+     )
+BEGIN
+	
+	UPDATE tb_marca 
+		SET 		
+		descripcion =  p_descripcion,
+		fechamodificacion = CURDATE()
+	WHERE idmarca = p_codigo;
+	
+END //
+DELIMITER ;
+
+
+
+drop procedure if exists usp_eliminar_marca;
+DELIMITER //
+CREATE  PROCEDURE usp_eliminar_marca(
+IN  p_codigo int
+)
+BEGIN 
+	update tb_marca set  estado = 0 
+	where idmarca =  p_codigo;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_TotaRegist_Marca;
+DELIMITER //
+CREATE  PROCEDURE usp_TotaRegist_Marca(
+IN  p_descripcion VARCHAR(45),
+OUT P_TOTALREGISTRO INT
+)
+BEGIN 
+	declare v_TOTALREGISTRO INT;
+	set v_TOTALREGISTRO=0;
+
+	select	count(p.idmarca) into v_TOTALREGISTRO
+	from tb_marca  p
+	where (CONCAT(p.descripcion) like CONCAT("%",p_descripcion,"%") or ''= CONCAT("%",p_descripcion,"%"))	
+	and estado = 1;
+	set P_TOTALREGISTRO = v_TOTALREGISTRO;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_Cons_Marca;
+DELIMITER //
+CREATE  PROCEDURE usp_Cons_Marca(
+IN  p_descripcion VARCHAR(45),
+IN p_limit int,
+IN p_desde int
+
+)
+BEGIN 
+	PREPARE STMT FROM  "select	p.idmarca, 
+	p.descripcion	
+	from tb_marca  p
+	where (CONCAT(p.descripcion) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
+	and estado = 1 order by p.descripcion asc limit ? offset ?"  ;
+	
+	SET @p_descripcion = p_descripcion; 	
+	SET @p_limit = p_limit; 
+	SET @p_desde = p_desde; 
+	EXECUTE STMT USING @p_descripcion,@p_descripcion, @p_limit,@p_desde;
+	DEALLOCATE PREPARE STMT;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_obt_datosMarca;
+DELIMITER //
+CREATE  PROCEDURE usp_obt_datosMarca(
+IN  p_codigo int
+)
+BEGIN 
+	select 
+	p.idmarca,p.descripcion
+	from tb_marca p 
+	where idmarca =  p_codigo;
+END //
+DELIMITER ;
+
+/*****************procimiento de moneda************************/
+
+
+drop procedure if exists usp_Ins_moneda;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_moneda( 
+IN  p_descripcion VARCHAR(45),
+IN  p_simbolo VARCHAR(25),
+out p_codigo int
+)
+BEGIN
+    INSERT INTO tb_moneda
+         (
+		descripcion,
+		estado,
+		simbolo,
+		fecharegistro
+         )
+    VALUES 
+         ( 
+		p_descripcion,
+		1,
+		p_simbolo,
+		CURDATE()
+         ); 
+set p_codigo = LAST_INSERT_ID();
+
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_UPD_moneda;
+DELIMITER //
+
+CREATE  PROCEDURE usp_UPD_moneda( 
+IN  p_descripcion VARCHAR(45),
+IN  p_simbolo VARCHAR(25),
+IN  p_codigo int
+
+     )
+BEGIN
+	
+	UPDATE tb_moneda 
+		SET 		
+		descripcion =  p_descripcion,
+		simbolo =  p_simbolo,
+		fechamodificacion = CURDATE()
+	WHERE idmoneda = p_codigo;
+	
+END //
+DELIMITER ;
+
+
+
+drop procedure if exists usp_eliminar_moneda;
+DELIMITER //
+CREATE  PROCEDURE usp_eliminar_moneda(
+IN  p_codigo int
+)
+BEGIN 
+	update tb_moneda set  estado = 0 
+	where idmoneda =  p_codigo;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_TotaRegist_Marca;
+DELIMITER //
+CREATE  PROCEDURE usp_TotaRegist_Marca(
+IN  p_descripcion VARCHAR(45),
+OUT P_TOTALREGISTRO INT
+)
+BEGIN 
+	declare v_TOTALREGISTRO INT;
+	set v_TOTALREGISTRO=0;
+
+	select	count(p.idmoneda) into v_TOTALREGISTRO
+	from tb_moneda  p
+	where (CONCAT(p.descripcion) like CONCAT("%",p_descripcion,"%") or ''= CONCAT("%",p_descripcion,"%"))	
+	and estado = 1;
+	set P_TOTALREGISTRO = v_TOTALREGISTRO;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_Cons_moneda;
+DELIMITER //
+CREATE  PROCEDURE usp_Cons_moneda(
+IN  p_descripcion VARCHAR(45),
+IN p_limit int,
+IN p_desde int
+
+)
+BEGIN 
+	PREPARE STMT FROM  "select	p.idmoneda, 
+	p.descripcion,p.simbolo
+	from tb_moneda  p
+	where (CONCAT(p.descripcion) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
+	and estado = 1 order by p.descripcion asc limit ? offset ?"  ;
+	
+	SET @p_descripcion = p_descripcion; 	
+	SET @p_limit = p_limit; 
+	SET @p_desde = p_desde; 
+	EXECUTE STMT USING @p_descripcion,@p_descripcion, @p_limit,@p_desde;
+	DEALLOCATE PREPARE STMT;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_obt_datosmoneda;
+DELIMITER //
+CREATE  PROCEDURE usp_obt_datosmoneda(
+IN  p_codigo int
+)
+BEGIN 
+	select 
+	p.idmoneda,p.descripcion,p.simbolo
+	from tb_moneda p 
+	where idmoneda =  p_codigo;
+END //
+DELIMITER ;
+
+
+
+
+

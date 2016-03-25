@@ -64,8 +64,8 @@ public class ProveedorControllers extends HttpServlet {
 			if (metodo.equalsIgnoreCase("RegistrarModificarProveedor")) {
 				RegistrarModificarProveedor(request, response);
 			}
-			else if (metodo.equalsIgnoreCase("LoadProveedores")) {
-				LoadProveedores(request, response);
+			else if (metodo.equalsIgnoreCase("ListarProveedores")) {
+				ListarProveedores(request, response);
 			}
 			else if (metodo.equalsIgnoreCase("TotalRegistrosProveedores")) {
 				TotalRegistrosProveedores(request, response);
@@ -75,9 +75,7 @@ public class ProveedorControllers extends HttpServlet {
 			}
 			else if (metodo.equalsIgnoreCase("ObtenerDatosProveedor")) {
 				ObtenerDatosProveedor(request, response);
-			}
-					
-			
+			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -160,7 +158,7 @@ public class ProveedorControllers extends HttpServlet {
 		
 	}
 
-	private void LoadProveedores(HttpServletRequest request,
+	private void ListarProveedores(HttpServletRequest request,
 			HttpServletResponse response) {
 
 		try {

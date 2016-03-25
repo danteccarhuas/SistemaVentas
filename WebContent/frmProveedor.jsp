@@ -36,7 +36,7 @@
 								<ul class="nav nav-tabs">
 									<li class="active"><a href="#tab1primary" id="tab1"
 										data-toggle="tab">Consulta Proveedor</a></li>
-									<li id="eventotab2primary"><a id="tab2"
+									<li id="eventotab2primary" class="disabled" ><a id="tab2"  
 										href="#tab2primary" data-toggle="tab">Datos Proveedor</a></li>
 									<!-- <li><a href="#tab3primary" data-toggle="tab">Primary 3</a></li>
                             <li class="dropdown">

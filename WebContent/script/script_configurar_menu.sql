@@ -15,7 +15,7 @@ INSERT INTO `tb_submenu` (`descripcion`, `url`,`fechacreacion`,`fechamodificacio
 ('Producto','ruta','2016-01-01','2016-01-01',1),
 ('Tipo Documento','ruta','2016-01-01','2016-01-01',1),
 ('Asignar permisos','ruta','2016-01-01','2016-01-01',1),
-('Moneda','ruta','2016-01-01','2016-01-01',1),
+('Moneda','moneda?metodo=loadMoneda','2016-01-01','2016-01-01',1),
 ('Almacen','ruta','2016-01-01','2016-01-01',1),
 ('Orden de Compra','ruta','2016-01-01','2016-01-01',2),
 ('Orden de Venta','ruta','2016-01-01','2016-01-01',3),

@@ -13,94 +13,102 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import mvc.models.Marca_models;
-import mvc.models.Proveedor_models;
-
+import mvc.models.Moneda_models;
 import mvc.vo.Marca_vo;
+import mvc.vo.Moneda_vo;
 import mvc.vo.Paginador_vo;
-import mvc.vo.Proveedor_vo;
-
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 /**
- * Servlet implementation class MarcaControllers
+ * Servlet implementation class MonedaControllers
  */
-@WebServlet("/marca")
-public class MarcaControllers extends HttpServlet {
+@WebServlet("/moneda")
+public class MonedaControllers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MarcaControllers() {
+    
+    public MonedaControllers() {
         super();
         // TODO Auto-generated constructor stub
     }
 
-
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String metodo = request.getParameter("metodo");
-			if (metodo.equalsIgnoreCase("loadMarca")) {
-				loadMarca(request, response);
+			if (metodo.equalsIgnoreCase("loadMoneda")) {
+				loadMoneda(request, response);
 			} 			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+
+	
+	private void loadMoneda(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			request.getRequestDispatcher("/frmMoneda.jsp").forward(request,
+					response);
+		} catch (Exception e) {
+		}
+		
+	}
+
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			String metodo = request.getParameter("metodo");
-			if (metodo.equalsIgnoreCase("RegistrarModificarMarca")) {
-				RegistrarModificarMarca(request, response);
+			if (metodo.equalsIgnoreCase("RegistrarModificarMoneda")) {
+				RegistrarModificarMoneda(request, response);
 			}	
-			else if (metodo.equalsIgnoreCase("ListarMarca")) {
-				ListarMarca(request, response);
+			else if (metodo.equalsIgnoreCase("ListarMoneda")) {
+				ListarMoneda(request, response);
 			}
-			else if (metodo.equalsIgnoreCase("TotalRegistrosMarca")) {
-				TotalRegistrosMarca(request, response);
+			else if (metodo.equalsIgnoreCase("TotalRegistrosMoneda")) {
+				TotalRegistrosMoneda(request, response);
 			}
-			else if (metodo.equalsIgnoreCase("EliminarMarca")) {
-				EliminarMarca(request, response);
+			else if (metodo.equalsIgnoreCase("EliminarMoneda")) {
+				EliminarMoneda(request, response);
 			}
-			else if (metodo.equalsIgnoreCase("ObtenerMarca")) {
-				ObtenerMarca(request, response);
+			else if (metodo.equalsIgnoreCase("ObtenerMoneda")) {
+				ObtenerMoneda(request, response);
 			}		
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void ObtenerMarca(HttpServletRequest request,
+
+	private void ObtenerMoneda(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			Marca_vo vo_marca= new Marca_vo();
-			vo_marca.setIdmarca(Integer.parseInt(request.getParameter("codigo_marca")));			
-			vo_marca = new Marca_models().obtenerDatosMarca(vo_marca);			
-			String json= new Gson().toJson(vo_marca);			
+			Moneda_vo vo_moneda= new Moneda_vo();
+			vo_moneda.setIdmoneda(Integer.parseInt(request.getParameter("codigo_moneda")));			
+			vo_moneda = new Moneda_models().obtenerDatosmoneda(vo_moneda);			
+			String json= new Gson().toJson(vo_moneda);			
 			response.setContentType("application/json"); 
 			response.setCharacterEncoding("utf-8"); 
 			String bothJson = "["+json+"]";				
 			response.getWriter().write(bothJson);		
 			
 		} catch (Exception e) {
-			System.out.println("Error en el metodo ObtenerMarca : "+e.getMessage());
+			System.out.println("Error en el metodo ObtenerMoneda : "+e.getMessage());
 		}		
+		
 	}
 
 
-	private void EliminarMarca(HttpServletRequest request,
+	private void EliminarMoneda(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
 			String ind_respuesta= ""; 
-			Marca_vo vo_marca= new Marca_vo();
-			vo_marca.setIdmarca(Integer.parseInt(request.getParameter("codmarca")));			
+			Moneda_vo vo_moneda= new Moneda_vo();
+			vo_moneda.setIdmoneda(Integer.parseInt(request.getParameter("codmoneda")));			
 			Map<String, String> Beanmap= new HashMap<String, String>();
-			ind_respuesta = new Marca_models().EliminarMarca(vo_marca);
+			ind_respuesta = new Moneda_models().EliminarMarca(vo_moneda);
 			if(ind_respuesta.equals("-1")){
 				Beanmap.put("ind_respuesta", String.valueOf("-1"));
 				Gson gson= new GsonBuilder().setPrettyPrinting().create();
@@ -114,19 +122,19 @@ public class MarcaControllers extends HttpServlet {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("Error en el metodo EliminarMarca : "+e.getMessage());
+			System.out.println("Error en el metodo EliminarMoneda : "+e.getMessage());
 		}
 		
 	}
 
 
-	private void TotalRegistrosMarca(HttpServletRequest request,
+	private void TotalRegistrosMoneda(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
 			int TotalRegistro = 0;
-			Marca_vo  marca_vo= new Marca_vo();
+			Moneda_vo  marca_vo= new Moneda_vo();
 			marca_vo.setDescripcion(request.getParameter("txt_Descripcion_buscar").trim());
-			TotalRegistro  = new Marca_models().TotalRegistroMarca(marca_vo);
+			TotalRegistro  = new Moneda_models().TotalRegistroMarca(marca_vo);
 			Map<String, String> Beanmap= new HashMap<String, String>();
 			Beanmap.put("TotalRegistro", String.valueOf(TotalRegistro));
 			Gson gson= new GsonBuilder().setPrettyPrinting().create();
@@ -134,75 +142,76 @@ public class MarcaControllers extends HttpServlet {
 			response.getWriter().write(json);
 		
 		} catch (Exception e) {
-			System.out.println("Error en el metodo TotalRegistrosMarca "
+			System.out.println("Error en el metodo TotalRegistrosMoneda "
 					+ e.getMessage());
 		}
 		
 	}
 
 
-	private void ListarMarca(HttpServletRequest request,
+	private void ListarMoneda(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
-			Marca_vo  marca_vo= new Marca_vo();
-			List<Marca_vo> listmarca = new ArrayList<Marca_vo>();
+			Moneda_vo  marca_vo= new Moneda_vo();
+			List<Moneda_vo> listmoneda = new ArrayList<Moneda_vo>();
 			Paginador_vo paginador_vo= new Paginador_vo();
 			marca_vo.setDescripcion(request.getParameter("txt_Descripcion_buscar").trim());
 			paginador_vo.setLimit(Integer.parseInt(request.getParameter("limit")));
 			paginador_vo.setOffset(Integer.parseInt(request.getParameter("offset")));
 			marca_vo.setPaginador(paginador_vo);
-			listmarca = new Marca_models().ListarMarca(marca_vo);
-			String json= new Gson().toJson(listmarca);			
+			listmoneda = new Moneda_models().ListarMarca(marca_vo);
+			String json= new Gson().toJson(listmoneda);			
 			response.setContentType("application/json"); 
 			response.setCharacterEncoding("utf-8"); 
 			String bothJson = "["+json+"]";				
 			response.getWriter().write(bothJson);
 		
 		} catch (Exception e) {
-			System.out.println("Error en el metodo LoadComboDistrito "
+			System.out.println("Error en el metodo ListarMoneda "
 					+ e.getMessage());
 		}
 		
 	}
 
 
-	private void RegistrarModificarMarca(HttpServletRequest request,
+	private void RegistrarModificarMoneda(HttpServletRequest request,
 			HttpServletResponse response) {
 		try {
 			 
-			Marca_vo  objeto= new Marca_vo();
+			Moneda_vo  objeto= new Moneda_vo();
 			int indAccion = Integer.parseInt(request.getParameter("hiddenindaccion"));
-			objeto.setDescripcion(request.getParameter("txt_descripcion_guardar"));			
+			objeto.setDescripcion(request.getParameter("txt_descripcion_guardar"));		
+			objeto.setSimbolo(request.getParameter("txt_simbolo_guardar"));		
 			
-			String codigomarca  = "";
+			String codigomoneda  = "";
 			if (indAccion == 1) {
 				Map<String, String> Beanmap= new HashMap<String, String>();
-				codigomarca = new Marca_models().RegistrarMarca(objeto);
-				if(codigomarca.equals("-1")){
-					Beanmap.put("codigomarca", String.valueOf("-1"));
+				codigomoneda = new Moneda_models().RegistrarMoneda(objeto);
+				if(codigomoneda.equals("-1")){
+					Beanmap.put("codigomoneda", String.valueOf("-1"));
 					Beanmap.put("indAccion", String.valueOf(indAccion));
 					Gson gson= new GsonBuilder().setPrettyPrinting().create();
 					String json= gson.toJson(Beanmap);
 					response.getWriter().write(json);
-				}else if(!codigomarca.equals("-1")){
-					Beanmap.put("codigomarca", codigomarca);
+				}else if(!codigomoneda.equals("-1")){
+					Beanmap.put("codigomoneda", codigomoneda);
 					Beanmap.put("indAccion", String.valueOf(indAccion));
 					Gson gson= new GsonBuilder().setPrettyPrinting().create();
 					String json= gson.toJson(Beanmap);
 					response.getWriter().write(json);
 				}
 			}else {
-				objeto.setIdmarca(Integer.parseInt(request.getParameter("hiddencodmarca")));
+				objeto.setIdmoneda(Integer.parseInt(request.getParameter("hiddencodmoneda")));
 				Map<String, String> Beanmap= new HashMap<String, String>();
-				codigomarca = new Marca_models().ActualizarMarca(objeto);
-				if(codigomarca.equals("-1")){
-					Beanmap.put("codigomarca", String.valueOf("-1"));
+				codigomoneda = new Moneda_models().ActualizarMoneda(objeto);
+				if(codigomoneda.equals("-1")){
+					Beanmap.put("codigomoneda", String.valueOf("-1"));
 					Beanmap.put("indAccion", String.valueOf(indAccion));
 					Gson gson= new GsonBuilder().setPrettyPrinting().create();
 					String json= gson.toJson(Beanmap);
 					response.getWriter().write(json);
-				}else if(!codigomarca.equals("-1")){
-					Beanmap.put("codigomarca", codigomarca);
+				}else if(!codigomoneda.equals("-1")){
+					Beanmap.put("codigomoneda", codigomoneda);
 					Beanmap.put("indAccion", String.valueOf(indAccion));
 					Gson gson= new GsonBuilder().setPrettyPrinting().create();
 					String json= gson.toJson(Beanmap);
@@ -211,23 +220,9 @@ public class MarcaControllers extends HttpServlet {
 			}
 			
 		} catch (Exception e) {
-			System.out.println("Error en el metodo RegistrarProveedor : "+e.getMessage());
+			System.out.println("Error en el metodo RegistrarModificarMoneda : "+e.getMessage());
 		}
 		
 	}
-
-
-	private void loadMarca(HttpServletRequest request,
-			HttpServletResponse response) {
-		try {
-			request.getRequestDispatcher("/frmMarca.jsp").forward(request,
-					response);
-		} catch (Exception e) {
-		}
-		
-	}
-
-
-
 
 }

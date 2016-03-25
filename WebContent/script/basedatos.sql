@@ -59,6 +59,7 @@ DROP TABLE IF EXISTS `bdsistemaventas`.`tb_marca` ;
 CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_marca` (
   `idmarca` INT NOT NULL AUTO_INCREMENT ,
   `descripcion` VARCHAR(45) NULL ,
+  `estado` INT NULL ,
   `fecharegistro` DATETIME NULL ,
   `fechamodificacion` DATETIME NULL ,
   PRIMARY KEY (`idmarca`) )
@@ -73,6 +74,7 @@ DROP TABLE IF EXISTS `bdsistemaventas`.`tb_categoria` ;
 CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_categoria` (
   `idcategoria` INT NOT NULL ,
   `descripcion` VARCHAR(100) NULL ,
+  `estado` INT NULL ,
   `fecharegistro` DATETIME NULL ,
   `fechamodificacion` DATETIME NULL ,
   PRIMARY KEY (`idcategoria`) )
@@ -516,6 +518,22 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_ordencompra_producto` (
     REFERENCES `bdsistemaventas`.`tb_producto` (`idproducto` )
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `bdsistemaventas`.`tb_moneda`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `bdsistemaventas`.`tb_moneda` ;
+
+CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_moneda` (
+  `idmoneda` INT NOT NULL AUTO_INCREMENT ,
+  `descripcion` VARCHAR(45) NULL ,
+  `simbolo` VARCHAR(25) NULL ,
+  `estado` INT NULL ,
+  `fecharegistro` DATETIME NULL ,
+  `fechamodificacion` DATETIME NULL ,
+  PRIMARY KEY (`idmoneda`) )
 ENGINE = InnoDB;
 
 USE `bdsistemaventas` ;
