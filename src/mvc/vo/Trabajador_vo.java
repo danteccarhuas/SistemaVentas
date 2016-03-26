@@ -5,7 +5,7 @@ import java.util.Date;
 public class Trabajador_vo {
 
 	private int idtrabajador;
-	private String nombre;
+	private String nombres;
 	private String apellidos;
 	private String correo;
 	private String telefono;
@@ -14,28 +14,33 @@ public class Trabajador_vo {
 	private String direccion;
 	private int estado;
 	private String trabajadorbienvenida;
+	private Paginador_vo paginador;
+	private Tienda_vo tienda;
 	
-	
-	
-
+	public Paginador_vo getPaginador() {
+		return paginador;
+	}
+	public void setPaginador(Paginador_vo paginador) {
+		this.paginador = paginador;
+	}
 	public String getTrabajadorbienvenida() {
 		return trabajadorbienvenida;
 	}
 	public void setTrabajadorbienvenida(String trabajadorbienvenida) {
 		this.trabajadorbienvenida = trabajadorbienvenida;
 	}
-	private Tienda_vo tienda;
+	
 	public int getIdtrabajador() {
 		return idtrabajador;
 	}
 	public void setIdtrabajador(int idtrabajador) {
 		this.idtrabajador = idtrabajador;
 	}
-	public String getNombre() {
-		return nombre;
+	public String getNombres() {
+		return nombres;
 	}
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setNombres(String nombres) {
+		this.nombres = nombres;
 	}
 	public String getApellidos() {
 		return apellidos;

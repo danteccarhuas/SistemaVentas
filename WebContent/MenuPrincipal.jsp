@@ -145,7 +145,7 @@
                     </ul>
                 </li> -->
 			<li class="dropdown"><a href="#" class="dropdown-toggle"
-				data-toggle="dropdown"><i class="fa fa-user"></i> <%=objetousuario.getTrabajador().getNombre()%>
+				data-toggle="dropdown"><i class="fa fa-user"></i> <%=objetousuario.getTrabajador().getNombres()%>
 					<b class="caret"></b></a>
 				<ul class="dropdown-menu">
 					<!-- <li>

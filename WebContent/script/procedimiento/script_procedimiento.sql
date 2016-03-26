@@ -936,3 +936,61 @@ BEGIN
 	where p.idtienda =  p_codigo;
 END //
 DELIMITER ;
+
+
+
+
+drop procedure if exists usp_TotaRegist_Trabajadores;
+DELIMITER //
+CREATE  PROCEDURE usp_TotaRegist_Trabajadores(
+IN p_codigotrabajador smallint(6),
+IN p_nombres varchar(45),
+IN p_dni varchar(11),
+OUT P_TOTALREGISTRO INT
+)
+BEGIN 
+	declare v_TOTALREGISTRO INT;
+	set v_TOTALREGISTRO=0;
+
+	select	count(t.idtrabajador) into v_TOTALREGISTRO
+	from tb_trabajador t
+	where (CONCAT(t.nombres) like CONCAT("%",p_nombres,"%") or ''= CONCAT("%",p_nombres,"%"))
+	and (t.idtrabajador= p_codigotrabajador or p_codigotrabajador = '0')
+	and (t.dni= p_dni or '0' = p_dni) and estado = 1;
+	set P_TOTALREGISTRO = v_TOTALREGISTRO;
+END //
+DELIMITER ;
+
+drop procedure if exists usp_Cons_Trabajadores;
+DELIMITER //
+CREATE  PROCEDURE usp_Cons_Trabajadores(
+IN p_idtrabajador smallint(6),
+IN p_nombres varchar(45),
+IN p_dni varchar(11),
+IN p_limit int,
+IN p_desde int
+
+)
+BEGIN 
+	PREPARE STMT FROM  "select	t.idtrabajador, 
+	t.nombres,
+	t.correo,
+	t.dni,
+	t.direccion,
+	t.telefono,			
+	td.Descripcion
+	from tb_trabajador  t inner join tb_tienda td
+	on t.idtienda=td.idtienda
+	where (CONCAT(t.nombres) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
+	and (t.idtrabajador= ? or ? = '0')
+	and (t.dni= ? or '0' = ?) and t.estado = 1 order by t.nombres asc limit ? offset ?"  ;
+	
+	SET @p_idtrabajador = p_idtrabajador; 
+	SET @p_nombres = p_nombres; 
+	SET @p_dni = p_dni; 
+	SET @p_limit = p_limit; 
+	SET @p_desde = p_desde; 
+	EXECUTE STMT USING @p_nombres,@p_nombres,@p_idtrabajador,@p_idtrabajador,@p_dni,@p_dni, @p_limit,@p_desde;
+	DEALLOCATE PREPARE STMT;
+END //
+DELIMITER ;

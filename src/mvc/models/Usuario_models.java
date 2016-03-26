@@ -4,9 +4,6 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import mvc.util.MysqlDBConexion;
 import mvc.vo.Tienda_vo;
@@ -33,7 +30,7 @@ public class Usuario_models {
 				beans= new Usuario_vo();
 				Trabajador_vo trabajador = new Trabajador_vo();
 				trabajador.setIdtrabajador(rs.getInt("idtrabajador"));
-				trabajador.setNombre(rs.getString("nombres"));				
+				trabajador.setNombres(rs.getString("nombres"));				
 				trabajador.setEstado(rs.getInt("estado"));
 				trabajador.setTrabajadorbienvenida(rs.getString("Bienvenido"));
 				Tienda_vo beantienda = new Tienda_vo();
