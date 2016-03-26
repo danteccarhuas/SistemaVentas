@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>.: Sistema Ventas - Mantenimiento Marca</title>
+<title>.: Sistema Ventas - Mantenimiento Categoria</title>
 </head>
 <body>
 	<div id="wrapper">

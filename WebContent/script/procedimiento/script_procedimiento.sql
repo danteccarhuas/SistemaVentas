@@ -732,7 +732,69 @@ END //
 DELIMITER ;
 
 
+/*****************procimiento de CLIENTE************************/
 
+drop procedure if exists usp_Ins_cliente;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_cliente( 
+IN  p_nombres VARCHAR(45), 
+IN  p_apellidos VARCHAR(45),
+IN 	p_correo VARCHAR(45),
+IN	p_celular varchar(45),
+IN	p_telefono int,
+In	p_idtipocliente int,
+IN	p_ruc varchar(11), 
+IN	p_dni VARCHAR(8),
+IN  p_estado INT,
+In	p_ubigeo int,
+In	p_idsexo int,
+out p_codigocliente VARCHAR(12)
+     )
+BEGIN
+	declare v_cod_cli VARCHAR(12);
+	set v_cod_cli='';
+	 
+	select  concat('CLI',CAST(RIGHT(CONCAT('00000000' , CAST(RTRIM(CAST(RIGHT(IFNULL(MAX(codigocliente),0),8) 
+	as signed integer)+1)AS CHAR(10000) CHARACTER SET utf8) ),8)AS CHAR(10000) CHARACTER SET utf8)) 
+	into v_cod_cli
+	from tb_cliente;
+
+    INSERT INTO Tb_cliente
+         (
+			codigocliente,
+			nombres,
+			apellidos,
+			correo,
+			celular,
+			telefono,
+			fecha_creacion,
+			idtipocliente,
+			ruc,dni,
+			estado,
+			ubigeo,
+			idsexo
+         )
+    VALUES 
+         ( 
+		v_cod_cli,
+		p_nombres, 
+		p_apellidos,
+		p_correo,
+		p_celular,
+		p_telefono ,
+		CURDATE(),
+		p_idtipocliente ,
+		p_ruc, 
+		p_dni,
+		p_estado ,
+		p_ubigeo ,
+		p_idsexo 
+         ); 
+
+	set p_codigocliente=v_cod_cli;
+END //
+DELIMITER ;
 
 
 

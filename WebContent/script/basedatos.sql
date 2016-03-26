@@ -29,6 +29,7 @@ DROP TABLE IF EXISTS `bdsistemaventas`.`tb_cliente` ;
 
 CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_cliente` (
   `idcliente` SMALLINT NOT NULL AUTO_INCREMENT ,
+  `codigocliente` VARCHAR(12) NOT NULL ,
   `nombres` VARCHAR(45) NULL ,
   `apellidos` VARCHAR(100) NULL ,
   `correo` VARCHAR(45) NULL ,
@@ -36,12 +37,12 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_cliente` (
   `telefono` VARCHAR(45) NULL ,
   `fecha_creacion` DATETIME NULL ,
   `fecha_modificacion` DATETIME NULL ,
-  `idtipocliente` VARCHAR(45) NULL ,
+  `idtipocliente` INT NOT NULL ,
   `ruc` VARCHAR(11) NULL ,
   `dni` VARCHAR(8) NULL ,
   `estado` INT NULL ,
   `ubigeo` INT NOT NULL ,
-  `codigocliente` VARCHAR(12) NOT NULL ,
+  `idsexo` INT NOT NULL ,
   PRIMARY KEY (`idcliente`) ,
   INDEX `fk_tb_cliente_tb_ubigeo1_idx` (`ubigeo` ASC) ,
   CONSTRAINT `fk_tb_cliente_tb_ubigeo1`
