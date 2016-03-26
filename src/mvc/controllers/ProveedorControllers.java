@@ -12,11 +12,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import mvc.models.Parametrizador_models;
 import mvc.models.Proveedor_models;
 import mvc.models.Ubigeo_models;
 import mvc.vo.Departamento_vo;
 import mvc.vo.Distrito_vo;
+import mvc.vo.Funcionalidad_vo;
 import mvc.vo.Paginador_vo;
+import mvc.vo.Parametrizador_vo;
 import mvc.vo.Proveedor_vo;
 import mvc.vo.Provincia_vo;
 import mvc.vo.Ubigeo_vo;
@@ -225,11 +229,19 @@ public class ProveedorControllers extends HttpServlet {
 			HttpServletResponse response) {
 		try {
 			List<Departamento_vo> listDepartamento = new ArrayList<Departamento_vo>();
+			List<Parametrizador_vo> listEstado = new ArrayList<Parametrizador_vo>();
+			Funcionalidad_vo funcionalidad = new Funcionalidad_vo();
+			funcionalidad.setIdfuncionalidad(1);
 			listDepartamento = new Ubigeo_models().ListarDepartamento();
+			listEstado= new Parametrizador_models().ListarEstado(funcionalidad);
+			
 			String jsonDepartamento = new Gson().toJson(listDepartamento);
+			String jsonEstado = new Gson().toJson(listEstado);
 			response.setContentType("application/json");
 			response.setCharacterEncoding("utf-8");
-			String bothJson = "[" + jsonDepartamento + "]";
+			//String bothJson = "[" + jsonDepartamento + "]";
+			String bothJson = "["+jsonDepartamento+","+jsonEstado+"]";		
+			
 			response.getWriter().write(bothJson);
 		} catch (Exception e) {
 			System.out.println("Error en el metodo LoadComboDepartamento "

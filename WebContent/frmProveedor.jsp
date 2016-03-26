@@ -234,13 +234,10 @@
 														<label class="control-label col-lg-3" for="nombre">Estado:</label>
 														<div class="col-lg-9">
 															<select class="form-control" name="cbo_estado"
-																id="opcion">
-																<option value="1">Activo</option>
-																<option value="2">Desactivo</option>
+																id="cbo_estado">																
 															</select>
 														</div>
 													</div>
-
 												</div>
 											</div>
 											<div class="row">

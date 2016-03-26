@@ -796,11 +796,143 @@ BEGIN
 END //
 DELIMITER ;
 
+drop procedure if exists usp_Sel_pametrizador;
+DELIMITER //
+CREATE PROCEDURE usp_Sel_pametrizador(IN p_idfuncionalidad int)
+BEGIN 
+
+	select valor,descripcion from tb_parametrizador 
+	where idfuncionalidad = p_idfuncionalidad and estado = 1 order by descripcion asc;
+END //
+DELIMITER ;
 
 
 
 
+/*****************procimiento de Tienda************************/
+drop procedure if exists usp_Ins_tienda;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_tienda( 
+IN  p_Descripcion VARCHAR(45), 
+IN  p_Direccion VARCHAR(255),
+IN 	p_telefono VARCHAR(25),
+IN	p_estado int,
+out p_codigotienda int
+     )
+BEGIN	
+
+    INSERT INTO tb_tienda
+         (
+			Descripcion,
+			Direccion,
+			telefono,
+			estado,
+			fechacreacion
+         )
+    VALUES 
+         ( 
+			p_Descripcion , 
+			p_Direccion ,
+			p_telefono ,
+			p_estado ,
+			CURDATE()
+         ); 
+	set p_codigotienda = LAST_INSERT_ID();
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_UPD_tienda;
+DELIMITER //
+
+CREATE  PROCEDURE usp_UPD_tienda( 
+IN  p_Descripcion VARCHAR(45), 
+IN  p_Direccion VARCHAR(255),
+IN 	p_telefono VARCHAR(25),
+IN	p_estado int,
+in p_codigotienda int
+     )
+BEGIN
+	
+    UPDATE  tb_tienda
+		SET 
+			Descripcion =p_Descripcion,
+			Direccion = p_Direccion,
+			telefono =p_telefono,
+			estado = p_estado,
+			fechamodificacion=curdate()	
+	WHERE idtienda = p_codigotienda;
+	
+END //
+DELIMITER ;
 
 
 
+drop procedure if exists usp_eliminar_tienda;
+DELIMITER //
+CREATE  PROCEDURE usp_eliminar_tienda(
+IN  p_codigo int
+)
+BEGIN 
+	update tb_tienda set  estado = 0 
+	where idtienda =  p_codigo;
+END //
+DELIMITER ;
 
+
+drop procedure if exists usp_TotaRegist_tienda;
+DELIMITER //
+CREATE  PROCEDURE usp_TotaRegist_tienda(
+IN  p_Descripcion VARCHAR(45), 
+OUT P_TOTALREGISTRO INT
+)
+BEGIN 
+	declare v_TOTALREGISTRO INT;
+	set v_TOTALREGISTRO=0;
+
+	select	count(p.idtienda) into v_TOTALREGISTRO
+	from tb_tienda  p
+	where (CONCAT(p.Descripcion) like CONCAT("%",p_Descripcion,"%") or ''= CONCAT("%",p_Descripcion,"%"))	
+	and estado = 1;
+	set P_TOTALREGISTRO = v_TOTALREGISTRO;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_Cons_tienda;
+DELIMITER //
+CREATE  PROCEDURE usp_Cons_tienda(
+IN  p_descripcion VARCHAR(45),
+IN p_limit int,
+IN p_desde int
+
+)
+BEGIN 
+	PREPARE STMT FROM  "select	p.idtienda, 
+	p.Descripcion,p.Direccion,p.telefono
+	from tb_tienda  p
+	where (CONCAT(p.Descripcion) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
+	and estado = 1 order by p.descripcion asc limit ? offset ?"  ;
+	
+	SET @p_descripcion = p_descripcion; 	
+	SET @p_limit = p_limit; 
+	SET @p_desde = p_desde; 
+	EXECUTE STMT USING @p_descripcion,@p_descripcion, @p_limit,@p_desde;
+	DEALLOCATE PREPARE STMT;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_obt_datostienda;
+DELIMITER //
+CREATE  PROCEDURE usp_obt_datostienda(
+IN  p_codigo int
+)
+BEGIN 
+	select 
+	p.idtienda,p.Descripcion,p.Direccion,p.telefono,p.estado
+	from tb_tienda p 
+	where p.idtienda =  p_codigo;
+END //
+DELIMITER ;

@@ -508,11 +508,17 @@ function LoadCombos() {
 		data : '',
 		dataType : 'json',
 		success : function(result) {
-			var datos = result[0];
+			var datosDepartamento = result[0];
+			var datosEstado = result[1];
 			ComboDepartamento = document.getElementById('cbo_departamento');
 			ComboDepartamento.options[0] = new Option('- Seleccione -','');
-			for ( var i = 0; i < datos.length; i++) {
-				ComboDepartamento.options[ComboDepartamento.length] = new Option(datos[i].departamento, datos[i].iddepar);
+			for ( var i = 0; i < datosDepartamento.length; i++) {
+				ComboDepartamento.options[ComboDepartamento.length] = new Option(datosDepartamento[i].departamento, datosDepartamento[i].iddepar);
+			}
+			
+			comboestado = document.getElementById('cbo_estado');		
+			for ( var i = 0; i < datosEstado.length; i++) {
+				comboestado.options[comboestado.length] = new Option(datosEstado[i].descripcion, datosEstado[i].valor );
 			}
 		}
 	});

@@ -10,6 +10,21 @@ public class Tienda_vo {
 	private String telefono;
 	private Date fechacreacion;
 	private Date fechamodificacion;
+	private Paginador_vo paginador;
+	private Parametrizador_vo estado;
+	
+	public Parametrizador_vo getEstado() {
+		return estado;
+	}
+	public void setEstado(Parametrizador_vo estado) {
+		this.estado = estado;
+	}
+	public Paginador_vo getPaginador() {
+		return paginador;
+	}
+	public void setPaginador(Paginador_vo paginador) {
+		this.paginador = paginador;
+	}
 	public int getIdtienda() {
 		return idtienda;
 	}
