@@ -7,22 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mvc.util.MysqlDBConexion;
-import mvc.vo.Departamento_vo;
-import mvc.vo.Distrito_vo;
-import mvc.vo.Marca_vo;
-import mvc.vo.Proveedor_vo;
-import mvc.vo.Provincia_vo;
-import mvc.vo.Ubigeo_vo;
+import mvc.vo.Categoria_vo;
 
 public class Categoria_models {
 
-	public String RegistrarMarca(Marca_vo bean) {
+	public String RegistrarCategoria(Categoria_vo bean) {
 		String codigo = "";
 		Connection con = null;
 		CallableStatement cs = null;
 		try {
 			con = MysqlDBConexion.getConexion();
-			String sql = "call usp_Ins_marca(?,?)";
+			String sql = "call usp_Ins_categoria(?,?)";
 			cs = con.prepareCall(sql);
 			cs.setString(1, bean.getDescripcion());
 			cs.registerOutParameter(2, java.sql.Types.VARCHAR);
@@ -45,16 +40,16 @@ public class Categoria_models {
 		return codigo;
 	}
 	
-	public String ActualizarMarca(Marca_vo bean) {
+	public String ActualizarCategoria(Categoria_vo bean) {
 		String codigo = "";
 		Connection con = null;
 		CallableStatement cs = null;
 		try {
 			con = MysqlDBConexion.getConexion();
-			String sql = "call usp_UPD_marca(?,?)";
+			String sql = "call usp_UPD_categoria(?,?)";
 			cs = con.prepareCall(sql);
 			cs.setString (1, bean.getDescripcion ());
-			cs.setInt(2, bean.getIdmarca());					
+			cs.setInt(2, bean.getIdcategoria());					
 			cs.execute();
 			codigo = "1";	
 		} catch (Exception e) {
@@ -72,15 +67,15 @@ public class Categoria_models {
 		}
 		return codigo;
 	}
-	public String EliminarMarca(Marca_vo bean) {
+	public String EliminarCategoria(Categoria_vo bean) {
 		String codigo = "";
 		Connection con = null;
 		CallableStatement cs = null;
 		try {
 			con = MysqlDBConexion.getConexion();
-			String sql = "call usp_eliminar_marca(?)";
+			String sql = "call usp_eliminar_categoria(?)";
 			cs = con.prepareCall(sql);
-			cs.setInt(1, bean.getIdmarca());			
+			cs.setInt(1, bean.getIdcategoria());			
 			cs.execute();	
 			codigo = "1";
 		} catch (Exception e) {
@@ -100,16 +95,16 @@ public class Categoria_models {
 	}
 	
 	
-	public int TotalRegistroMarca(Marca_vo marca_vo) {
+	public int TotalRegistroCategoria(Categoria_vo categoria_vo) {
 		Connection con=null;
 		CallableStatement cs=null;
 		ResultSet rs=null;
 		int TotalRegistro = 0;
 		try {
 			con= MysqlDBConexion.getConexion();;
-			String sql= "call usp_TotaRegist_Marca(?,?)";
+			String sql= "call usp_TotaRegist_categoria(?,?)";
 			cs=con.prepareCall(sql);
-			cs.setString(1, marca_vo.getDescripcion());			
+			cs.setString(1, categoria_vo.getDescripcion());			
 			cs.registerOutParameter(2, java.sql.Types.INTEGER);
 			cs.execute();
 			TotalRegistro = cs.getInt(2);
@@ -128,24 +123,24 @@ public class Categoria_models {
 		return TotalRegistro;
 	}
 	
-	public List<Marca_vo> ListarMarca(Marca_vo marca_vo) {
+	public List<Categoria_vo> ListarCategoria(Categoria_vo categoria_vo) {
 		Connection con=null;
 		CallableStatement cs=null;
 		ResultSet rs=null;
-		List<Marca_vo> data= new ArrayList<Marca_vo>();
-		Marca_vo beans=null;
+		List<Categoria_vo> data= new ArrayList<Categoria_vo>();
+		Categoria_vo beans=null;
 		try {
 			con= MysqlDBConexion.getConexion();;
-			String sql= "call usp_Cons_Marca(?,?,?)";
+			String sql= "call usp_Cons_categoria(?,?,?)";
 			cs=con.prepareCall(sql);
-			cs.setString(1, marca_vo.getDescripcion());			
-			cs.setInt(2, marca_vo.getPaginador().getLimit());
-			cs.setInt(3, marca_vo.getPaginador().getOffset());
+			cs.setString(1, categoria_vo.getDescripcion());			
+			cs.setInt(2, categoria_vo.getPaginador().getLimit());
+			cs.setInt(3, categoria_vo.getPaginador().getOffset());
 			cs.execute();
 			rs=cs.getResultSet();
 			while(rs.next()){
-				beans= new Marca_vo();
-				beans.setIdmarca(rs.getInt("idmarca"));
+				beans= new Categoria_vo();
+				beans.setIdcategoria(rs.getInt("idcategoria"));
 				beans.setDescripcion(rs.getString("descripcion"));
 				data.add(beans);
 			}
@@ -163,22 +158,22 @@ public class Categoria_models {
 		return data;
 	}
 	
-	public Marca_vo obtenerDatosMarca(Marca_vo marca_vo) {
+	public Categoria_vo obtenerDatosCategoria(Categoria_vo categoria_vo) {
 		Connection con=null;
 		CallableStatement cs=null;
 		ResultSet rs=null;
 		
-		Marca_vo beans=null;
+		Categoria_vo beans=null;
 		try {
 			con= MysqlDBConexion.getConexion();;
-			String sql= "call usp_obt_datosMarca(?)";
+			String sql= "call usp_obt_datoscategoria(?)";
 			cs=con.prepareCall(sql);
-			cs.setInt(1, marca_vo.getIdmarca());			
+			cs.setInt(1, categoria_vo.getIdcategoria());			
 			cs.execute();
 			rs=cs.getResultSet();
 			if(rs.next()){
-				beans= new Marca_vo();
-				beans.setIdmarca(rs.getInt("idmarca"));
+				beans= new Categoria_vo();
+				beans.setIdcategoria(rs.getInt("idcategoria"));
 				beans.setDescripcion(rs.getString("descripcion"));
 			}
 		} catch (Exception e) {
@@ -194,6 +189,5 @@ public class Categoria_models {
 		}
 		return beans;
 	}
-	
 	
 }

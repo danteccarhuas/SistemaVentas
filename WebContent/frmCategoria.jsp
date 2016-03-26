@@ -15,7 +15,7 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<h1 class="page-header">
-							Mantenimiento Marca
+							Mantenimiento Categoria
 							<!--  <small>Statistics Overview</small> -->
 						</h1>
 						<!-- <ol class="breadcrumb">
@@ -31,9 +31,9 @@
 							<div class="panel-heading">
 								<ul class="nav nav-tabs">
 									<li class="active"><a href="#tab1primary" id="tab1"
-										data-toggle="tab">Consulta Marca</a></li>
+										data-toggle="tab">Consulta Categoria</a></li>
 									<li id="eventotab2primary" class="disabled"><a id="tab2"
-										href="#tab2primary" data-toggle="tab">Datos Marca</a></li>
+										href="#tab2primary" data-toggle="tab">Datos Categoria</a></li>
 								</ul>
 							</div>
 							<div class="panel-body">
@@ -85,9 +85,9 @@
 
 									<div class="tab-pane fade" id="tab2primary">
 										<br>
-										<form class="form-horizontal" id="frm_marca">
-											<input type="hidden" id="hiddencodmarca" value="0"
-												name="hiddencodmarca" /> <input type="hidden"
+										<form class="form-horizontal" id="frm_categoria">
+											<input type="hidden" id="hiddencodcategoria" value="0"
+												name="hiddencodcategoria" /> <input type="hidden"
 												id="hiddenindaccion" name="hiddenindaccion" value="0" />
 											<!-- 
 										hiddenindaccion : 1 Nuevo
@@ -191,5 +191,5 @@
 	<!-- Modal ends Here -->
 	
 </body>
-<script src="js/function-marca.js"></script>
+<script src="js/function-categoria.js"></script>
 </html>

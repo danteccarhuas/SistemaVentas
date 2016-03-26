@@ -3,8 +3,8 @@ INSERT INTO `bdsistemaventas`.`tb_rol` (`descripcion`, `estado`, `fechacreacion`
 ('Trabajador', '1', '2016-01-01', '2016-01-01');
 
 
-INSERT INTO `bdsistemaventas`.`tb_trabajador` (`nombres`, `apellidos`, `correo`, `telefono`, `dni`, `fechanacimiento`, `direccion`, `estado`, `fechacreacion`, `fechamodificacion`, `idtienda`) 
-VALUES ('Administrador ', 'de Sistema', 'admin@gmail.com', '412655', '70116577', '2016-01-01', 'San Martin de Porres', '1', '2016-01-01', '2016-01-01', null);
+INSERT INTO `bdsistemaventas`.`tb_trabajador` (`codigotrabajador`,`nombres`, `apellidos`, `correo`, `telefono`, `dni`, `fechanacimiento`, `direccion`, `estado`, `fechacreacion`, `fechamodificacion`, `idtienda`) 
+VALUES ('Admin','Administrador ', 'de Sistema', 'admin@gmail.com', '412655', '70116577', '2016-01-01', 'San Martin de Porres', '1', '2016-01-01', '2016-01-01', null);
 
 INSERT INTO `bdsistemaventas`.`tb_usuario` (`usuario`, `password`, `fechacreacion`, `fechamodificacion`, `idrol`, `idtrabajador`) VALUES ('admin', 'admin', '2016-01-01', '2016-01-01', '1', '1');
 

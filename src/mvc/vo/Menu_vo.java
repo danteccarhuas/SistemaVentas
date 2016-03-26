@@ -6,6 +6,10 @@ import java.util.Date;
 
 public class Menu_vo  implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idmenu ;
 	private String descripcion;
 	private int estado;

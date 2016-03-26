@@ -7,8 +7,7 @@ public class Categoria_vo {
 	private int estado;
 	private String fecharegistro;
 	private int fechamodificacion;
-	
-	
+	private Paginador_vo paginador;
 	public int getIdcategoria() {
 		return idcategoria;
 	}
@@ -39,7 +38,12 @@ public class Categoria_vo {
 	public void setFechamodificacion(int fechamodificacion) {
 		this.fechamodificacion = fechamodificacion;
 	}
+	public Paginador_vo getPaginador() {
+		return paginador;
+	}
+	public void setPaginador(Paginador_vo paginador) {
+		this.paginador = paginador;
+	}
 	
-	
-	
+		
 }

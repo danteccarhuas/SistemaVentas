@@ -9,6 +9,8 @@ public class Parametrizador_vo {
 	private String simbolo;
 	private int estado;
 	private Funcionalidad_vo funcionalidad;
+	
+	
 	public int getIdparametrizador() {
 		return idparametrizador;
 	}

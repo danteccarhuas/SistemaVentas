@@ -1,6 +1,6 @@
 package mvc.vo;
 
-import mvc.models.Ubigeo_models;
+
 
 public class Proveedor_vo {
 

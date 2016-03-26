@@ -5,6 +5,10 @@ import java.util.Date;
 
 public class Submenu_vo implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int idsubmenu;
 	private String descripcion;
 	private String url;
