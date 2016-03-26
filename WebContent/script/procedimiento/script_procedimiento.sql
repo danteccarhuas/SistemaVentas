@@ -937,9 +937,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
-
-
 drop procedure if exists usp_TotaRegist_Trabajadores;
 DELIMITER //
 CREATE  PROCEDURE usp_TotaRegist_Trabajadores(

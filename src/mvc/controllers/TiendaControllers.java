@@ -173,7 +173,7 @@ public class TiendaControllers extends HttpServlet {
 			Tienda_vo  tienda_vo= new Tienda_vo();
 			List<Tienda_vo> listtienda = new ArrayList<Tienda_vo>();
 			Paginador_vo paginador_vo= new Paginador_vo();
-			tienda_vo.setDescripcion(request.getParameter("txt_descripcion_guardar").trim());
+			tienda_vo.setDescripcion(request.getParameter("txt_Descripcion_buscar").trim());
 			paginador_vo.setLimit(Integer.parseInt(request.getParameter("limit")));
 			paginador_vo.setOffset(Integer.parseInt(request.getParameter("offset")));
 			tienda_vo.setPaginador(paginador_vo);
