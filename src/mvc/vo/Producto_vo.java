@@ -13,7 +13,7 @@ public class Producto_vo {
 	private Categoria_vo categoria;
 	private Marca_vo marca;
 	private Parametrizador_vo parametrizador;
-	
+	private Paginador_vo paginador;
 	public int getIdproducto() {
 		return idproducto;
 	}
@@ -80,7 +80,11 @@ public class Producto_vo {
 	public void setParametrizador(Parametrizador_vo parametrizador) {
 		this.parametrizador = parametrizador;
 	}
-	
-	
+	public Paginador_vo getPaginador() {
+		return paginador;
+	}
+	public void setPaginador(Paginador_vo paginador) {
+		this.paginador = paginador;
+	}
 	
 }

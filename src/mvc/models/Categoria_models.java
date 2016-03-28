@@ -158,6 +158,39 @@ public class Categoria_models {
 		return data;
 	}
 	
+	
+	public List<Categoria_vo> ListarCategoriaCombo() {
+		Connection con=null;
+		CallableStatement cs=null;
+		ResultSet rs=null;
+		List<Categoria_vo> data= new ArrayList<Categoria_vo>();
+		Categoria_vo beans=null;
+		try {
+			con= MysqlDBConexion.getConexion();;
+			String sql= "call usp_sel_categoria";
+			cs=con.prepareCall(sql);			
+			cs.execute();
+			rs=cs.getResultSet();
+			while(rs.next()){
+				beans= new Categoria_vo();
+				beans.setIdcategoria(rs.getInt("idcategoria"));
+				beans.setDescripcion(rs.getString("descripcion"));
+				data.add(beans);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				if(con!=null)  con.close();
+				if(rs!=null) rs.close();
+				if(cs!=null) cs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return data;
+	}
+	
 	public Categoria_vo obtenerDatosCategoria(Categoria_vo categoria_vo) {
 		Connection con=null;
 		CallableStatement cs=null;
