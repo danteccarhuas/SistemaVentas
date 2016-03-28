@@ -123,7 +123,7 @@ public class TrabajadorControllers extends HttpServlet {
 			List<Parametrizador_vo> listEstado = new ArrayList<Parametrizador_vo>();
 			Funcionalidad_vo funcionalidad = new Funcionalidad_vo();
 			funcionalidad.setIdfuncionalidad(1);
-			listEstado= new Parametrizador_models().ListarEstado(funcionalidad);
+			listEstado= new Parametrizador_models().ListarValores(funcionalidad);
 			
 			List<Tienda_vo> listTienda=new ArrayList<Tienda_vo>();
 			listTienda=new Tienda_models().CargarComboTienda();

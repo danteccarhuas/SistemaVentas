@@ -233,7 +233,7 @@ public class ProveedorControllers extends HttpServlet {
 			Funcionalidad_vo funcionalidad = new Funcionalidad_vo();
 			funcionalidad.setIdfuncionalidad(1);
 			listDepartamento = new Ubigeo_models().ListarDepartamento();
-			listEstado= new Parametrizador_models().ListarEstado(funcionalidad);
+			listEstado= new Parametrizador_models().ListarValores(funcionalidad);
 			
 			String jsonDepartamento = new Gson().toJson(listDepartamento);
 			String jsonEstado = new Gson().toJson(listEstado);

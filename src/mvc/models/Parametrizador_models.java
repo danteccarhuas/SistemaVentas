@@ -12,7 +12,7 @@ import mvc.vo.Parametrizador_vo;
 public class Parametrizador_models {
 
 	
-	public List<Parametrizador_vo> ListarEstado(Funcionalidad_vo objeto) {
+	public List<Parametrizador_vo> ListarValores(Funcionalidad_vo objeto) {
 		Connection con=null;
 		CallableStatement cs=null;
 		ResultSet rs=null;

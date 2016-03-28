@@ -1127,3 +1127,30 @@ BEGIN
 	where codigotrabajador =  p_codigotrabajador;
 END //
 DELIMITER ;
+
+drop procedure if exists usp_sel_Marca;
+DELIMITER //
+CREATE  PROCEDURE usp_sel_Marca(
+)
+BEGIN 
+	select	p.idmarca, 
+	p.descripcion	
+	from tb_marca  p where p.estado = 1 ;
+	
+END //
+DELIMITER ;
+
+drop procedure if exists usp_sel_categoria;
+DELIMITER //
+CREATE  PROCEDURE usp_sel_categoria(
+)
+BEGIN 
+	select	p.idcategoria, 
+	p.descripcion
+	from tb_categoria  p
+	where p.estado = 1 ;
+END //
+DELIMITER ;
+
+
+

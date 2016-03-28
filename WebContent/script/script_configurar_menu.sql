@@ -39,12 +39,22 @@
 	*/
 	
 	insert into tb_funcionalidad (idfuncionalidad,descripcion,estado) 
-	values (1,'Estado del Registro',1);
+	values (1,'Estado del Registro',1);	
 	
 	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
 	values (1,1,0,'','Desactivo',1,1);
 	
 	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
 	values (1,2,1,'','Activo',1,1);
+	
+	
+	insert into tb_funcionalidad (idfuncionalidad,descripcion,estado) 
+	values (2,'Registro de sexo',1);	
+	
+	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
+	values (2,1,0,'','Masculino',1,2);
+	
+	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
+	values (2,2,1,'','Femenino',1,2);
 
 	

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -26,7 +26,7 @@
 				</div>
 
 				<div class="row">
-					<div class="col-lg-6">
+					<div class="col-lg-12">
 						<div class="panel with-nav-tabs panel-primary">
 							<div class="panel-heading">
 								<ul class="nav nav-tabs">
@@ -67,7 +67,13 @@
 															<thead>
 																<tr class="">
 																	<th>Codigo</th>
-																	<th>Descripción</th>
+																	<th>Nombre</th>
+																	<th>Marca</th>
+																	<th>Categoria</th>
+																	<th>Genero</th>
+																	<th>Talla</th>
+																	<th>Precio Compra</th>
+																	<th>Precio Venta</th>
 																	<th colspan="2">Acción</th>
 																</tr>
 															</thead>
@@ -85,7 +91,7 @@
 
 									<div class="tab-pane fade" id="tab2primary">
 										<br>
-										<form class="form-horizontal" id="frm_marca">
+										<form class="form-horizontal" id="frm_producto">
 											<input type="hidden" id="hiddencodmarca" value="0"
 												name="hiddencodmarca" /> <input type="hidden"
 												id="hiddenindaccion" name="hiddenindaccion" value="0" />
@@ -95,30 +101,121 @@
 										 -->
 
 											<div class="row">
-												<div class="col-lg-12">
-													<div class="form-group">
+												<div class="col-lg-8">
+													<div class="row">
+														<div class="col-lg-12">
+															<div class="form-group">
 
-														<label class="control-label col-lg-3" for="nombre">Codigo
-															:</label>
-														<div class="col-lg-8">
-															<input class="form-control" type="text"
-																id="txt_codigo_guardar" name="txt_codigo_guardar"
-																disabled="disabled" />
+																<label class="control-label col-lg-3" for="nombre">Codigo
+																	:</label>
+																<div class="col-lg-8">
+																	<input class="form-control" type="text"
+																		id="txt_codigo_guardar" name="txt_codigo_guardar"
+																		disabled="disabled" />
+																</div>
+															</div>
+														</div>
+
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Nombre:</label>
+																<div class="col-lg-8">
+																	<input class="form-control" type="text"
+																		id=txt_nombre_guardar name="txt_descripcion_guardar"
+																		placeholder="Nombre" />
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Descripcion:</label>
+																<div class="col-lg-8">
+																	<input class="form-control" type="text"
+																		id="txt_descripcion_guardar"
+																		name="txt_descripcion_guardar"
+																		placeholder="Descripcion" />
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Precio
+																	Compra:</label>
+																<div class="col-lg-8">
+																	<input class="form-control" type="text"
+																		id="txt_preciocompra_guardar"
+																		name="txt_preciocompra_guardar"
+																		placeholder="Precio Compra" />
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Precio
+																	venta:</label>
+																<div class="col-lg-8">
+																	<input class="form-control" type="text"
+																		id="txt_precioventa_guardar"
+																		name="txt_precioventa_guardar"
+																		placeholder="Precio venta" />
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Marca:</label>
+																<div class="col-lg-8">
+																	<select class="form-control" name="cbo_marca"
+																		id="cbo_marca">
+
+																	</select>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Categoria:</label>
+																<div class="col-lg-8">
+																	<select class="form-control" name="cbo_categoria"
+																		id="cbo_categoria">
+
+																	</select>
+																</div>
+															</div>
+														</div>
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Genero:</label>
+																<div class="col-lg-8">
+																	<select class="form-control" name="cbo_genero"
+																		id="cbo_genero">
+
+																	</select>
+																</div>
+															</div>
+														</div>
+
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Precio
+																	venta:</label>
+																<div class="col-lg-8">
+																	<input class="form-control" type="text"
+																		id="txt_talla_guardar"
+																		name="txt_talla_guardar"
+																		placeholder="Talla" />
+																</div>
+															</div>
 														</div>
 													</div>
 												</div>
+												<div class="col-lg-4"></div>
 
-												<div class="col-lg-12">
-													<div class="form-group">
-														<label class="control-label col-lg-3" for="nombre">Descripcion:</label>
-														<div class="col-lg-8">
-															<input class="form-control" type="text"
-																id="txt_descripcion_guardar"
-																name="txt_descripcion_guardar" placeholder="Descripcion" />
-														</div>
-													</div>
-												</div>												
 											</div>
+
+
+
+
 											<div class="form-group">
 												<div class="col-md-12 col-md-offset-3">
 													<button id="btn_salir" type="reset" class="btn btn-primary">Salir</button>
@@ -126,14 +223,13 @@
 														Guardar <span class="fa  fa-save"></span>
 													</button>
 												</div>
-												<br>
-												<br>
+												<br> <br>
 												<div class="col-md-12" id="mensajeAlerta"></div>
 											</div>
 										</form>
 									</div>
 								</div>
-							
+
 							</div>
 						</div>
 
@@ -145,7 +241,7 @@
 		</div>
 		<!-- /.row -->
 	</div>
-	
+
 	<!-- Modal Start here-->
 	<div class="modal fade bs-example-modal-sm" id="ModalLoading"
 		tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
@@ -189,7 +285,7 @@
 		</div>
 	</div>
 	<!-- Modal ends Here -->
-	
+
 </body>
-<script src="js/function-marca.js"></script>
+<script src="js/function-producto.js"></script>
 </html>
