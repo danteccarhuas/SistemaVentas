@@ -160,7 +160,6 @@ $(document)	.ready(function(e) {
 
 /* Se ejecuta cuando carga por primera vez la pagina */
 $(window).load(function() {
-	alert("ddd");
 	initGrilla();
 	LoadCombos();
 	/*Desabilitamos el tab eventotab2primary*/
@@ -250,6 +249,7 @@ function cargaPagina(pagina){
 		dataType : 'json',
 		success : function(result) {
 			var lista=result[0];
+			alert(lista);
 			$("#rellenar").html("");
 			var trHTML = '';
 			if (lista.length > 0){

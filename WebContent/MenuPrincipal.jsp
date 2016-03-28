@@ -39,6 +39,7 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+ <link rel="stylesheet" href="css/datepicker3.min.css" />
 
 </head>
 
@@ -258,6 +259,7 @@
 	<script src="js/plugins/morris/morris-data.js"></script> -->
 	<script src="js/bootstrapValidator.js"></script>
 	<script src="js/modal.js"></script>
+	<script src="js/bootstrap-datepicker.min.js"></script>
 </body>
 
 </html>

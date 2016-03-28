@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mvc.util.MysqlDBConexion;
-import mvc.vo.Categoria_vo;
 import mvc.vo.Parametrizador_vo;
 import mvc.vo.Tienda_vo;
 
@@ -202,6 +201,38 @@ public class Tienda_models {
 			}
 		}
 		return beans;
+	}
+	
+	public List<Tienda_vo> CargarComboTienda(){
+		Connection con=null;
+		CallableStatement cs=null;
+		ResultSet rs=null;
+		List<Tienda_vo> data= new ArrayList<Tienda_vo>();
+		Tienda_vo beans=null;
+		try {
+			con= MysqlDBConexion.getConexion();
+			String sql= "call usp_Sel_Tienda()";
+			cs=con.prepareCall(sql);			
+			cs.execute();
+			rs=cs.getResultSet();
+			while(rs.next()){
+				beans= new Tienda_vo();
+				beans.setIdtienda(rs.getInt("idtienda"));
+				beans.setDescripcion(rs.getString("Descripcion"));
+				data.add(beans);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				if(con!=null)  con.close();
+				if(rs!=null) rs.close();
+				if(cs!=null) cs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return data;
 	}
 	
 }

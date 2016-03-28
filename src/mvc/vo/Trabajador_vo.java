@@ -5,6 +5,7 @@ import java.util.Date;
 public class Trabajador_vo {
 
 	private int idtrabajador;
+	private String codigotrabajador;
 	private String nombres;
 	private String apellidos;
 	private String correo;
@@ -17,6 +18,13 @@ public class Trabajador_vo {
 	private Paginador_vo paginador;
 	private Tienda_vo tienda;
 	
+	
+	public String getCodigotrabajador() {
+		return codigotrabajador;
+	}
+	public void setCodigotrabajador(String codigotrabajador) {
+		this.codigotrabajador = codigotrabajador;
+	}
 	public Paginador_vo getPaginador() {
 		return paginador;
 	}

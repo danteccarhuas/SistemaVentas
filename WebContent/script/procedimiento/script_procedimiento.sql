@@ -940,7 +940,7 @@ DELIMITER ;
 drop procedure if exists usp_TotaRegist_Trabajadores;
 DELIMITER //
 CREATE  PROCEDURE usp_TotaRegist_Trabajadores(
-IN p_codigotrabajador smallint(6),
+IN p_codigotrabajador varchar(12),
 IN p_nombres varchar(45),
 IN p_dni varchar(11),
 OUT P_TOTALREGISTRO INT
@@ -949,19 +949,21 @@ BEGIN
 	declare v_TOTALREGISTRO INT;
 	set v_TOTALREGISTRO=0;
 
-	select	count(t.idtrabajador) into v_TOTALREGISTRO
+	select	count(t.codigotrabajador) into v_TOTALREGISTRO
 	from tb_trabajador t
-	where (CONCAT(t.nombres) like CONCAT("%",p_nombres,"%") or ''= CONCAT("%",p_nombres,"%"))
-	and (t.idtrabajador= p_codigotrabajador or p_codigotrabajador = '0')
+	where (CONCAT(t.nombres,' ',t.apellidos) like CONCAT("%",p_nombres,"%") or 
+		''= CONCAT("%",p_nombres,"%"))
+	and (t.codigotrabajador= p_codigotrabajador or p_codigotrabajador = '0')
 	and (t.dni= p_dni or '0' = p_dni) and estado = 1;
 	set P_TOTALREGISTRO = v_TOTALREGISTRO;
 END //
 DELIMITER ;
 
+
 drop procedure if exists usp_Cons_Trabajadores;
 DELIMITER //
 CREATE  PROCEDURE usp_Cons_Trabajadores(
-IN p_idtrabajador smallint(6),
+IN p_codigotrabajador varchar(12),
 IN p_nombres varchar(45),
 IN p_dni varchar(11),
 IN p_limit int,
@@ -969,25 +971,159 @@ IN p_desde int
 
 )
 BEGIN 
-	PREPARE STMT FROM  "select	t.idtrabajador, 
-	t.nombres,
+	PREPARE STMT FROM  "select	t.codigotrabajador, 
+	concat(t.nombres,' ',t.apellidos ) 'trabajador',
 	t.correo,
 	t.dni,
 	t.direccion,
-	t.telefono,			
+	t.telefono,
 	td.Descripcion
-	from tb_trabajador  t inner join tb_tienda td
+	from tb_trabajador t inner join tb_tienda td
 	on t.idtienda=td.idtienda
-	where (CONCAT(t.nombres) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
-	and (t.idtrabajador= ? or ? = '0')
+	where (CONCAT(t.nombres,' ',t.apellidos) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
+	and (t.codigotrabajador= ? or ? = '0')
 	and (t.dni= ? or '0' = ?) and t.estado = 1 order by t.nombres asc limit ? offset ?"  ;
 	
-	SET @p_idtrabajador = p_idtrabajador; 
+	SET @p_codigotrabajador = p_codigotrabajador; 
 	SET @p_nombres = p_nombres; 
 	SET @p_dni = p_dni; 
 	SET @p_limit = p_limit; 
 	SET @p_desde = p_desde; 
-	EXECUTE STMT USING @p_nombres,@p_nombres,@p_idtrabajador,@p_idtrabajador,@p_dni,@p_dni, @p_limit,@p_desde;
+	EXECUTE STMT USING @p_nombres,@p_nombres,@p_codigotrabajador,@p_codigotrabajador,@p_dni,@p_dni, 
+						@p_limit,@p_desde;
 	DEALLOCATE PREPARE STMT;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_Sel_Tienda;
+DELIMITER //
+CREATE PROCEDURE usp_Sel_Tienda()
+BEGIN 
+
+	select idtienda,Descripcion from tb_tienda 
+	where estado = 1 order by descripcion asc;
+END //
+DELIMITER ;
+
+drop procedure if exists usp_Ins_trabajador;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_trabajador( 
+IN  p_nombres VARCHAR(45), 
+IN  p_apellidos VARCHAR(45),
+IN 	p_correo VARCHAR(45),
+IN	p_telefono varchar(25),
+IN	p_dni varchar(45),
+In	p_fechanacimiento date,
+IN	p_direccion varchar(225), 
+IN	p_estado int(11),
+IN	p_idtienda int(11),
+out p_codigotrabajador VARCHAR(12)
+     )
+BEGIN
+	declare v_cod_trab VARCHAR(12);
+	set v_cod_trab='';
+	 
+	select  concat('TRAB',CAST(RIGHT(CONCAT('00000000' , CAST(RTRIM(CAST(RIGHT(IFNULL(MAX(codigotrabajador),0),8) 
+	as signed integer)+1)AS CHAR(10000) CHARACTER SET utf8) ),8)AS CHAR(10000) CHARACTER SET utf8)) 
+	into v_cod_trab
+	from tb_trabajador;
+
+    INSERT INTO tb_trabajador
+         (
+		codigotrabajador, 
+		nombres,
+		apellidos,
+		correo,	
+		telefono,
+		dni,
+		fechanacimiento,
+		direccion,
+		estado,
+		fechacreacion,
+		fechamodificacion,
+		idtienda
+         )
+    VALUES 
+         ( 
+		v_cod_trab,
+		p_nombres , 
+		p_apellidos ,
+		p_correo ,
+		p_telefono ,
+		p_dni ,
+		p_fechanacimiento ,
+		p_direccion , 
+		p_estado ,
+		(select now()) ,
+		(select now()) ,
+		p_idtienda 
+         ); 
+	
+
+	set p_codigotrabajador=v_cod_trab;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_obt_datosTrabajador;
+DELIMITER //
+CREATE  PROCEDURE usp_obt_datosTrabajador(
+IN p_codigotrabajador varchar(12)
+)
+BEGIN 
+	select 
+	t.codigotrabajador,t.nombres,t.apellidos,
+	t.correo,t.telefono,t.dni,t.fechanacimiento,t.direccion,
+	t.estado,t.idtienda
+	from tb_trabajador t
+	where t.codigotrabajador =  p_codigotrabajador;
+END //
+DELIMITER ;
+
+drop procedure if exists usp_UPD_trabajador;
+DELIMITER //
+
+CREATE  PROCEDURE usp_UPD_trabajador( 
+IN  P_codigotrabajador VARCHAR(12),
+IN  p_nombres VARCHAR(45), 
+IN  p_apellidos VARCHAR(45),
+IN 	p_correo VARCHAR(45),
+IN	p_telefono varchar(25),
+IN	p_dni varchar(45),
+In	p_fechanacimiento date,
+IN	p_direccion varchar(225), 
+IN	p_estado int(11),
+In	p_idtienda int(11)
+     )
+BEGIN
+	
+	UPDATE tb_trabajador 
+		SET 		
+		nombres =  p_nombres,
+		apellidos =  p_apellidos,
+		correo =  p_correo,	
+		telefono = p_telefono,
+		dni =  p_dni,
+		fechanacimiento = p_fechanacimiento,
+		direccion = p_direccion,
+		estado =  p_estado,
+		fechamodificacion =  (select now()),
+		idtienda = p_idtienda
+	WHERE codigotrabajador = P_codigotrabajador;
+
+	
+END //
+DELIMITER ;
+
+drop procedure if exists usp_eliminar_Trabajadores;
+DELIMITER //
+CREATE  PROCEDURE usp_eliminar_Trabajadores(
+IN p_codigotrabajador varchar(12)
+)
+BEGIN 
+	update tb_trabajador set  estado = 0 
+	where codigotrabajador =  p_codigotrabajador;
 END //
 DELIMITER ;

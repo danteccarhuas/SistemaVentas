@@ -178,7 +178,7 @@ public class TiendaControllers extends HttpServlet {
 			paginador_vo.setOffset(Integer.parseInt(request.getParameter("offset")));
 			tienda_vo.setPaginador(paginador_vo);
 			listtienda = new Tienda_models().ListarTienda(tienda_vo);
-			String json= new Gson().toJson(listtienda);			
+			String json= new Gson().toJson(listtienda);
 			response.setContentType("application/json"); 
 			response.setCharacterEncoding("utf-8"); 
 			String bothJson = "["+json+"]";				

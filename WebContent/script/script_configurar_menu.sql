@@ -36,6 +36,7 @@
 	call usp_Ins_proveedor ('segundo mike','c@gmail.com','9898989','89898989','45454545','www.hotmail.com','12356879541'
 				,'Malecon tarapaca','por la calla puhinaua','gisela ccarhuas',1,111, @p_codigoproveedor);
 	select @p_codigoproveedor;
+	*/
 	
 	insert into tb_funcionalidad (idfuncionalidad,descripcion,estado) 
 	values (1,'Estado del Registro',1);
@@ -46,4 +47,4 @@
 	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
 	values (1,2,1,'','Activo',1,1);
 
-	*/
+	

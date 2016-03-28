@@ -4,7 +4,7 @@ $(document).ready(function(e) {
 		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
 		 $('#eventotab2primary').prop( "disabled", false ).removeClass('disabled');/*Quitamos el disabled del tab eventotab2primary*/
 		 $('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');		
-		 //$('#hiddenindaccion').val(1); 
+		 $('#hiddenindaccion').val(1); 
 	});
 	
 	$('#btn_salir').on('click', function () {
@@ -25,6 +25,83 @@ $(document).ready(function(e) {
 		$('#ModalLoading').modal('hide');
 	});
 	
+	/*Metodo para eliminar trabajadores*/
+	$(document).on("click","#btn_modaleliminar",function(e) {
+		e.preventDefault();		
+		$('#hiddencodtrab').val($(this).data('id'));
+		$("#modalRemove").modal({
+			keyboard : false
+		});
+	});
+	
+	$(".removeBtn").click(function(e){
+		$("#modalRemove").modal("hide");		
+		console.log($('#hiddencodtrab').val());
+		var  codtrab=$('#hiddencodtrab').val();
+		$.ajax({
+			url : 'trabajador?metodo=EliminarTrabajador',
+			type : 'post',
+			data : {codtrab : codtrab},
+			dataType : 'json',
+			success : function(result) {				
+				$("#paginador").html("");/*Limpiar los numero de paginacion*/
+				initGrilla();
+			}
+		});
+		
+	});
+	
+	/*Metodo para modificar trabajadores*/
+	$(document).on("click","#btn_editar",function(e) {		
+		e.preventDefault();		
+		$('#hiddencodtrab').val($(this).data('id'));
+		$('#hiddenindaccion').val(2); 		
+		var codigo_trab = $('#hiddencodtrab').val();		
+		$.ajax({
+			url : 'trabajador?metodo=ObtenerDatosTrabajador',
+			type : 'post',
+			data : {codigo_trab:codigo_trab},
+			dataType : 'json',
+			success : function(result) {
+				var data1=result[0];					
+				$('#tab1').prop( "disabled", true ).addClass('disabled');
+				$('#tab2').prop( "disabled", false ).removeClass('disabled');
+				$('#eventotab2primary').prop( "disabled", false ).removeClass('disabled');/*Quitamos el disabled del tab eventotab2primary*/
+			 	$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');		
+			 	$("#tab2primary #txt_cod_trab_guardar").val(data1.codigotrabajador);
+				$("#tab2primary #txt_nombres").val(data1.nombres);
+				$("#tab2primary #txt_apellidos").val(data1.apellidos);
+				$("#tab2primary #txt_correo").val(data1.correo);
+				$("#tab2primary #txt_telefono").val(data1.telefono);
+				$("#tab2primary #txt_dni").val(data1.dni);
+				$("#tab2primary #txt_fec_nac").val(formatDate(data1.fechanacimiento));
+				$("#tab2primary #txt_direccion").val(data1.direccion);
+				$("#tab2primary #cbo_estado").val(data1.estado);
+				$("#tab2primary #cbo_tienda").val(data1.tienda.idtienda);
+
+			}
+		});
+	});
+	
+	function formatDate(date) {
+	    var d = new Date(date),
+	        month = '' + (d.getMonth() + 1),
+	        day = '' + d.getDate(),
+	        year = d.getFullYear();
+
+	    if (month.length < 2) month = '0' + month;
+	    if (day.length < 2) day = '0' + day;
+
+	    return [year, month, day].join('-');
+	}
+	
+	$('#datePicker').datepicker({
+	    format: 'yyyy-mm-dd',
+	    language: "es"
+	  })
+	  .on('changeDate', function(e) {
+	    $('#frm_Trabajador').bootstrapValidator('revalidateField', 'txt_fec_nac');
+	  });	
 	/* Valida las etiquedas del formulario */
 	$("#frm_Trabajador").bootstrapValidator({
 				message : 'This value is not valid',
@@ -130,7 +207,7 @@ $(document).ready(function(e) {
 	function GuardarTrabajador(){		 
 		  $('#ModalLoading').modal('show');
 		  $.ajax({
-				url : 'proveedor?metodo=RegistrarModificarTrabajador',
+				url : 'trabajador?metodo=RegistrarModificarTrabajador',
 				type : 'post',
 				data : $('#frm_Trabajador').serialize(),
 				dataType:'json',
@@ -138,17 +215,17 @@ $(document).ready(function(e) {
 					$('#ModalLoading').modal('hide');
 					var valor=eval(result);					
 					if(valor.indAccion=="1"){
-						if(valor.codigoproveedor=="-1"){
-							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del Proveedor</div>");
+						if(valor.codigotrabajador=="-1"){
+							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del Trabajador</div>");
 						}else{
-							$("#tab2primary #txt_cod_prov_guardar").val(valor.codigoproveedor);
-							$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del Proveedor con el codigo "+ valor.codigoproveedor +"</div>");
+							$("#tab2primary #txt_cod_trab_guardar").val(valor.codigotrabajador);
+							$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del Trabajador con el codigo "+ valor.codigotrabajador +"</div>");
 						}
 					}else{
-						if(valor.codigoproveedor=="-1"){
-							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos del Proveedor</div>");
+						if(valor.codigotrabajador=="-1"){
+							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos del Trabajador</div>");
 						}else{							
-							$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos del Proveedor</div>");
+							$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos del Trabajador</div>");
 						}
 					}
 				},
@@ -165,7 +242,7 @@ $(document).ready(function(e) {
 /* Se ejecuta cuando carga por primera vez la pagina */
 $(window).load(function() {
 	initGrilla();
-	//LoadCombos();
+	LoadCombos();
 	/*Desabilitamos el tab eventotab2primary*/
 	$('#eventotab2primary').click(function(event){
 	        if ($(this).hasClass('disabled')) {
@@ -258,7 +335,7 @@ function cargaPagina(pagina){
 			if (lista.length > 0){
 				for ( var i = 0; i < lista.length; i++) {
 					trHTML += '<tr><td>'
-						+ lista[i]['idtrabajador']
+						+ lista[i]['codigotrabajador']
 						+ '</td><td>'
 						+ lista[i]['nombres']
 						+ '</td><td>'
@@ -271,8 +348,8 @@ function cargaPagina(pagina){
 						+ lista[i]['telefono']
 						+ '</td><td>'
 						+ lista[i]['tienda']['descripcion']
-						+ '</td><td><a href="" data-id="'+lista[i]['idtrabajador']+'" id="btn_editar" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </a></td>'
-						+ '</td><td><a  data-id="'+lista[i]['idtrabajador']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>';
+						+ '</td><td><a href="" data-id="'+lista[i]['codigotrabajador']+'" id="btn_editar" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </a></td>'
+						+ '</td><td><a  data-id="'+lista[i]['codigotrabajador']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>';
 				}
 				$('#rellenar').append(trHTML);
 			}			
@@ -327,9 +404,31 @@ function initGrilla(){
 		dataType : 'json',
 		success : function(result) {
 			var valor=eval(result);
-			alert("hola");
 			var total = valor.TotalRegistro;
 			creaPaginador(total);
+		}
+	});
+}
+
+function LoadCombos() {
+	$.ajax({
+		url : 'trabajador?metodo=LoadEstados',
+		type : 'post',
+		data : '',
+		dataType : 'json',
+		success : function(result) {
+			var datosEstado = result[0], datosTienda=result[1];	
+			
+			comboestado = document.getElementById('cbo_estado');
+			for ( var i = 0; i < datosEstado.length; i++) {
+				comboestado.options[comboestado.length] = new Option(datosEstado[i].descripcion, datosEstado[i].valor);
+			}
+			
+			combotienda = document.getElementById('cbo_tienda');
+			combotienda.options[0] = new Option('- Seleccione -', '');
+			for ( var i = 0; i < datosTienda.length; i++) {
+				combotienda.options[combotienda.length] = new Option(datosTienda[i].descripcion, datosTienda[i].idtienda);
+			}
 		}
 	});
 }

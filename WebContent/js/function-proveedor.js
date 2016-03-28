@@ -421,6 +421,7 @@ function cargaPagina(pagina){
 		dataType : 'json',
 		success : function(result) {
 			var lista=result[0];
+			alert(lista);
 			$("#rellenar").html("");
 			var trHTML = '';
 			if (lista.length > 0){

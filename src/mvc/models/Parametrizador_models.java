@@ -19,7 +19,7 @@ public class Parametrizador_models {
 		List<Parametrizador_vo> data= new ArrayList<Parametrizador_vo>();
 		Parametrizador_vo beans=null;
 		try {
-			con= MysqlDBConexion.getConexion();;
+			con= MysqlDBConexion.getConexion();
 			String sql= "call usp_Sel_pametrizador(?)";
 			cs=con.prepareCall(sql);
 			cs.setInt(1, objeto.getIdfuncionalidad());				

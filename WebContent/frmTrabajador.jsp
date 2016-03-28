@@ -106,8 +106,8 @@
 									<div class="tab-pane fade" id="tab2primary">
 										<br>
 										<form class="form-horizontal" id="frm_Trabajador">
-											<input type="hidden" id="hiddencodprov" value="0"
-												name="hiddencodprov" /> <input type="hidden"
+											<input type="hidden" id="hiddencodtrab" value="0"
+												name="hiddencodtrab" /> <input type="hidden"
 												id="hiddenindaccion" name="hiddenindaccion" value="0" />
 											<!-- 
 										hiddenindaccion : 1 Nuevo
@@ -193,8 +193,14 @@
 													<div class="form-group">
 														<label class="control-label col-lg-5" for="txt_fec_nac">Fecha Nac.:</label>
 														<div class="col-lg-7">
-															<input class="form-control" type="text" id="txt_fec_nac"
-																name="txt_fec_nac" placeholder="Sitio Web" />
+															<div class="input-group input-append date"
+																id="datePicker">
+																<input type="text" class="form-control"
+																	id="txt_fec_nac" data-date-format="YYYY-MM-DD"
+																	name="txt_fec_nac" readonly="readonly" /> <span
+																	class="input-group-addon add-on span-datetime"><span
+																	class="glyphicon glyphicon-calendar"></span></span>
+															</div>
 														</div>
 													</div>
 												</div>
@@ -213,10 +219,7 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="cbo_estado">Estado:</label>
 														<div class="col-lg-9">
-															<select class="form-control" name="cbo_estado"
-																id="cbo_estado">
-																<option value="1">Activo</option>
-																<option value="2">Desactivo</option>
+															<select class="form-control" name="cbo_estado" id="cbo_estado">
 															</select>
 														</div>
 													</div>
