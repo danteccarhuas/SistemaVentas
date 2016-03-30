@@ -8,21 +8,32 @@ import java.util.List;
 
 import mvc.util.MysqlDBConexion;
 import mvc.vo.Categoria_vo;
+import mvc.vo.Marca_vo;
+import mvc.vo.Parametrizador_vo;
+import mvc.vo.Producto_vo;
 
 public class Producto_models {
 
-	public String RegistrarCategoria(Categoria_vo bean) {
+	public String RegistrarProducto(Producto_vo bean) {
 		String codigo = "";
 		Connection con = null;
 		CallableStatement cs = null;
 		try {
 			con = MysqlDBConexion.getConexion();
-			String sql = "call usp_Ins_categoria(?,?)";
+			String sql = "call usp_Ins_producto(?,?,?,?,?,?,?,?,?,?)";
 			cs = con.prepareCall(sql);
-			cs.setString(1, bean.getDescripcion());
-			cs.registerOutParameter(2, java.sql.Types.VARCHAR);
+			cs.setString(1, bean.getNombre());
+			cs.setString(2, bean.getDescripcion());
+			cs.setInt(3, bean.getEstado().getValor());
+			cs.setDouble(4, bean.getPreciocompra());
+			cs.setDouble(5, bean.getPrecioventa());
+			cs.setInt(6, bean.getMarca().getIdmarca());
+			cs.setInt(7, bean.getCategoria().getIdcategoria());
+			cs.setInt(8, bean.getGenero().getValor());
+			cs.setString(9, bean.getTalla());
+			cs.registerOutParameter(10, java.sql.Types.VARCHAR);
 			cs.execute();
-			codigo = cs.getString(2);
+			codigo = cs.getString(10);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -40,16 +51,24 @@ public class Producto_models {
 		return codigo;
 	}
 	
-	public String ActualizarCategoria(Categoria_vo bean) {
+	public String ActualizarProducto(Producto_vo bean) {
 		String codigo = "";
 		Connection con = null;
 		CallableStatement cs = null;
 		try {
 			con = MysqlDBConexion.getConexion();
-			String sql = "call usp_UPD_categoria(?,?)";
+			String sql = "call usp_UPD_producto(?,?,?,?,?,?,?,?,?,?)";
 			cs = con.prepareCall(sql);
-			cs.setString (1, bean.getDescripcion ());
-			cs.setInt(2, bean.getIdcategoria());					
+			cs.setString(1, bean.getNombre());
+			cs.setString(2, bean.getDescripcion());
+			cs.setInt(3, bean.getEstado().getValor());
+			cs.setDouble(4, bean.getPreciocompra());
+			cs.setDouble(5, bean.getPrecioventa());
+			cs.setInt(6, bean.getMarca().getIdmarca());
+			cs.setInt(7, bean.getCategoria().getIdcategoria());
+			cs.setInt(8, bean.getGenero().getValor());
+			cs.setString(9, bean.getTalla());			
+			cs.setString(10, bean.getCodigoproducto());
 			cs.execute();
 			codigo = "1";	
 		} catch (Exception e) {
@@ -67,15 +86,15 @@ public class Producto_models {
 		}
 		return codigo;
 	}
-	public String EliminarCategoria(Categoria_vo bean) {
+	public String EliminarProducto(Producto_vo bean) {
 		String codigo = "";
 		Connection con = null;
 		CallableStatement cs = null;
 		try {
 			con = MysqlDBConexion.getConexion();
-			String sql = "call usp_eliminar_categoria(?)";
+			String sql = "call usp_eliminar_Producto(?)";
 			cs = con.prepareCall(sql);
-			cs.setInt(1, bean.getIdcategoria());			
+			cs.setString(1, bean.getCodigoproducto());			
 			cs.execute();	
 			codigo = "1";
 		} catch (Exception e) {
@@ -95,19 +114,23 @@ public class Producto_models {
 	}
 	
 	
-	public int TotalRegistroCategoria(Categoria_vo categoria_vo) {
+	public int TotalRegistroProducto(Producto_vo producto_vo) {
 		Connection con=null;
 		CallableStatement cs=null;
 		ResultSet rs=null;
 		int TotalRegistro = 0;
 		try {
 			con= MysqlDBConexion.getConexion();;
-			String sql= "call usp_TotaRegist_categoria(?,?)";
+			String sql= "call usp_TotaRegist_Producto(?,?,?,?,?,?)";
 			cs=con.prepareCall(sql);
-			cs.setString(1, categoria_vo.getDescripcion());			
-			cs.registerOutParameter(2, java.sql.Types.INTEGER);
+			cs.setString(1, producto_vo.getCodigoproducto());
+			cs.setString(2, producto_vo.getNombre());		
+			cs.setInt(3, producto_vo.getMarca().getIdmarca());		
+			cs.setInt(4, producto_vo.getCategoria().getIdcategoria());
+			cs.setInt(5, producto_vo.getGenero().getValor());		
+			cs.registerOutParameter(6, java.sql.Types.INTEGER);
 			cs.execute();
-			TotalRegistro = cs.getInt(2);
+			TotalRegistro = cs.getInt(6);
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -123,25 +146,49 @@ public class Producto_models {
 		return TotalRegistro;
 	}
 	
-	public List<Categoria_vo> ListarCategoria(Categoria_vo categoria_vo) {
+	public List<Producto_vo> ListarProducto(Producto_vo producto_vo) {
 		Connection con=null;
 		CallableStatement cs=null;
 		ResultSet rs=null;
-		List<Categoria_vo> data= new ArrayList<Categoria_vo>();
-		Categoria_vo beans=null;
+		List<Producto_vo> data= new ArrayList<Producto_vo>();
+		Producto_vo beans=null;
 		try {
 			con= MysqlDBConexion.getConexion();;
-			String sql= "call usp_Cons_categoria(?,?,?)";
+			String sql= "call usp_Cons_Producto(?,?,?,?,?,?,?)";
 			cs=con.prepareCall(sql);
-			cs.setString(1, categoria_vo.getDescripcion());			
-			cs.setInt(2, categoria_vo.getPaginador().getLimit());
-			cs.setInt(3, categoria_vo.getPaginador().getOffset());
+			cs.setString(1, producto_vo.getCodigoproducto());
+			cs.setString(2, producto_vo.getNombre());		
+			cs.setInt(3, producto_vo.getMarca().getIdmarca());		
+			cs.setInt(4, producto_vo.getCategoria().getIdcategoria());
+			cs.setInt(5, producto_vo.getGenero().getValor());					
+			cs.setInt(6, producto_vo.getPaginador().getLimit());
+			cs.setInt(7, producto_vo.getPaginador().getOffset());
 			cs.execute();
 			rs=cs.getResultSet();
 			while(rs.next()){
-				beans= new Categoria_vo();
-				beans.setIdcategoria(rs.getInt("idcategoria"));
-				beans.setDescripcion(rs.getString("descripcion"));
+				beans= new Producto_vo();
+				beans.setCodigoproducto(rs.getString("codigoproducto"));
+				beans.setNombre(rs.getString("nombre"));
+				beans.setPreciocompra(rs.getDouble("preciocompra"));
+				beans.setPrecioventa(rs.getDouble("precioventa"));
+				beans.setTalla(rs.getString("talla"));
+				
+				Marca_vo marca = new Marca_vo();
+				marca.setIdmarca(rs.getInt("idmarca"));
+				marca.setDescripcion(rs.getString("descripmarca"));
+				
+				Categoria_vo categoria = new Categoria_vo();
+				categoria.setIdcategoria(rs.getInt("idcategoria"));		
+				categoria.setDescripcion(rs.getString("descripcategoria"));
+				
+				Parametrizador_vo genero =  new Parametrizador_vo();
+				genero.setValor(rs.getInt("idgenero"));
+				genero.setDescripcion(rs.getString("descripgenero"));
+				
+				beans.setMarca(marca);
+				beans.setCategoria(categoria);
+				beans.setGenero(genero);
+				
 				data.add(beans);
 			}
 		} catch (Exception e) {
@@ -158,23 +205,48 @@ public class Producto_models {
 		return data;
 	}
 	
-	public Categoria_vo obtenerDatosCategoria(Categoria_vo categoria_vo) {
+	public Producto_vo obtenerDatosProducto(Producto_vo producto_vo) {
 		Connection con=null;
 		CallableStatement cs=null;
 		ResultSet rs=null;
 		
-		Categoria_vo beans=null;
+		Producto_vo beans=null;
 		try {
 			con= MysqlDBConexion.getConexion();;
-			String sql= "call usp_obt_datoscategoria(?)";
+			String sql= "call usp_obt_datosProducto(?)";
 			cs=con.prepareCall(sql);
-			cs.setInt(1, categoria_vo.getIdcategoria());			
+			cs.setString(1, producto_vo.getCodigoproducto());			
 			cs.execute();
 			rs=cs.getResultSet();
 			if(rs.next()){
-				beans= new Categoria_vo();
-				beans.setIdcategoria(rs.getInt("idcategoria"));
+				beans= new Producto_vo();
+				
+				beans.setCodigoproducto(rs.getString("codigoproducto"));
+				beans.setNombre(rs.getString("nombre"));
 				beans.setDescripcion(rs.getString("descripcion"));
+				beans.setPreciocompra(rs.getDouble("preciocompra"));
+				beans.setPrecioventa(rs.getDouble("precioventa"));
+				beans.setTalla(rs.getString("talla"));
+				
+				Marca_vo marca = new Marca_vo();
+				marca.setIdmarca(rs.getInt("idmarca"));
+				marca.setDescripcion(rs.getString("descripmarca"));
+				
+				Categoria_vo categoria = new Categoria_vo();
+				categoria.setIdcategoria(rs.getInt("idcategoria"));		
+				categoria.setDescripcion(rs.getString("descripcategoria"));
+				
+				Parametrizador_vo genero =  new Parametrizador_vo();
+				genero.setValor(rs.getInt("idgenero"));
+				genero.setDescripcion(rs.getString("descripgenero"));
+				
+				Parametrizador_vo estado =  new Parametrizador_vo();
+				estado.setValor(rs.getInt("estado"));
+				
+				beans.setMarca(marca);
+				beans.setCategoria(categoria);
+				beans.setGenero(genero);
+				beans.setEstado(estado);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

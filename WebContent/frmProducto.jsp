@@ -39,14 +39,46 @@
 							<div class="panel-body">
 								<div class="tab-content">
 									<div class="tab-pane fade in active" id="tab1primary">
-
 										<div class="row">
 											<div class="form-group">
-												<label class="col-lg-2" for="nombre">Descripcion:</label>
-												<div class="col-lg-5">
+												<label class="col-lg-1" for="nombre">Codigo:</label>
+												<div class="col-lg-2">
 													<input class="form-control" type="text"
-														id="txt_Descripcion_buscar" name="txt_Descripcion_buscar"
-														placeholder="Descripcion" />
+														id="txt_codigo_buscar" name="txt_codigo_buscar"
+														placeholder="Codigo" />
+												</div>
+
+												<label class="col-lg-1" for="nombre">Nombre:</label>
+												<div class="col-lg-3">
+													<input class="form-control" type="text"
+														id="txt_nombre_buscar" name="txt_nombre_buscar"
+														placeholder="Nombre" />
+												</div>
+
+												<label class="col-lg-1" for="nombre">Marca:</label>
+												<div class="col-lg-3">
+													<select class="form-control" name="cbo_marca_buscar"
+														id="cbo_marca_buscar">
+
+													</select>
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="form-group">
+												<label class="col-lg-1" for="nombre">Categoria:</label>
+												<div class="col-lg-2">
+													<select class="form-control" name="cbo_categoria_buscar"
+														id="cbo_categoria_buscar">
+
+													</select>
+												</div>
+												<label class="col-lg-1" for="nombre">Genero:</label>
+												<div class="col-lg-3">
+													<select class="form-control" name="cbo_genero_buscar"
+														id="cbo_genero_buscar">
+													</select>
 												</div>
 												<div class="col-lg-5">
 													<button id="btn_buscar" class="btn btn-primary">
@@ -56,6 +88,7 @@
 														Nuevo <span class="fa fa-file-o"></span>
 													</button>
 												</div>
+
 											</div>
 										</div>
 										<br>
@@ -92,8 +125,8 @@
 									<div class="tab-pane fade" id="tab2primary">
 										<br>
 										<form class="form-horizontal" id="frm_producto">
-											<input type="hidden" id="hiddencodmarca" value="0"
-												name="hiddencodmarca" /> <input type="hidden"
+											<input type="hidden" id="hiddencodproducto" value="0"
+												name="hiddencodproducto" /> <input type="hidden"
 												id="hiddenindaccion" name="hiddenindaccion" value="0" />
 											<!-- 
 										hiddenindaccion : 1 Nuevo
@@ -121,7 +154,7 @@
 																<label class="control-label col-lg-3" for="nombre">Nombre:</label>
 																<div class="col-lg-8">
 																	<input class="form-control" type="text"
-																		id=txt_nombre_guardar name="txt_descripcion_guardar"
+																		id=txt_nombre_guardar name="txt_nombre_guardar"
 																		placeholder="Nombre" />
 																</div>
 															</div>
@@ -197,12 +230,23 @@
 
 														<div class="col-lg-12">
 															<div class="form-group">
-																<label class="control-label col-lg-3" for="nombre">Precio
-																	venta:</label>
+																<label class="control-label col-lg-3" for="nombre">Estado:</label>
+																<div class="col-lg-8">
+																	<select class="form-control" name="cbo_estado"
+																		id="cbo_estado">
+
+																	</select>
+																</div>
+															</div>
+														</div>
+
+														<div class="col-lg-12">
+															<div class="form-group">
+																<label class="control-label col-lg-3" for="nombre">Talla
+																	:</label>
 																<div class="col-lg-8">
 																	<input class="form-control" type="text"
-																		id="txt_talla_guardar"
-																		name="txt_talla_guardar"
+																		id="txt_talla_guardar" name="txt_talla_guardar"
 																		placeholder="Talla" />
 																</div>
 															</div>

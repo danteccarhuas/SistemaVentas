@@ -1153,4 +1153,208 @@ END //
 DELIMITER ;
 
 
+/*******Procedimiento para matenimiento producto*************/
+
+
+drop procedure if exists usp_Ins_producto;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_producto( 
+IN  p_nombre VARCHAR(50), 
+IN  p_descripcion VARCHAR(255),
+IN	p_estado int(11),
+IN	p_preciocompra decimal(12,5),
+In	p_precioventa decimal(12,5),
+IN	p_idmarca int(11), 
+IN	p_idcategoria int(11),
+IN	p_idgenero int(11),
+IN	p_talla varchar(45),
+out p_codigoproducto VARCHAR(12)
+     )
+BEGIN
+	declare v_cod_prod VARCHAR(12);
+	set v_cod_prod='';
+	 
+	select  concat('PROD',CAST(RIGHT(CONCAT('00000000' , CAST(RTRIM(CAST(RIGHT(IFNULL(MAX(codigoproducto),0),8) 
+	as signed integer)+1)AS CHAR(10000) CHARACTER SET utf8) ),8)AS CHAR(10000) CHARACTER SET utf8)) 
+	into v_cod_prod
+	from tb_producto;
+
+    INSERT INTO tb_producto
+         (
+			codigoproducto,
+			nombre,
+			descripcion,
+			estado,
+			preciocompra,
+			precioventa,
+			fechacreacion,
+			idmarca,
+			idcategoria,
+			idgenero,
+			talla)
+    VALUES 
+         ( 
+		v_cod_prod,
+		p_nombre , 
+		p_descripcion ,
+		p_estado ,
+		p_preciocompra ,
+		p_precioventa ,
+		(select now()) ,
+		p_idmarca ,
+		p_idcategoria , 
+		p_idgenero,
+		p_talla
+         ); 
+	set p_codigoproducto=v_cod_prod;
+END //
+DELIMITER ;
+
+
+
+
+
+drop procedure if exists usp_Cons_Producto;
+DELIMITER //
+CREATE  PROCEDURE usp_Cons_Producto(
+IN p_codigoproducto varchar(12),
+IN p_nombre varchar(50),
+IN p_idmarca int(11),
+IN p_idcategoria int(11),
+IN p_idgenero int(11),
+IN p_limit int,
+IN p_desde int
+
+)
+BEGIN 
+	PREPARE STMT FROM  "select	p.codigoproducto, 
+	p.nombre,
+	p.preciocompra,
+	p.precioventa,
+	p.talla,			
+	p.idmarca,
+	(select descripcion from tb_marca where idmarca= p.idmarca) as descripmarca,
+	p.idcategoria,
+	(select descripcion from tb_categoria where idcategoria= p.idcategoria) as descripcategoria,
+	p.idgenero,
+	(select descripcion from tb_parametrizador where idfuncionalidad = 2 and valor = p.idgenero) as descripgenero
+	from tb_producto  p
+	where (CONCAT(p.nombre) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
+	and (p.codigoproducto= ? or ? = '')
+	and (p.idmarca= ? or '0' = ?) 
+	and (p.idcategoria= ? or '0' = ?) 
+	and (p.idgenero= ? or '0' = ?) 
+	and estado = 1 order by p.codigoproducto asc limit ? offset ?"  ;
+	
+	SET @p_codigoproducto = p_codigoproducto; 
+	SET @p_nombre = p_nombre; 
+	SET @p_idmarca = p_idmarca; 
+	SET @p_idcategoria = p_idcategoria; 
+	SET @p_idgenero = p_idgenero; 
+	SET @p_limit = p_limit; 
+	SET @p_desde = p_desde; 
+	EXECUTE STMT USING @p_nombre,@p_nombre,@p_codigoproducto,@p_codigoproducto,@p_idmarca,@p_idmarca,
+					   @p_idcategoria,@p_idcategoria,@p_idgenero,@p_idgenero, @p_limit,@p_desde;
+	DEALLOCATE PREPARE STMT;
+END //
+DELIMITER ;
+
+drop procedure if exists usp_TotaRegist_Producto;
+DELIMITER //
+CREATE  PROCEDURE usp_TotaRegist_Producto(
+IN p_codigoproducto varchar(12),
+IN p_nombre varchar(50),
+IN p_idmarca int(11),
+IN p_idcategoria int(11),
+IN p_idgenero int(11),
+OUT P_TOTALREGISTRO INT
+)
+BEGIN 
+	declare v_TOTALREGISTRO INT;
+	set v_TOTALREGISTRO=0;
+
+	select	count(p.idproducto) into v_TOTALREGISTRO
+	from tb_producto  p
+	where  (CONCAT(p.nombre) like CONCAT("%", p_nombre ,"%") or ''= CONCAT("%", p_nombre ,"%"))
+	and (p.codigoproducto= p_codigoproducto or p_codigoproducto = '')
+	and (p.idmarca= p_idmarca or '0' = p_idmarca) 
+	and (p.idcategoria= p_idcategoria or '0' = p_idcategoria) 
+	and (p.idgenero= p_idgenero or '0' = p_idgenero) 
+	and estado = 1;
+	set P_TOTALREGISTRO = v_TOTALREGISTRO;
+END //
+DELIMITER ;
+
+
+
+drop procedure if exists usp_obt_datosProducto;
+DELIMITER //
+CREATE  PROCEDURE usp_obt_datosProducto(
+IN  p_codigoproducto varchar(12)
+)
+BEGIN 
+	select	p.codigoproducto, 
+	p.nombre,
+	p.descripcion,
+	p.preciocompra,
+	p.precioventa,
+	p.talla,			
+	p.idmarca,
+	(select descripcion from tb_marca where idmarca= p.idmarca) as descripmarca,
+	p.idcategoria,
+	(select descripcion from tb_categoria where idcategoria= p.idcategoria) as descripcategoria,
+	p.idgenero,
+	(select descripcion from tb_parametrizador where idfuncionalidad = 2 and valor = p.idgenero) as descripgenero,
+	p.estado
+	from tb_producto  p	
+	where p.codigoproducto =  p_codigoproducto;
+END //
+DELIMITER ;
+drop procedure if exists usp_eliminar_Producto;
+DELIMITER //
+CREATE  PROCEDURE usp_eliminar_Producto(
+IN  p_codigoproducto VARCHAR(12)
+)
+BEGIN 
+	update tb_producto set  estado = 0 
+	where codigoproducto =  p_codigoproducto;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_UPD_producto;
+DELIMITER //
+
+CREATE  PROCEDURE usp_UPD_producto( 
+IN  p_nombre VARCHAR(50), 
+IN  p_descripcion VARCHAR(255),
+IN	p_estado int(11),
+IN	p_preciocompra decimal(12,5),
+In	p_precioventa decimal(12,5),
+IN	p_idmarca int(11), 
+IN	p_idcategoria int(11),
+IN	p_idgenero int(11),
+IN	p_talla varchar(45),
+IN  p_codigoproducto VARCHAR(12)
+
+     )
+BEGIN
+
+	UPDATE tb_producto 
+		SET 		
+		nombre = p_nombre,
+		descripcion = p_descripcion,
+		estado = p_estado,
+		preciocompra= p_preciocompra,
+		precioventa = p_precioventa,
+		fechamodificacion = CURDATE(),
+		idmarca =  p_idmarca,
+		idcategoria = p_idcategoria,
+		idgenero = p_idgenero,
+		talla = p_talla		
+	WHERE codigoproducto =p_codigoproducto;
+	
+END //
+DELIMITER ;
 

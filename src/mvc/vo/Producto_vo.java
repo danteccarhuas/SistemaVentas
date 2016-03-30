@@ -3,17 +3,32 @@ package mvc.vo;
 public class Producto_vo {
 
 	private int idproducto;
+	private String codigoproducto;
 	private String nombre;
 	private String descripcion;
-	private int estado;
+	private String talla;
 	private double preciocompra;
 	private double precioventa;
 	private String fechacreacion;
 	private String fechamodificacion;
 	private Categoria_vo categoria;
 	private Marca_vo marca;
-	private Parametrizador_vo parametrizador;
+	private Parametrizador_vo genero;
+	private Parametrizador_vo estado;
 	private Paginador_vo paginador;
+	
+	public String getCodigoproducto() {
+		return codigoproducto;
+	}
+	public void setCodigoproducto(String codigoproducto) {
+		this.codigoproducto = codigoproducto;
+	}
+	public String getTalla() {
+		return talla;
+	}
+	public void setTalla(String talla) {
+		this.talla = talla;
+	}
 	public int getIdproducto() {
 		return idproducto;
 	}
@@ -31,12 +46,6 @@ public class Producto_vo {
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-	public int getEstado() {
-		return estado;
-	}
-	public void setEstado(int estado) {
-		this.estado = estado;
 	}
 	public double getPreciocompra() {
 		return preciocompra;
@@ -74,11 +83,17 @@ public class Producto_vo {
 	public void setMarca(Marca_vo marca) {
 		this.marca = marca;
 	}
-	public Parametrizador_vo getParametrizador() {
-		return parametrizador;
+	public Parametrizador_vo getGenero() {
+		return genero;
 	}
-	public void setParametrizador(Parametrizador_vo parametrizador) {
-		this.parametrizador = parametrizador;
+	public void setGenero(Parametrizador_vo genero) {
+		this.genero = genero;
+	}
+	public Parametrizador_vo getEstado() {
+		return estado;
+	}
+	public void setEstado(Parametrizador_vo estado) {
+		this.estado = estado;
 	}
 	public Paginador_vo getPaginador() {
 		return paginador;
@@ -87,4 +102,7 @@ public class Producto_vo {
 		this.paginador = paginador;
 	}
 	
-}
+	
+	
+
+ }

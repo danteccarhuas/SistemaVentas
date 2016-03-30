@@ -30,7 +30,7 @@
 	('Registro Compra','ruta','2016-01-01','2016-01-01',6),
 	('Venta por Fecha','ruta','2016-01-01','2016-01-01',6),
 	('Venta por Cliente','ruta','2016-01-01','2016-01-01',6),
-	('Venta por producto','ruta','2016-01-01','2016-01-01',6)
+	('Venta por producto','ruta','2016-01-01','2016-01-01',6);
 	
 	/*
 	call usp_Ins_proveedor ('segundo mike','c@gmail.com','9898989','89898989','45454545','www.hotmail.com','12356879541'
