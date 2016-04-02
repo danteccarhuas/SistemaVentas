@@ -957,7 +957,7 @@ BEGIN
 	where (CONCAT(t.nombres,' ',t.apellidos) like CONCAT("%",p_nombres,"%") or 
 		''= CONCAT("%",p_nombres,"%"))
 	and (t.codigotrabajador= p_codigotrabajador or p_codigotrabajador = '0')
-	and (t.dni= p_dni or '0' = p_dni) and estado = 1;
+	and (t.dni= p_dni or '0' = p_dni) and estado = 1 and codigotrabajador not in ('Admin');
 	set P_TOTALREGISTRO = v_TOTALREGISTRO;
 END //
 DELIMITER ;
@@ -985,7 +985,7 @@ BEGIN
 	on t.idtienda=td.idtienda
 	where (CONCAT(t.nombres,' ',t.apellidos) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
 	and (t.codigotrabajador= ? or ? = '0')
-	and (t.dni= ? or '0' = ?) and t.estado = 1 order by t.nombres asc limit ? offset ?"  ;
+	and (t.dni= ? or '0' = ?) and t.estado = 1 and codigotrabajador not in ('Admin') order by t.nombres asc limit ? offset ?"  ;
 	
 	SET @p_codigotrabajador = p_codigotrabajador; 
 	SET @p_nombres = p_nombres; 

@@ -131,25 +131,10 @@ function GuardarCorrelativoTipoDocumento(){
 		dataType:'json',
 		success:function(result){
 			$('#ModalLoading').modal('hide');
-			var valor=eval(result);					
-			if(valor.indAccion=="1"){
-				if(valor.codigocliente=="-1"){
-					$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del cliente</div>");
-				}else{
-					$("#tab2primary #txt_codigo_guardar").val(valor.codigocliente);
-					$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del cliente con el codigo : "+ valor.codigocliente +"</div>");
-				}
-			}else{
-				if(valor.codigomarca=="-1"){
-					$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos del cliente</div>");
-				}else{							
-					$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos del cliente</div>");
-				}
-			}
+			$("#modalCondigurarCorrelativo").modal("hide");
 		},
 		error : function(xhr, ajaxOptions, thrownError) {
 			$('#ModalLoading').modal('hide');
-			$('#mensajeAlerta').html("<div class='alert alert-danger'>Ocurrio un error por favor comuniquese con el Administrador del Sistema</div>");
 		}
   });
 }
