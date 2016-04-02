@@ -559,6 +559,26 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_tipodocumento` (
   PRIMARY KEY (`idtipodocumento`) )
 ENGINE = InnoDB;
 
+
+-- -----------------------------------------------------
+-- Table `bdsistemaventas`.`tb_configurarcorrelativo`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `bdsistemaventas`.`tb_configurarcorrelativo` ;
+
+CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_configurarcorrelativo` (
+  `idconfigurarcorrelativo` INT NOT NULL AUTO_INCREMENT ,
+  `serie` VARCHAR(10) NULL ,
+  `correlativo` VARCHAR(30) NULL ,
+  `idtipodocumento` INT NOT NULL ,
+  PRIMARY KEY (`idconfigurarcorrelativo`) ,
+  INDEX `fk_tb_configurarcorrelativo_tb_tipodocumento1_idx` (`idtipodocumento` ASC) ,
+  CONSTRAINT `fk_tb_configurarcorrelativo_tb_tipodocumento1`
+    FOREIGN KEY (`idtipodocumento` )
+    REFERENCES `bdsistemaventas`.`tb_tipodocumento` (`idtipodocumento` )
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 USE `bdsistemaventas` ;
 
 

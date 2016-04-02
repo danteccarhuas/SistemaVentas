@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mvc.util.MysqlDBConexion;
+import mvc.vo.Configurarcorrelativo_vo;
 import mvc.vo.Departamento_vo;
 import mvc.vo.Distrito_vo;
 import mvc.vo.Marca_vo;
@@ -201,5 +202,67 @@ public class Tipodocumento_models {
 		return beans;
 	}
 	
+	public Configurarcorrelativo_vo obtenerDatosCorrelativoTipodoc(Tipodocumento_vo tipodocumento_vo) {
+		Connection con=null;
+		CallableStatement cs=null;
+		ResultSet rs=null;
+		
+		Configurarcorrelativo_vo beans=null;
+		try {
+			con= MysqlDBConexion.getConexion();;
+			String sql= "call usp_obtener_correlativo(?)";
+			cs=con.prepareCall(sql);
+			cs.setInt(1, tipodocumento_vo.getIdtipodocumento());			
+			cs.execute();
+			rs=cs.getResultSet();
+			if(rs.next()){
+				beans= new Configurarcorrelativo_vo();
+				beans.setSerie(rs.getString("serie"));
+				beans.setCorrelativo(rs.getString("correlativo"));				
+				Tipodocumento_vo tipodocumento = new Tipodocumento_vo();
+				tipodocumento.setDescripcion(rs.getString("tipodoc"));
+				beans.setTipodocumento(tipodocumento);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			try {
+				if(con!=null)  con.close();
+				if(rs!=null) rs.close();
+				if(cs!=null) cs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return beans;
+	}
 	
+	public String ActualizarCorrelativoTipodocumento(Configurarcorrelativo_vo bean) {
+		String codigo = "";
+		Connection con = null;
+		CallableStatement cs = null;
+		try {
+			con = MysqlDBConexion.getConexion();
+			String sql = "call usp_upd_correlativo(?,?,?)";
+			cs = con.prepareCall(sql);
+			cs.setInt (1, bean.getTipodocumento().getIdtipodocumento ());
+			cs.setString(2, bean.getSerie());
+			cs.setString(3, bean.getCorrelativo());					
+			cs.execute();
+			codigo = "1";	
+		} catch (Exception e) {
+			e.printStackTrace();
+			codigo = "-1";
+		} finally {
+			try {
+				if (con != null)
+					con.close();
+				if (cs != null)
+					cs.close();
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		}
+		return codigo;
+	}
 }

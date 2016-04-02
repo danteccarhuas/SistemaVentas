@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -14,11 +14,8 @@
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">
-							Mantenimiento Tipo Documento
-							
-						</h1>
-					
+						<h1 class="page-header">Mantenimiento Tipo Documento</h1>
+
 					</div>
 				</div>
 
@@ -65,7 +62,7 @@
 																	<th>Codigo</th>
 																	<th>Descripción</th>
 																	<th>Abreviatura</th>
-																	<th colspan="2">Acción</th>
+																	<th colspan="3" style="text-align: center;">Acción</th>
 																</tr>
 															</thead>
 															<tbody id="rellenar">
@@ -114,8 +111,8 @@
 																name="txt_descripcion_guardar" placeholder="Descripcion" />
 														</div>
 													</div>
-												</div>		
-												
+												</div>
+
 												<div class="col-lg-12">
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Abreviatura:</label>
@@ -125,7 +122,7 @@
 																name="txt_Abreviatura_guardar" placeholder="Abreviatura" />
 														</div>
 													</div>
-												</div>													
+												</div>
 											</div>
 											<div class="form-group">
 												<div class="col-md-12 col-md-offset-3">
@@ -134,8 +131,7 @@
 														Guardar <span class="fa  fa-save"></span>
 													</button>
 												</div>
-												<br>
-												<br>
+												<br> <br>
 												<div class="col-md-12" id="mensajeAlerta"></div>
 											</div>
 										</form>
@@ -149,7 +145,7 @@
 		</div>
 		<!-- /.row -->
 	</div>
-	
+
 	<!-- Modal Start here-->
 	<div class="modal fade bs-example-modal-sm" id="ModalLoading"
 		tabindex="-1" role="dialog" aria-hidden="true" data-backdrop="static">
@@ -193,7 +189,75 @@
 		</div>
 	</div>
 	<!-- Modal ends Here -->
-	
+
+	<div class="modal fade" id="modalCondigurarCorrelativo" tabindex="-1"
+		role="dialog">
+		<div class="modal-dialog">
+		<form class="form-horizontal" id="frm_correlativotipodocumento">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Configurar Correlativo</h4>
+				</div>
+				<div class="modal-body" id ="modalbodycorrelativotipodocumento">
+					
+					<input type="hidden" id="hiddencodTipodocumentocorrelativo" value="0"
+												name="hiddencodTipodocumentocorrelativo" />
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="form-group">
+
+									<label class="control-label col-lg-3" for="nombre">Tipo
+										Doc. :</label>
+									<div class="col-lg-8">
+										<input class="form-control" type="text"
+											id="txt_tipo_guardar" name="txt_tipo_guardar"
+											readonly="readonly" />
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="control-label col-lg-3" for="Serie">Serie:</label>
+									<div class="col-lg-8">
+										<input class="form-control" type="text"
+											id="txt_Serie_guardar" name="txt_Serie_guardar"
+											placeholder="Serie" />
+									</div>
+								</div>
+							</div>
+
+							<div class="col-lg-12">
+								<div class="form-group">
+									<label class="control-label col-lg-3" for="Correlativo">Correlativo:</label>
+									<div class="col-lg-8">
+										<input class="form-control" type="text"
+											id="txt_Correlativo_guardar" name="txt_Correlativo_guardar"
+											placeholder="Correlativo" />
+									</div>
+								</div>
+							</div>
+						</div>
+					
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+					<button  class="btn btn-primary">
+														Guardar <span class="fa  fa-save"></span>
+													</button>				
+				</div>
+			</div>
+			<!-- /.modal-content -->
+			</form>
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
 </body>
 <script src="js/function-tipodocumento.js"></script>
 </html>

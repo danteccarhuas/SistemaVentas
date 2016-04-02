@@ -53,7 +53,7 @@ $(document)	.ready(function(e) {
 		$("#modalRemove").modal("hide");		
 		var  codcliente=$('#hiddencodcliente').val();
 		$.ajax({
-			url : 'cliente?metodo=EliminarCategoria',
+			url : 'cliente?metodo=EliminarCliente',
 			type : 'post',
 			data : {codcliente : codcliente},
 			dataType : 'json',

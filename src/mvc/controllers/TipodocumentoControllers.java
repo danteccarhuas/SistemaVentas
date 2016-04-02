@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import mvc.models.Moneda_models;
 import mvc.models.Tipodocumento_models;
+import mvc.vo.Configurarcorrelativo_vo;
 import mvc.vo.Moneda_vo;
 import mvc.vo.Paginador_vo;
 import mvc.vo.Tipodocumento_vo;
@@ -74,10 +75,54 @@ public class TipodocumentoControllers extends HttpServlet {
 			}
 			else if (metodo.equalsIgnoreCase("ObtenerTipodocumento")) {
 				ObtenerTipodocumento(request, response);
-			}		
+			}	
+			else if (metodo.equalsIgnoreCase("ObtenerCorrelativoTipodoc")) {
+				ObtenerCorrelativoTipodoc(request, response);
+			}	else if (metodo.equalsIgnoreCase("Actualizarcorrelativotipodocumento")) {
+				Actualizarcorrelativotipodocumento(request, response);
+			}	
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	private void Actualizarcorrelativotipodocumento(HttpServletRequest request,
+			HttpServletResponse response) {
+			try {	
+			String codigo="";
+			Configurarcorrelativo_vo  configurarcorrelativo_vo= new Configurarcorrelativo_vo();
+			Tipodocumento_vo  tipodocumento_vo= new Tipodocumento_vo();
+			tipodocumento_vo.setIdtipodocumento(Integer.parseInt(request.getParameter("hiddencodTipodocumentocorrelativo")));
+			configurarcorrelativo_vo.setSerie(request.getParameter("txt_Serie_guardar"));
+			configurarcorrelativo_vo.setCorrelativo(request.getParameter("txt_Correlativo_guardar"));
+			configurarcorrelativo_vo.setTipodocumento(tipodocumento_vo);
+			codigo = new Tipodocumento_models().ActualizarCorrelativoTipodocumento(configurarcorrelativo_vo);
+		} catch (Exception e) {
+			System.out.println("Error en el metodo Actualizarcorrelativotipodocumento : "+e.getMessage());
+		}		
+		
+	}
+
+	private void ObtenerCorrelativoTipodoc(HttpServletRequest request,
+			HttpServletResponse response) {
+		try {
+			
+			
+			Configurarcorrelativo_vo  configurarcorrelativo_vo= new Configurarcorrelativo_vo();
+			Tipodocumento_vo  tipodocumento_vo= new Tipodocumento_vo();
+			tipodocumento_vo.setIdtipodocumento(Integer.parseInt(request.getParameter("codigo_tipodocumento")));			
+			configurarcorrelativo_vo = new Tipodocumento_models().obtenerDatosCorrelativoTipodoc(tipodocumento_vo);		
+			
+			String json= new Gson().toJson(configurarcorrelativo_vo);			
+			response.setContentType("application/json"); 
+			response.setCharacterEncoding("utf-8"); 
+			String bothJson = "["+json+"]";				
+			response.getWriter().write(bothJson);		
+			
+		} catch (Exception e) {
+			System.out.println("Error en el metodo ObtenerTipodocumento : "+e.getMessage());
+		}		
+		
 	}
 
 	private void ObtenerTipodocumento(HttpServletRequest request,

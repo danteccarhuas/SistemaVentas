@@ -514,8 +514,11 @@ BEGIN
 		p_abreviatura,
 		CURDATE()
          ); 
-set p_codigo = LAST_INSERT_ID();
-
+	set p_codigo = LAST_INSERT_ID();
+	
+	insert into tb_configurarcorrelativo
+	(serie,correlativo,idtipodocumento) 
+	values('','',p_codigo);
 END //
 DELIMITER ;
 
@@ -1595,5 +1598,37 @@ BEGIN
 	from tb_cliente  p	 inner join tb_ubigeo ub
 	on p.ubigeo = ub.ubigeo
 	where p.codigocliente =  p_codigocliente;
+END //
+DELIMITER ;
+
+
+drop procedure if exists usp_obtener_correlativo;
+DELIMITER //
+
+CREATE  PROCEDURE usp_obtener_correlativo( 
+
+IN p_idtipodocumento int
+)
+BEGIN
+    select c.serie,c.correlativo,
+	(select descripcion from tb_tipodocumento where idtipodocumento = c.idtipodocumento) as tipodoc
+	from tb_configurarcorrelativo c
+	where  c.idtipodocumento = p_idtipodocumento;		
+END //
+DELIMITER ;
+
+drop procedure if exists usp_upd_correlativo;
+DELIMITER //
+
+CREATE  PROCEDURE usp_upd_correlativo( 
+IN p_idtipodocumento int,
+in p_serie varchar(10),
+in p_correlativo varchar(30)
+)
+BEGIN
+		update tb_configurarcorrelativo
+		set serie = p_serie,
+			correlativo = p_correlativo 
+		where idtipodocumento = p_idtipodocumento;
 END //
 DELIMITER ;

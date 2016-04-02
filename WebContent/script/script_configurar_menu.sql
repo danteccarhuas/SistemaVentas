@@ -68,3 +68,5 @@
 
 	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
 	values (3,2,2,'','Juridico',1,3);
+	
+

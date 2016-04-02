@@ -49,6 +49,117 @@ $(document)	.ready(function(e) {
 		});
 		
 	});
+	
+	
+	$(document).on("click","#btn_modaConfigurar",function(e) {
+		e.preventDefault();	
+		$("#modalCondigurarCorrelativo").modal("show");
+		$('#hiddencodTipodocumento').val($(this).data('id'));		
+		var codigo_tipodocumento = $('#hiddencodTipodocumento').val();	
+		$('#hiddencodTipodocumentocorrelativo').val(codigo_tipodocumento);			
+		console.log($('#hiddencodTipodocumentocorrelativo').val());
+		$.ajax({
+			url : 'tipodocumento?metodo=ObtenerCorrelativoTipodoc',
+			type : 'post',
+			data : {codigo_tipodocumento:codigo_tipodocumento},
+			dataType : 'json',
+			success : function(result) {
+				var data1=result[0];				
+				if( typeof data1 === 'undefined' || data1	 === null ){
+					alert(data1);
+					return;							
+				}else {
+					$("#modalbodycorrelativotipodocumento #txt_tipo_guardar").val(data1.tipodocumento.descripcion);
+					$("#modalbodycorrelativotipodocumento #txt_Serie_guardar").val(data1.serie);		
+					$("#modalbodycorrelativotipodocumento #txt_Correlativo_guardar").val(data1.correlativo);
+				}
+						
+			}
+		});
+		
+	});
+	
+	
+	/*****************************************/
+	
+	$("#frm_correlativotipodocumento").bootstrapValidator({
+		message : 'This value is not valid',
+	feedbackIcons : {
+		valid : 'glyphicon glyphicon-ok',
+		invalid : 'glyphicon glyphicon-remove',
+		validating : 'glyphicon glyphicon-refresh'
+	},
+	fields : {
+		"txt_Serie_guardar" : {
+			validators : {
+				notEmpty : {
+					message : 'Ingrese serie por favor.'
+				},
+				stringLength : {
+					min : 1,
+					max : 4,
+					message : 'La serie tiene 4 cifras máximo.'
+				}
+			}
+		},
+		"txt_Correlativo_guardar" : {
+			validators : {
+				notEmpty : {
+					message : 'Ingrese correlativo por favor.'
+				},						
+				stringLength : {
+					min : 1,
+					max : 7,
+					message : 'El Celular tiene 7 cifras máximo.'
+				}
+			}
+		}	
+	}
+});
+$('#frm_correlativotipodocumento').on('success.form.bv', function(e) {
+	e.preventDefault();
+	console.log($('#hiddencodTipodocumentocorrelativo').val());
+	GuardarCorrelativoTipoDocumento();
+	$("#modalCondigurarCorrelativo").modal("hide");
+});
+function GuardarCorrelativoTipoDocumento(){		 
+  $('#ModalLoading').modal('show');
+  $.ajax({
+		url : 'tipodocumento?metodo=Actualizarcorrelativotipodocumento',
+		type : 'post',
+		data : $('#frm_correlativotipodocumento').serialize(),
+		dataType:'json',
+		success:function(result){
+			$('#ModalLoading').modal('hide');
+			var valor=eval(result);					
+			if(valor.indAccion=="1"){
+				if(valor.codigocliente=="-1"){
+					$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del cliente</div>");
+				}else{
+					$("#tab2primary #txt_codigo_guardar").val(valor.codigocliente);
+					$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del cliente con el codigo : "+ valor.codigocliente +"</div>");
+				}
+			}else{
+				if(valor.codigomarca=="-1"){
+					$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos del cliente</div>");
+				}else{							
+					$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos del cliente</div>");
+				}
+			}
+		},
+		error : function(xhr, ajaxOptions, thrownError) {
+			$('#ModalLoading').modal('hide');
+			$('#mensajeAlerta').html("<div class='alert alert-danger'>Ocurrio un error por favor comuniquese con el Administrador del Sistema</div>");
+		}
+  });
+}
+	
+	
+	
+	/*************************************/
+	
+	
+	
 	/*Metodo para modificar moneda*/
 	$(document).on("click","#btn_editar",function(e) {			
 		e.preventDefault();		
@@ -250,7 +361,8 @@ function cargaPagina(pagina){
 						+ '</td><td>'
 						+ lista[i]['abreviatura']
 						+ '</td><td><a href="" data-id="'+lista[i]['idtipodocumento']+'" id="btn_editar" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </a></td>'
-						+ '</td><td><a  data-id="'+lista[i]['idtipodocumento']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>';
+						+ '</td><td><a  data-id="'+lista[i]['idtipodocumento']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>'
+						+ '</td><td><a  data-id="'+lista[i]['idtipodocumento']+'" id="btn_modaConfigurar" class="btn btn-primary"><span class="fa fa-cog" ></span></a></td>';
 				}
 				$('#rellenar').append(trHTML);
 			}			
