@@ -2,7 +2,6 @@ package mvc.vo;
 
 public class Cliente_vo {
 
-	
 	private int idcliente;
 	private String codigocliente;
 	private String nombres;
@@ -12,10 +11,12 @@ public class Cliente_vo {
 	private String telefono;
 	private String fecha_creacion;
 	private String fecha_modificacion;
-	private Parametrizador_vo tipocliente;
 	private String ruc;
 	private String dni;
-	private String estado;
+	private String direccion;
+	private String referencia;
+	private Parametrizador_vo estado;
+	private Parametrizador_vo tipopersona;
 	private Ubigeo_vo ubigeo;
 	private Parametrizador_vo sexo;
 	private Paginador_vo paginador;
@@ -73,12 +74,6 @@ public class Cliente_vo {
 	public void setFecha_modificacion(String fecha_modificacion) {
 		this.fecha_modificacion = fecha_modificacion;
 	}
-	public Parametrizador_vo getTipocliente() {
-		return tipocliente;
-	}
-	public void setTipocliente(Parametrizador_vo tipocliente) {
-		this.tipocliente = tipocliente;
-	}
 	public String getRuc() {
 		return ruc;
 	}
@@ -91,11 +86,29 @@ public class Cliente_vo {
 	public void setDni(String dni) {
 		this.dni = dni;
 	}
-	public String getEstado() {
+	public String getDireccion() {
+		return direccion;
+	}
+	public void setDireccion(String direccion) {
+		this.direccion = direccion;
+	}
+	public String getReferencia() {
+		return referencia;
+	}
+	public void setReferencia(String referencia) {
+		this.referencia = referencia;
+	}
+	public Parametrizador_vo getEstado() {
 		return estado;
 	}
-	public void setEstado(String estado) {
+	public void setEstado(Parametrizador_vo estado) {
 		this.estado = estado;
+	}
+	public Parametrizador_vo getTipopersona() {
+		return tipopersona;
+	}
+	public void setTipopersona(Parametrizador_vo tipopersona) {
+		this.tipopersona = tipopersona;
 	}
 	public Ubigeo_vo getUbigeo() {
 		return ubigeo;
@@ -115,6 +128,8 @@ public class Cliente_vo {
 	public void setPaginador(Paginador_vo paginador) {
 		this.paginador = paginador;
 	}
+	
+	
 	
 	
 	

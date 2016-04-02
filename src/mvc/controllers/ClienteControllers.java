@@ -2,7 +2,9 @@ package mvc.controllers;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,15 +12,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mvc.models.Cliente_models;
 import mvc.models.Parametrizador_models;
+import mvc.models.Tienda_models;
 import mvc.models.Ubigeo_models;
+import mvc.vo.Cliente_vo;
 import mvc.vo.Departamento_vo;
 import mvc.vo.Distrito_vo;
 import mvc.vo.Funcionalidad_vo;
 import mvc.vo.Parametrizador_vo;
 import mvc.vo.Provincia_vo;
+import mvc.vo.Tienda_vo;
+import mvc.vo.Ubigeo_vo;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 /**
  * Servlet implementation class ClienteControllers
@@ -185,7 +193,79 @@ public class ClienteControllers extends HttpServlet {
 
 	private void RegistrarModificarCliente(HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
+try {
+			String strubigeo  ="";
+			Cliente_vo  objeto= new Cliente_vo();
+			int indAccion = Integer.parseInt(request.getParameter("hiddenindaccion"));
+			objeto.setNombres(request.getParameter("txt_nombre_guardar"));		
+			objeto.setApellidos(request.getParameter("txt_apellidos_guardar"));			
+			objeto.setCorreo(request.getParameter("txt_correo_guardar"));	
+			objeto.setTelefono(request.getParameter("txt_telefono_guardar"));
+			objeto.setCelular(request.getParameter("txt_celular_guardar"));
+			objeto.setDni(request.getParameter("txt_dni_guardar"));
+			objeto.setRuc(request.getParameter("txt_ruc_guardar"));
+			objeto.setDireccion(request.getParameter("txt_direccion_guarda"));
+			objeto.setReferencia(request.getParameter("txt_referencia_guardar"));
+						
+			
+			Parametrizador_vo tipopersona= new Parametrizador_vo();
+			tipopersona.setValor(Integer.parseInt(request.getParameter("cbo_tipopersona")));
+			
+			strubigeo= request.getParameter("cbo_departamento") + request.getParameter("cbo_provincia")+request.getParameter("cbo_distrito");
+			Ubigeo_vo ubigeo_vo = new Ubigeo_vo();
+			ubigeo_vo.setUbigeo(Integer.parseInt(strubigeo));
+						
+			Parametrizador_vo estado= new Parametrizador_vo();
+			estado.setValor(Integer.parseInt(request.getParameter("cbo_estado")));
+			
+			Parametrizador_vo sexo= new Parametrizador_vo();
+			sexo.setValor(Integer.parseInt(request.getParameter("generoRadios")));
+			
+			objeto.setTipopersona(tipopersona);
+			objeto.setUbigeo(ubigeo_vo);
+			objeto.setSexo(sexo);
+			objeto.setEstado(estado);
+			
+				
+			String codigocliente  = "";
+			if (indAccion == 1) {
+				Map<String, String> Beanmap= new HashMap<String, String>();
+				codigocliente = new Cliente_models().RegistrarCliente(objeto);
+				if(codigocliente.equals("-1")){
+					Beanmap.put("codigocliente", String.valueOf("-1"));
+					Beanmap.put("indAccion", String.valueOf(indAccion));
+					Gson gson= new GsonBuilder().setPrettyPrinting().create();
+					String json= gson.toJson(Beanmap);
+					response.getWriter().write(json);
+				}else if(!codigocliente.equals("-1")){
+					Beanmap.put("codigocliente", codigocliente);
+					Beanmap.put("indAccion", String.valueOf(indAccion));
+					Gson gson= new GsonBuilder().setPrettyPrinting().create();
+					String json= gson.toJson(Beanmap);
+					response.getWriter().write(json);
+				}
+			}else {
+				objeto.setCodigocliente(request.getParameter("hiddencodtienda"));
+				Map<String, String> Beanmap= new HashMap<String, String>();
+				codigocliente = new Cliente_models().ActualizarCliente(objeto);
+				if(codigocliente.equals("-1")){
+					Beanmap.put("codigocliente", String.valueOf("-1"));
+					Beanmap.put("indAccion", String.valueOf(indAccion));
+					Gson gson= new GsonBuilder().setPrettyPrinting().create();
+					String json= gson.toJson(Beanmap);
+					response.getWriter().write(json);
+				}else if(!codigocliente.equals("-1")){
+					Beanmap.put("codigocliente", codigocliente);
+					Beanmap.put("indAccion", String.valueOf(indAccion));
+					Gson gson= new GsonBuilder().setPrettyPrinting().create();
+					String json= gson.toJson(Beanmap);
+					response.getWriter().write(json);
+				}
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Error en el metodo RegistrarModificarCliente : "+e.getMessage());
+		}
 		
 	}
 

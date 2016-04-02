@@ -35,6 +35,8 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_cliente` (
   `correo` VARCHAR(45) NULL ,
   `celular` VARCHAR(45) NULL ,
   `telefono` VARCHAR(45) NULL ,
+  `direccion` VARCHAR(100) NULL ,
+  `referencia` VARCHAR(225) NULL ,
   `fecha_creacion` DATETIME NULL ,
   `fecha_modificacion` DATETIME NULL ,
   `idtipocliente` INT NOT NULL ,
@@ -42,7 +44,7 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_cliente` (
   `dni` VARCHAR(8) NULL ,
   `estado` INT NULL ,
   `ubigeo` INT NOT NULL ,
-  `idsexo` INT NOT NULL ,
+  `idgenero` INT NOT NULL ,
   PRIMARY KEY (`idcliente`) ,
   INDEX `fk_tb_cliente_tb_ubigeo1_idx` (`ubigeo` ASC) ,
   CONSTRAINT `fk_tb_cliente_tb_ubigeo1`
@@ -90,6 +92,7 @@ DROP TABLE IF EXISTS `bdsistemaventas`.`tb_producto` ;
 
 CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_producto` (
   `idproducto` SMALLINT NOT NULL AUTO_INCREMENT ,
+  `codigoproducto` VARCHAR(12) NULL ,
   `nombre` VARCHAR(50) NULL ,
   `descripcion` VARCHAR(255) NULL ,
   `estado` INT NULL ,
@@ -101,7 +104,6 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_producto` (
   `idcategoria` INT NOT NULL ,
   `idgenero` INT NOT NULL ,
   `talla` VARCHAR(25) NULL ,
-  `codigoproducto` VARCHAR(12) NULL ,
   PRIMARY KEY (`idproducto`) ,
   INDEX `fk_tb_producto_tb_marca1_idx` (`idmarca` ASC) ,
   INDEX `fk_tb_producto_tb_categoria1_idx` (`idcategoria` ASC) ,
@@ -404,7 +406,7 @@ CREATE  TABLE IF NOT EXISTS `bdsistemaventas`.`tb_proveedor` (
   `celular` VARCHAR(45) NULL ,
   `sitioweb` VARCHAR(45) NULL ,
   `ruc` VARCHAR(11) NULL ,
-  `direccion` VARCHAR(45) NULL ,
+  `direccion` VARCHAR(100) NULL ,
   `referencia` VARCHAR(255) NULL ,
   `contacto` VARCHAR(45) NULL ,
   `estado` INT NULL ,

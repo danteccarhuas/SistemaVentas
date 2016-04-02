@@ -223,42 +223,49 @@ $(document)	.ready(function(e) {
 							message : 'Seleccione un Distrito por favor.'
 						}
 					}
-				}
+				},
+				"generoRadios": {
+	                // The group will be set as default (.form-group)
+	                validators: {
+	                    notEmpty: {
+	                        message: 'Por favor seleccione un genero'
+	                    }
+	                }
+	            }
 			}
 	});
 	$('#frm_cliente').on('success.form.bv', function(e) {
 		e.preventDefault();
-		GuardarCategoria();
+		GuardarCliente();
 		if ($('#hiddenindaccion').val() == 1){/*Si es la accion de insertar se bloqueara el boton btn_enviar*/
 			$("#btn_enviar").prop("disabled", true);
-		}
-		
+		}		
 	});
 	
 	
 	
-	function GuardarCategoria(){		 
+	function GuardarCliente(){		 
 		  $('#ModalLoading').modal('show');
 		  $.ajax({
-				url : 'categoria?metodo=RegistrarModificarCategoria',
+				url : 'cliente?metodo=RegistrarModificarCliente',
 				type : 'post',
-				data : $('#frm_categoria').serialize(),
+				data : $('#frm_cliente').serialize(),
 				dataType:'json',
 				success:function(result){
 					$('#ModalLoading').modal('hide');
 					var valor=eval(result);					
 					if(valor.indAccion=="1"){
-						if(valor.codigocategoria=="-1"){
-							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos de la categoria</div>");
+						if(valor.codigocliente=="-1"){
+							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al registrar los datos del cliente</div>");
 						}else{
-							$("#tab2primary #txt_codigo_guardar").val(valor.codigocategoria);
-							$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos de la categoria con el codigo : "+ valor.codigocategoria +"</div>");
+							$("#tab2primary #txt_codigo_guardar").val(valor.codigocliente);
+							$('#mensajeAlerta').html("<div class='alert alert-success'>Se registro satisfactoriamente los datos del cliente con el codigo : "+ valor.codigocliente +"</div>");
 						}
 					}else{
 						if(valor.codigomarca=="-1"){
-							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos de la categoria</div>");
+							$('#mensajeAlerta').html("<div class='alert alert-warning'>Ocurrio un error al modificar los datos del cliente</div>");
 						}else{							
-							$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos de la categoria</div>");
+							$('#mensajeAlerta').html("<div class='alert alert-success'>Se modificaron satisfactoriamente los datos del cliente</div>");
 						}
 					}
 				},
@@ -473,7 +480,7 @@ function initGrilla(){
 	
 	var txt_Descripcion_buscar = $("#txt_Descripcion_buscar").val();
 	$.ajax({
-		url : 'categoria?metodo=TotalRegistrosCategoria',
+		url : 'cliente?metodo=TotalRegistrosCliente',
 		type : 'post',
 		data : {txt_Descripcion_buscar:txt_Descripcion_buscar},
 		dataType : 'json',

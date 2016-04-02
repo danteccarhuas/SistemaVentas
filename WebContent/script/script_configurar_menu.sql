@@ -52,16 +52,19 @@
 	values (2,'Registro de sexo',1);	
 	
 	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
-	values (2,1,0,'','Masculino',1,2);
+	values (2,1,1,'','Masculino',1,2);
 	
 	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
-	values (2,2,1,'','Femenino',1,2);
+	values (2,2,2,'','Femenino',1,2);
 
+	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
+	values (2,3,3,'','Otros',1,2);
+	
 	insert into tb_funcionalidad (idfuncionalidad,descripcion,estado) 
-values (3,'Tipo de Persona',1);	
+	values (3,'Tipo de Persona',1);	
+	
+	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
+	values (3,1,1,'','Natural',1,3);
 
-insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
-values (3,1,1,'','Natural',1,3);
-
-insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
-values (3,2,2,'','Juridico',1,3);
+	insert into tb_parametrizador(idparametrizador,idparamconsecutivo,valor,simbolo,descripcion,estado,idfuncionalidad)
+	values (3,2,2,'','Juridico',1,3);

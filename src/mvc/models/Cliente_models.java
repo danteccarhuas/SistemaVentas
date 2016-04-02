@@ -18,12 +18,24 @@ public class Cliente_models {
 		CallableStatement cs = null;
 		try {
 			con = MysqlDBConexion.getConexion();
-			String sql = "call usp_Ins_categoria(?,?)";
+			String sql = "call usp_Ins_Cliente(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			cs = con.prepareCall(sql);
-			cs.setString(1, bean.getApellidos());
-			cs.registerOutParameter(2, java.sql.Types.VARCHAR);
+			cs.setString(1, bean.getNombres());
+			cs.setString(2, bean.getApellidos());
+			cs.setString(3, bean.getCorreo());
+			cs.setString(4, bean.getCelular());
+			cs.setString(5, bean.getTelefono());
+			cs.setString(6, bean.getDireccion());
+			cs.setString(7, bean.getReferencia());
+			cs.setInt(8, bean.getTipopersona().getValor());
+			cs.setString(9, bean.getRuc());
+			cs.setString(10, bean.getDni());
+			cs.setInt(11, bean.getEstado().getValor());
+			cs.setInt(12, bean.getUbigeo().getUbigeo());
+			cs.setInt(13, bean.getSexo().getValor());
+			cs.registerOutParameter(14, java.sql.Types.VARCHAR);
 			cs.execute();
-			codigo = cs.getString(2);
+			codigo = cs.getString(14);
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -47,10 +59,22 @@ public class Cliente_models {
 		CallableStatement cs = null;
 		try {
 			con = MysqlDBConexion.getConexion();
-			String sql = "call usp_UPD_categoria(?,?)";
+			String sql = "call usp_Upd_Cliente(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			cs = con.prepareCall(sql);
-			cs.setString (1, bean.getNombres ());
-			cs.setInt(2, bean.getIdcliente());					
+			cs.setString(1, bean.getNombres());
+			cs.setString(2, bean.getApellidos());
+			cs.setString(3, bean.getCorreo());
+			cs.setString(4, bean.getCelular());
+			cs.setString(5, bean.getTelefono());
+			cs.setString(6, bean.getDireccion());
+			cs.setString(7, bean.getReferencia());
+			cs.setInt(8, bean.getTipopersona().getValor());
+			cs.setString(9, bean.getRuc());
+			cs.setString(10, bean.getDni());
+			cs.setInt(11, bean.getEstado().getValor());
+			cs.setInt(12, bean.getUbigeo().getUbigeo());
+			cs.setInt(13, bean.getSexo().getValor());
+			cs.setString(14, bean.getCodigocliente());					
 			cs.execute();
 			codigo = "1";	
 		} catch (Exception e) {
@@ -134,7 +158,7 @@ public class Cliente_models {
 			con= MysqlDBConexion.getConexion();;
 			String sql= "call usp_Cons_categoria(?,?,?)";
 			cs=con.prepareCall(sql);
-			cs.setInt(1, cliente_vo.getTipocliente().getValor());
+			//cs.setInt(1, cliente_vo.getTipocliente().getValor());
 			cs.setString(2, cliente_vo.getNombres());
 			cs.setString(3, cliente_vo.getDni());
 			cs.setString(4, cliente_vo.getRuc());			

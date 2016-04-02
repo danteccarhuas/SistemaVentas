@@ -253,7 +253,8 @@
 											<div class="row">
 												<div class="col-lg-8">
 													<div class="form-group">
-														<label class="control-label col-lg-3 " for="txt_direccion_guarda">Dirección:</label>
+														<label class="control-label col-lg-3 "
+															for="txt_direccion_guarda">Dirección:</label>
 														<div class="col-lg-9">
 															<input class="form-control" type="text"
 																id="txt_direccion_guarda" name="txt_direccion_guarda"
@@ -261,13 +262,13 @@
 														</div>
 													</div>
 												</div>
-												
+
 												<div class="col-lg-4">
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="nombre">Estado:</label>
 														<div class="col-lg-9">
 															<select class="form-control" name="cbo_estado"
-																id="cbo_estado">																
+																id="cbo_estado">
 															</select>
 														</div>
 													</div>
@@ -275,18 +276,44 @@
 
 											</div>
 											<div class="row">
-												
-												
-												<div class="col-lg-12">
+												<div class="col-lg-8">
 													<div class="form-group">
-														<label class="control-label col-lg-2" for="txt_referencia_guardar">Referencia:</label>
-														<div class="col-lg-10">
-															<textarea class="form-control" id="txt_referencia_guardar"
-																name="txt_referencia_guardar" rows="4" placeholder="Referencia"></textarea>
+														<label class="control-label col-lg-3"
+															for="txt_referencia_guardar">Referencia:</label>
+														<div class="col-lg-9">
+															<textarea class="form-control"
+																id="txt_referencia_guardar"
+																name="txt_referencia_guardar" rows="4"
+																placeholder="Referencia"></textarea>
 														</div>
 													</div>
 												</div>
-												
+												<div class="col-lg-4">
+													<div class="form-group">
+														<label class="col-lg-3">Genero:</label>
+														<div class="col-lg-9">
+															<div class="radio">
+																<label> <input type="radio" name="generoRadios"
+																	id="generoRadios" value="1" ><!-- checked -->
+																	Masculino
+																</label>
+															</div>
+															<div class="radio">
+																<label> <input type="radio" name="generoRadios"
+																	id="generoRadios" value="2">
+																	Femenino
+																</label>
+															</div>
+															<div class="radio">
+																<label> <input type="radio" name="generoRadios"
+																	id="generoRadios" value="3" >
+																	Otros
+																</label>
+															</div>
+														</div>
+													</div>
+												</div>
+
 											</div>
 
 											<div class="form-group">
@@ -294,10 +321,10 @@
 													<button id="btn_salir" type="reset" class="btn btn-primary">Salir</button>
 													<button id="btn_enviar" class="btn btn-primary">
 														Guardar <span class="fa  fa-save"></span>
-														
-														
+
+
 													</button>
-													
+
 												</div>
 												<div class="col-md-7" id="mensajeAlerta"></div>
 											</div>

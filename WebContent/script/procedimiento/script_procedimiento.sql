@@ -70,7 +70,7 @@ IN	p_telefono varchar(45),
 IN	p_celular varchar(25),
 In	p_sitioweb varchar(45),
 IN	p_ruc varchar(11), 
-IN	p_direccion VARCHAR(45),
+IN	p_direccion VARCHAR(100),
 IN	p_referencia varchar(255),
 IN	p_contacto varchar(45),
 IN  p_estado INT,
@@ -221,7 +221,7 @@ IN	p_telefono varchar(45),
 IN	p_celular varchar(25),
 In	p_sitioweb varchar(45),
 IN	p_ruc varchar(11), 
-IN	p_direccion VARCHAR(45),
+IN	p_direccion VARCHAR(100),
 IN	p_referencia varchar(255),
 IN	p_contacto varchar(45),
 IN  p_estado INT,
@@ -1358,3 +1358,242 @@ BEGIN
 END //
 DELIMITER ;
 
+
+
+drop procedure if exists usp_Ins_Cliente;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Ins_Cliente( 
+IN  p_nombres VARCHAR(45), 
+IN  p_apellidos VARCHAR(45),
+IN 	p_correo VARCHAR(45),
+IN	p_celular varchar(25),
+IN	p_telefono varchar(25),
+IN	p_direccion varchar(100),
+IN	p_referencia varchar(100),
+IN	p_idtipocliente int(11),
+IN	p_ruc varchar(11),
+IN	p_dni varchar(8),
+IN	p_estado int(11),
+IN	p_ubigeo int(11),
+IN	p_idsexo int(11),
+out p_codigocliente VARCHAR(12)
+     )
+BEGIN
+	declare v_cod_cli VARCHAR(12);
+	set v_cod_cli='';
+	 
+
+	select cliente into v_cod_cli from (
+	select  concat('CLI',CAST(RIGHT(CONCAT('000000000' , CAST(RTRIM(CAST(RIGHT(IFNULL(MAX(codigocliente),0),8) 
+	as signed integer)+1)AS CHAR(10000) CHARACTER SET utf8) ),8)AS CHAR(10000) CHARACTER SET utf8)) as cliente 
+	from tb_cliente) as tabla;
+
+    INSERT INTO tb_cliente
+         (
+		codigocliente,
+		nombres,
+		apellidos,
+		correo,	
+		celular,
+		telefono,
+		direccion,
+		referencia,
+		fecha_creacion,
+		idtipocliente,
+		ruc,
+		dni,		
+		estado,
+		ubigeo,
+		idgenero
+		)
+    VALUES 
+         ( 
+		v_cod_cli,
+		p_nombres , 
+		p_apellidos ,
+		p_correo ,
+		p_celular ,
+		p_telefono,
+		p_direccion,
+		p_referencia,
+		(select now()),
+		p_idtipocliente,
+		p_ruc,
+		p_dni ,
+		p_estado,
+		p_ubigeo,
+		p_idsexo
+		 ); 
+	set p_codigocliente=v_cod_cli;
+END //
+DELIMITER ;
+
+
+
+drop procedure if exists usp_Upd_Cliente;
+DELIMITER //
+
+CREATE  PROCEDURE usp_Upd_Cliente( 
+IN  p_nombres VARCHAR(45), 
+IN  p_apellidos VARCHAR(45),
+IN 	p_correo VARCHAR(45),
+IN	p_celular varchar(25),
+IN	p_telefono varchar(25),
+IN	p_direccion varchar(100),
+IN	p_referencia varchar(100),
+IN	p_idtipocliente int(11),
+IN	p_ruc varchar(11),
+IN	p_dni varchar(8),
+IN	p_estado int(11),
+IN	p_ubigeo int(11),
+IN	p_idsexo int(11),
+in p_codigocliente VARCHAR(12)
+     )
+BEGIN
+	UPDATE tb_cliente 
+		SET 		
+		nombres=p_nombres,
+		apellidos=p_apellidos,
+		correo=p_correo,	
+		celular=p_celular,
+		telefono=p_telefono,
+		direccion=p_direccion,
+		referencia=p_referencia,
+		fecha_modificacion=(select now()),
+		idtipocliente=p_idtipocliente,
+		ruc=p_ruc,
+		dni=p_dni,		
+		estado=p_estado,
+		ubigeo=p_ubigeo,
+		idgenero=p_idsexo
+	WHERE codigocliente =p_codigocliente;  
+END //
+DELIMITER ;
+
+drop procedure if exists usp_eliminar_cliente;
+DELIMITER //
+CREATE  PROCEDURE usp_eliminar_cliente(
+IN  p_codigo int
+)
+BEGIN 
+	update tb_cliente set  estado = 0 
+	where codigocliente =  p_codigo;
+END //
+DELIMITER ;
+
+
+/*
+call usp_Cons_Cliente ('','',0,'0','0',0,5,0);
+*/
+drop procedure if exists usp_Cons_Cliente;
+DELIMITER //
+CREATE  PROCEDURE usp_Cons_Cliente(
+IN p_codigocliente varchar(12),
+IN p_nombres varchar(100),
+IN p_idtipocliente int(11),
+IN p_ruc int(11),
+IN p_dni int(11),
+IN p_idgenero int(11),
+IN p_limit int,
+IN p_desde int
+
+)
+BEGIN 
+	PREPARE STMT FROM  "
+	select	
+	p.codigocliente, 
+	p.nombres,
+	p.apellidos,
+	p.correo,
+	p.celular,			
+	p.idtipocliente,
+	(select descripcion from tb_parametrizador where idfuncionalidad = 3 and valor = p.idtipocliente) as descripTipocliente,
+	p.ruc,
+	p.dni,
+	p.idgenero,
+	(select descripcion from tb_parametrizador where idfuncionalidad = 2 and valor = p.idgenero) as descripgenero
+	from tb_cliente  p
+	where (CONCAT(p.nombres, p.apellidos) like CONCAT(""%"", ?,""%"") or ''= CONCAT(""%"",?,""%""))
+	and (p.codigocliente= ? or ? = '')
+	and (p.idtipocliente= ? or 0 = ?) 
+	and (p.ruc= ? or '0' = ?) 
+	and (p.dni= ? or '0' = ?) 
+	and (p.idgenero= ? or 0 = ?) 
+	and estado = 1 order by p.codigocliente asc limit ? offset ?"  ;
+	
+	SET @p_codigocliente = p_codigocliente; 
+	SET @p_nombres = p_nombres; 
+	SET @p_idtipocliente = p_idtipocliente; 
+	SET @p_ruc = p_ruc; 
+	SET @p_dni = p_dni; 
+	SET @p_idgenero = p_idgenero; 
+	SET @p_limit = p_limit; 
+	SET @p_desde = p_desde; 
+
+
+	EXECUTE STMT USING @p_nombres,@p_nombres,@p_codigocliente,@p_codigocliente,@p_idtipocliente,@p_idtipocliente,
+					   @p_ruc,@p_ruc,@p_dni,@p_dni,@p_idgenero,@p_idgenero, @p_limit,@p_desde;
+	DEALLOCATE PREPARE STMT;
+END //
+DELIMITER ;
+/*
+call usp_TotaRegist_Cliente ('','',0,'0','0',0,@total);
+select @total
+*/
+drop procedure if exists usp_TotaRegist_Cliente;
+DELIMITER //
+CREATE  PROCEDURE usp_TotaRegist_Cliente(
+IN p_codigocliente varchar(12),
+IN p_nombres varchar(100),
+IN p_idtipocliente int(11),
+IN p_ruc int(11),
+IN p_dni int(11),
+IN p_idgenero int(11),
+OUT P_TOTALREGISTRO INT
+)
+BEGIN 
+	declare v_TOTALREGISTRO INT;
+	set v_TOTALREGISTRO=0;
+
+	select	count(p.idcliente) into v_TOTALREGISTRO
+	from tb_cliente  p
+	where (CONCAT(p.nombres, p.apellidos) like CONCAT("%", p_nombres ,"%") or ''= CONCAT("%", p_nombres ,"%"))
+	and (p.codigocliente= p_codigocliente or p_codigocliente = '')
+	and (p.idtipocliente= p_idtipocliente or 0 = p_idtipocliente) 
+	and (p.ruc= p_ruc or '0' = p_ruc) 
+	and (p.dni= p_dni or '0' = p_dni) 
+	and (p.idgenero= p_idgenero or 0 = p_idgenero) 
+	and estado = 1;
+	set P_TOTALREGISTRO = v_TOTALREGISTRO;
+END //
+DELIMITER ;
+
+
+
+drop procedure if exists usp_obt_datosCliente;
+DELIMITER //
+CREATE  PROCEDURE usp_obt_datosCliente(
+IN  p_codigocliente varchar(12)
+)
+BEGIN 
+	select	
+	p.codigocliente, 
+	p.nombres,
+	p.apellidos,
+	p.correo,
+	p.celular,
+	p.telefono,
+	p.direccion,
+	p.referencia,
+	p.idtipocliente,
+	p.ruc,
+	p.dni,
+	p.estado,
+	ub.iddepar,ub.idprov,ub.iddist,
+	p.idgenero
+	from tb_cliente  p	 inner join tb_ubigeo ub
+	on p.ubigeo = ub.ubigeo
+	where p.codigocliente =  p_codigocliente;
+END //
+DELIMITER ;
