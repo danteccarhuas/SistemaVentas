@@ -12,14 +12,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mvc.models.Categoria_models;
 import mvc.models.Cliente_models;
 import mvc.models.Parametrizador_models;
 import mvc.models.Tienda_models;
 import mvc.models.Ubigeo_models;
+import mvc.vo.Categoria_vo;
 import mvc.vo.Cliente_vo;
 import mvc.vo.Departamento_vo;
 import mvc.vo.Distrito_vo;
 import mvc.vo.Funcionalidad_vo;
+import mvc.vo.Paginador_vo;
 import mvc.vo.Parametrizador_vo;
 import mvc.vo.Provincia_vo;
 import mvc.vo.Tienda_vo;
@@ -169,25 +172,104 @@ public class ClienteControllers extends HttpServlet {
 
 	private void ObtenerCliente(HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		try {
+			Cliente_vo  objeto= new Cliente_vo();
+			objeto.setCodigocliente(request.getParameter("codcliente"));			
+			objeto = new Cliente_models().obtenerDatosCliente(objeto);			
+			String json= new Gson().toJson(objeto);			
+			response.setContentType("application/json"); 
+			response.setCharacterEncoding("utf-8"); 
+			String bothJson = "["+json+"]";				
+			response.getWriter().write(bothJson);		
+			
+		} catch (Exception e) {
+			System.out.println("Error en el metodo ObtenerCliente : "+e.getMessage());
+		}		
 		
 	}
 
 	private void EliminarCliente(HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		try {
+			String ind_respuesta= ""; 
+			Cliente_vo  cliente_vo= new Cliente_vo(); 
+			cliente_vo.setCodigocliente(request.getParameter("codcliente"));			
+			Map<String, String> Beanmap= new HashMap<String, String>();
+			ind_respuesta = new Cliente_models().EliminarCliente(cliente_vo);
+			if(ind_respuesta.equals("-1")){
+				Beanmap.put("ind_respuesta", String.valueOf("-1"));
+				Gson gson= new GsonBuilder().setPrettyPrinting().create();
+				String json= gson.toJson(Beanmap);
+				response.getWriter().write(json);
+			}else if(!ind_respuesta.equals("")){
+				Beanmap.put("ind_respuesta", ind_respuesta);
+				Gson gson= new GsonBuilder().setPrettyPrinting().create();
+				String json= gson.toJson(Beanmap);
+				response.getWriter().write(json);
+			}
+			
+		} catch (Exception e) {
+			System.out.println("Error en el metodo EliminarCliente : "+e.getMessage());
+		}
+		
 		
 	}
 
 	private void TotalRegistrosCliente(HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		
+		try {
+			int TotalRegistro = 0;
+			Cliente_vo  objeto= new Cliente_vo();
+			Parametrizador_vo tipopersona= new Parametrizador_vo();
+			objeto.setCodigocliente(request.getParameter("txt_codigo_buscar").trim());
+			objeto.setNombres(request.getParameter("txt_nombre_apellido_buscar"));
+			tipopersona.setValor(Integer.parseInt((request.getParameter("txt_nombre_apellido_buscar").equals("")?"0":request.getParameter("txt_nombre_apellido_buscar"))));
+			objeto.setTipopersona(tipopersona);
+			objeto.setRuc((request.getParameter("txt_ruc_buscar").equals("")?"0":request.getParameter("txt_ruc_buscar")));
+			objeto.setDni((request.getParameter("txt_dni_buscar").equals("")?"0":request.getParameter("txt_dni_buscar")));
+			TotalRegistro  = new Cliente_models().TotalRegistroCliente(objeto);
+			
+			Map<String, String> Beanmap= new HashMap<String, String>();
+			Beanmap.put("TotalRegistro", String.valueOf(TotalRegistro));
+			Gson gson= new GsonBuilder().setPrettyPrinting().create();
+			String json= gson.toJson(Beanmap);
+			response.getWriter().write(json);
+		
+		} catch (Exception e) {
+			System.out.println("Error en el metodo TotalRegistrosCategoria "
+					+ e.getMessage());
+		}	
 		
 	}
 
 	private void ListarCliente(HttpServletRequest request,
 			HttpServletResponse response) {
-		// TODO Auto-generated method stub
+		try {
+			Cliente_vo  cliente_vo= new Cliente_vo();
+			Parametrizador_vo tipopersona= new Parametrizador_vo();
+			List<Cliente_vo> listcliente = new ArrayList<Cliente_vo>();
+			Paginador_vo paginador_vo= new Paginador_vo();			
+			cliente_vo.setCodigocliente(request.getParameter("txt_codigo_buscar").trim());
+			cliente_vo.setNombres(request.getParameter("txt_nombre_apellido_buscar"));
+			tipopersona.setValor(Integer.parseInt((request.getParameter("txt_nombre_apellido_buscar").equals("")?"0":request.getParameter("txt_nombre_apellido_buscar"))));
+			cliente_vo.setTipopersona(tipopersona);
+			cliente_vo.setRuc((request.getParameter("txt_ruc_buscar").equals("")?"0":request.getParameter("txt_ruc_buscar")));
+			cliente_vo.setDni((request.getParameter("txt_dni_buscar").equals("")?"0":request.getParameter("txt_dni_buscar")));
+			paginador_vo.setLimit(Integer.parseInt(request.getParameter("limit")));
+			paginador_vo.setOffset(Integer.parseInt(request.getParameter("offset")));
+			cliente_vo.setPaginador(paginador_vo);
+			listcliente = new Cliente_models().ListarCliente(cliente_vo);
+			String json= new Gson().toJson(listcliente);			
+			response.setContentType("application/json"); 
+			response.setCharacterEncoding("utf-8"); 
+			String bothJson = "["+json+"]";				
+			response.getWriter().write(bothJson);
+		
+		} catch (Exception e) {
+			System.out.println("Error en el metodo ListarCliente "
+					+ e.getMessage());
+		}
 		
 	}
 
@@ -202,8 +284,8 @@ try {
 			objeto.setCorreo(request.getParameter("txt_correo_guardar"));	
 			objeto.setTelefono(request.getParameter("txt_telefono_guardar"));
 			objeto.setCelular(request.getParameter("txt_celular_guardar"));
-			objeto.setDni(request.getParameter("txt_dni_guardar"));
-			objeto.setRuc(request.getParameter("txt_ruc_guardar"));
+			objeto.setDni(request.getParameter("txt_dni_guardar")==null || request.getParameter("txt_dni_guardar").equals("") ? "":request.getParameter("txt_dni_guardar"));
+			objeto.setRuc(request.getParameter("txt_ruc_guardar")==null || request.getParameter("txt_ruc_guardar").equals("") ? "":request.getParameter("txt_ruc_guardar"));
 			objeto.setDireccion(request.getParameter("txt_direccion_guarda"));
 			objeto.setReferencia(request.getParameter("txt_referencia_guardar"));
 						
@@ -245,7 +327,7 @@ try {
 					response.getWriter().write(json);
 				}
 			}else {
-				objeto.setCodigocliente(request.getParameter("hiddencodtienda"));
+				objeto.setCodigocliente(request.getParameter("hiddencodcliente"));
 				Map<String, String> Beanmap= new HashMap<String, String>();
 				codigocliente = new Cliente_models().ActualizarCliente(objeto);
 				if(codigocliente.equals("-1")){

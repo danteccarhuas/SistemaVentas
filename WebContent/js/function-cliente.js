@@ -2,18 +2,20 @@ $(document)	.ready(function(e) {
 	
 	$("#cbo_tipopersona").change(function(){
 		var valor= this.options[this.selectedIndex].value;	
-		 $('#frm_cliente').bootstrapValidator('resetField', $('#txt_ruc_guardar'));
-		 $('#frm_cliente').bootstrapValidator('resetField', $('#txt_dni_guardar') );
+		validarRucDNI(valor);
+	});
+	
+	function validarRucDNI(valor){
+		$('#frm_cliente').bootstrapValidator('resetField', $('#txt_ruc_guardar'));
+		$('#frm_cliente').bootstrapValidator('resetField', $('#txt_dni_guardar') );
 		if (valor == 1){			
 			$('#txt_dni_guardar').prop( "disabled", false ).removeClass('disabled');
 			$('#txt_ruc_guardar').prop( "disabled", true ).addClass('disabled');		   
-		}else if(valor == 2){
-			
+		}else if(valor == 2){			
 			$('#txt_dni_guardar').prop( "disabled", true ).removeClass('disabled');
 			$('#txt_ruc_guardar').prop( "disabled", false ).addClass('disabled');
 		}
-	});
-	
+	}
 	$('#btn_nuevo').on('click', function () {		
 		 $('#tab1').prop( "disabled", true ).addClass('disabled');
 		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
@@ -41,7 +43,7 @@ $(document)	.ready(function(e) {
 	/*Metodo para eliminar proveedores*/
 	$(document).on("click","#btn_modaleliminar",function(e) {
 		e.preventDefault();		
-		$('#hiddencodcategoria').val($(this).data('id'));
+		$('#hiddencodcliente').val($(this).data('id'));
 		$("#modalRemove").modal({
 			keyboard : false
 		});
@@ -49,11 +51,11 @@ $(document)	.ready(function(e) {
 	
 	$(".removeBtn").click(function(e){
 		$("#modalRemove").modal("hide");		
-		var  codcategoria=$('#hiddencodcategoria').val();
+		var  codcliente=$('#hiddencodcliente').val();
 		$.ajax({
-			url : 'categoria?metodo=EliminarCategoria',
+			url : 'cliente?metodo=EliminarCategoria',
 			type : 'post',
-			data : {codcategoria : codcategoria},
+			data : {codcliente : codcliente},
 			dataType : 'json',
 			success : function(result) {				
 				$("#paginador").html("");/*Limpiar los numero de paginacion*/
@@ -65,25 +67,58 @@ $(document)	.ready(function(e) {
 	/*Metodo para modificar Marca*/
 	$(document).on("click","#btn_editar",function(e) {			
 		e.preventDefault();		
-		$('#hiddencodcategoria').val($(this).data('id'));
+		$('#hiddencodcliente').val($(this).data('id'));
 		$('#hiddenindaccion').val(2); 		
-		var codcategoria = $('#hiddencodcategoria').val();		
+		var codcliente = $('#hiddencodcliente').val();		
 		$.ajax({
-			url : 'categoria?metodo=ObtenerCategoria',
+			url : 'cliente?metodo=ObtenerCliente',
 			type : 'post',
-			data : {codcategoria:codcategoria},
+			data : {codcliente:codcliente},
 			dataType : 'json',
 			success : function(result) {
-				var data1=result[0];					
+				var data1=result[0];	
 				$('#tab1').prop( "disabled", true ).addClass('disabled');
 				$('#tab2').prop( "disabled", false ).removeClass('disabled');
 				$('#eventotab2primary').prop( "disabled", false ).removeClass('disabled');/*Quitamos el disabled del tab eventotab2primary*/
 				$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').next('li').find('a').trigger('click');			
-				$("#tab2primary #txt_codigo_guardar").val(data1.idcategoria);
-				$("#tab2primary #txt_descripcion_guardar").val(data1.descripcion);			
+				$("#tab2primary #txt_cod_cliente_guardar").val(data1.codigocliente);
+				$("#tab2primary #txt_nombre_guardar").val(data1.nombres);	
+				$("#tab2primary #txt_apellidos_guardar").val(data1.apellidos);	
+				$("#tab2primary #txt_correo_guardar").val(data1.correo);	
+				$("#tab2primary #txt_telefono_guardar").val(data1.telefono);	
+				$("#tab2primary #txt_celular_guardar").val(data1.celular);	
+				$("#tab2primary #cbo_tipopersona").val(data1.tipopersona.valor);
+				$("#tab2primary #txt_ruc_guardar").val(data1.ruc);	
+				$("#tab2primary #txt_dni_guardar").val(data1.dni);	
+				$("#tab2primary #txt_direccion_guarda").val(data1.direccion);	
+				$("#tab2primary #txt_referencia_guardar").val(data1.referencia);
+				$("#tab2primary #cbo_estado").val(data1.estado.valor);		
+				$("#tab2primary #cbo_departamento").val(data1.ubigeo.departamento.iddepar).change();
+				$("#hiddenvalueprovincia").val(data1.ubigeo.provincia.idprov);
+				$("#hiddenvaluedistrito").val(data1.ubigeo.distrito.iddist);
+				programarCargaPronvincia();
+				$("#tab2primary input[name=generoRadios][value='"+ data1.sexo.valor +"']").prop("checked",true);
+				validarRucDNI($('#cbo_tipopersona').val());
 			}
 		});
 	});
+	
+	/*Metodo para setar los combo de ubigeo*/
+	function programarCargaPronvincia(){	
+		    setTimeout(function(){setearProvincia();},1000); // 1000ms = 1s
+		}
+	function setearProvincia(){
+			$("#tab2primary #cbo_provincia").val($("#hiddenvalueprovincia").val());
+			CargarComboDependiente($("#hiddenvalueprovincia").val(), 'cbo_distrito','LoadComboDistrito');
+			programarDistrito();
+		}	
+	function programarDistrito(){	
+	    setTimeout(function(){setearDistrito();},1000); // 1000ms = 1s
+	}
+	function setearDistrito(){
+		$("#tab2primary #cbo_distrito").val($("#hiddenvaluedistrito").val());
+	}
+
 	/* Valida las etiquedas del formulario */
 	$("#frm_cliente").bootstrapValidator({
 				message : 'This value is not valid',
@@ -415,25 +450,40 @@ function creaPaginador(totalItems)
 
 function cargaPagina(pagina){
 	var desde = pagina * itemsPorPagina;	
-	var txt_Descripcion_buscar = $("#txt_Descripcion_buscar").val();
+	var txt_codigo_buscar = $("#txt_codigo_buscar").val();
+	var txt_nombre_apellido_buscar = $("#txt_nombre_apellido_buscar").val();
+	var cbo_tipopersona_buscar = $("#cbo_tipopersona_buscar").val();
+	var txt_dni_buscar = $("#txt_dni_buscar").val();
+	var txt_ruc_buscar = $("#txt_ruc_buscar").val();
 	$.ajax({
-		url : 'categoria?metodo=ListarCategoria',
+		url : 'cliente?metodo=ListarCliente',
 		type : 'post',
-		data : {txt_Descripcion_buscar:txt_Descripcion_buscar,limit:itemsPorPagina,offset:desde},
+		data : {txt_codigo_buscar:txt_codigo_buscar,txt_nombre_apellido_buscar:txt_nombre_apellido_buscar,cbo_tipopersona_buscar:cbo_tipopersona_buscar,txt_dni_buscar:txt_dni_buscar,txt_ruc_buscar:txt_ruc_buscar,limit:itemsPorPagina,offset:desde},
 		dataType : 'json',
 		success : function(result) {
 			var lista=result[0];
-			$("#rellenar").html("");
+			$("#rellenar").html("");		
 			var trHTML = '';
-			if (lista.length > 0){
+			if (lista.length > 0){ 
 				for ( var i = 0; i < lista.length; i++) {
 					trHTML += '<tr><td>'
-						+ lista[i]['idcategoria']
+						+ lista[i]['codigocliente']
 						+ '</td><td>'
-						+ lista[i]['descripcion']											
-						+ '</td><td><a href="" data-id="'+lista[i]['idcategoria']+'" id="btn_editar" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </a></td>'
-						+ '</td><td><a  data-id="'+lista[i]['idcategoria']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>';
+						+ lista[i]['nombres']	
+						+ '</td><td>'
+						+ lista[i]['tipopersona']['descripcion']
+						+ '</td><td>'
+						+ lista[i]['ruc']	
+						+ '</td><td>'
+						+ lista[i]['dni']	
+						+ '</td><td>'
+						+ lista[i]['sexo']['descripcion']	
+						+ '</td><td>'
+						+ lista[i]['celular']	
+						+ '</td><td><a href="" data-id="'+lista[i]['codigocliente']+'" id="btn_editar" class="btn btn-info"><span class="fa fa-pencil-square-o " ></span> </a></td>'
+						+ '</td><td><a  data-id="'+lista[i]['codigocliente']+'" id="btn_modaleliminar" class="btn btn-danger"><span class="fa fa-trash-o" ></span></a></td>';
 				}
+				
 				$('#rellenar').append(trHTML);
 			}			
 		}
@@ -478,11 +528,16 @@ function cargaPagina(pagina){
 
 function initGrilla(){
 	
-	var txt_Descripcion_buscar = $("#txt_Descripcion_buscar").val();
+	var txt_codigo_buscar = $("#txt_codigo_buscar").val();
+	var txt_nombre_apellido_buscar = $("#txt_nombre_apellido_buscar").val();
+	var cbo_tipopersona_buscar = $("#cbo_tipopersona_buscar").val();
+	var txt_dni_buscar = $("#txt_dni_buscar").val();
+	var txt_ruc_buscar = $("#txt_ruc_buscar").val();
+	
 	$.ajax({
 		url : 'cliente?metodo=TotalRegistrosCliente',
 		type : 'post',
-		data : {txt_Descripcion_buscar:txt_Descripcion_buscar},
+		data : {txt_codigo_buscar:txt_codigo_buscar,txt_nombre_apellido_buscar:txt_nombre_apellido_buscar,cbo_tipopersona_buscar:cbo_tipopersona_buscar,txt_dni_buscar:txt_dni_buscar,txt_ruc_buscar:txt_ruc_buscar},
 		dataType : 'json',
 		success : function(result) {
 			var valor=eval(result);
@@ -521,6 +576,15 @@ function LoadCombos() {
 			for ( var i = 0; i < datosTipopersona.length; i++) {
 				combotipopersona.options[combotipopersona.length] = new Option(datosTipopersona[i].descripcion, datosTipopersona[i].valor );
 			}
+			
+			cbo_tipopersona_buscar = document.getElementById('cbo_tipopersona_buscar');		
+			cbo_tipopersona_buscar.options[0] = new Option('- Seleccione -','');
+			for ( var i = 0; i < datosTipopersona.length; i++) {
+				cbo_tipopersona_buscar.options[cbo_tipopersona_buscar.length] = new Option(datosTipopersona[i].descripcion, datosTipopersona[i].valor );
+			}
+			
+			
+			
 		}
 	});
 }

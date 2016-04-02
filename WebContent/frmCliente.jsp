@@ -42,13 +42,44 @@
 
 										<div class="row">
 											<div class="form-group">
-												<label class="col-lg-2" for="nombre">Descripcion:</label>
-												<div class="col-lg-5">
+												<label class="col-lg-1" for="nombre">Codigo:</label>
+												<div class="col-lg-2">
 													<input class="form-control" type="text"
-														id="txt_Descripcion_buscar" name="txt_Descripcion_buscar"
-														placeholder="Descripcion" />
+														id="txt_codigo_buscar" name="txt_codigo_buscar"
+														placeholder="Codigo" />
 												</div>
-												<div class="col-lg-5">
+
+												<label class="col-lg-1" for="nombre">Nombres:</label>
+												<div class="col-lg-8">
+													<input class="form-control" type="text"
+														id="txt_nombre_apellido_buscar"
+														name="txt_nombre_apellido_buscar"
+														placeholder="Nombre y/o apellidos" />
+												</div>
+											</div>
+										</div>
+										<br>
+										<div class="row">
+											<div class="form-group">
+												<label class="col-lg-1" for="cbo_tipopersona_buscar">Tipo
+													Persona:</label>
+												<div class="col-lg-2">
+													<select class="form-control" name="cbo_tipopersona_buscar"
+														id="cbo_tipopersona_buscar">
+
+													</select>
+												</div>
+												<label class="control-label col-lg-1" for="txt_dni_buscar">DNI:</label>
+												<div class="col-lg-2" id="etiquetadni">
+													<input class="form-control" type="text" id="txt_dni_buscar"
+														name="txt_dni_buscar" placeholder="DNI" />
+												</div>
+												<label class="control-label col-lg-1" for="txt_ruc_buscar">Ruc:</label>
+												<div class="col-lg-2" id="etiquetaruc">
+													<input class="form-control" type="text" id="txt_ruc_buscar"
+														name="txt_ruc_buscar" placeholder="Ruc" />
+												</div>
+												<div class="col-lg-3">
 													<button id="btn_buscar" class="btn btn-primary">
 														Buscar <span class="fa fa-search"></span>
 													</button>
@@ -67,7 +98,12 @@
 															<thead>
 																<tr class="">
 																	<th>Codigo</th>
-																	<th>Descripción</th>
+																	<th>Nombres y Apellidos</th>																
+																	<th>Tipo persona</th>
+																	<th>Ruc</th>
+																	<th>DNI</th>
+																	<th>Genero</th>
+																	<th>Celular</th>
 																	<th colspan="2">Acción</th>
 																</tr>
 															</thead>
@@ -86,8 +122,8 @@
 									<div class="tab-pane fade" id="tab2primary">
 										<br>
 										<form class="form-horizontal" id="frm_cliente">
-											<input type="hidden" id="hiddencodtrab" value="0"
-												name="hiddencodtrab" /> <input type="hidden"
+											<input type="hidden" id="hiddencodcliente" value="0"
+												name="hiddencodcliente" /> <input type="hidden"
 												id="hiddenindaccion" name="hiddenindaccion" value="0" />
 											<!-- 
 										hiddenindaccion : 1 Nuevo
@@ -294,20 +330,18 @@
 														<div class="col-lg-9">
 															<div class="radio">
 																<label> <input type="radio" name="generoRadios"
-																	id="generoRadios" value="1" ><!-- checked -->
+																	id="generoRadios" value="1"> <!-- checked -->
 																	Masculino
 																</label>
 															</div>
 															<div class="radio">
 																<label> <input type="radio" name="generoRadios"
-																	id="generoRadios" value="2">
-																	Femenino
+																	id="generoRadios" value="2"> Femenino
 																</label>
 															</div>
 															<div class="radio">
 																<label> <input type="radio" name="generoRadios"
-																	id="generoRadios" value="3" >
-																	Otros
+																	id="generoRadios" value="3"> Otros
 																</label>
 															</div>
 														</div>
@@ -387,7 +421,8 @@
 		</div>
 	</div>
 	<!-- Modal ends Here -->
-
 </body>
+<input type="hidden" id="hiddenvalueprovincia" value="0" />
+<input type="hidden" id="hiddenvaluedistrito" value="0" />
 <script src="js/function-cliente.js"></script>
 </html>
