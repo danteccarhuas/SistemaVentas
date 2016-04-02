@@ -1025,10 +1025,11 @@ BEGIN
 	declare v_cod_trab VARCHAR(12);
 	set v_cod_trab='';
 	 
+
+	select cliente into v_cod_trab from (
 	select  concat('TRAB',CAST(RIGHT(CONCAT('00000000' , CAST(RTRIM(CAST(RIGHT(IFNULL(MAX(codigotrabajador),0),8) 
-	as signed integer)+1)AS CHAR(10000) CHARACTER SET utf8) ),8)AS CHAR(10000) CHARACTER SET utf8)) 
-	into v_cod_trab
-	from tb_trabajador;
+	as signed integer)+1)AS CHAR(10000) CHARACTER SET utf8) ),8)AS CHAR(10000) CHARACTER SET utf8)) as cliente 
+	from tb_trabajador) as tabla;
 
     INSERT INTO tb_trabajador
          (
@@ -1060,7 +1061,6 @@ BEGIN
 		(select now()) ,
 		p_idtienda 
          ); 
-	
 
 	set p_codigotrabajador=v_cod_trab;
 END //

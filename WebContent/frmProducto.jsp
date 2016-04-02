@@ -176,7 +176,7 @@
 																	Compra:</label>
 																<div class="col-lg-8">
 																	<input class="form-control" type="text"
-																		id="txt_preciocompra_guardar"
+																		id="txt_preciocompra_guardar" min="0" 
 																		name="txt_preciocompra_guardar"
 																		placeholder="Precio Compra" />
 																</div>
@@ -188,7 +188,7 @@
 																	venta:</label>
 																<div class="col-lg-8">
 																	<input class="form-control" type="text"
-																		id="txt_precioventa_guardar"
+																		id="txt_precioventa_guardar" min="0" 
 																		name="txt_precioventa_guardar"
 																		placeholder="Precio venta" />
 																</div>
@@ -253,8 +253,20 @@
 														</div>
 													</div>
 												</div>
-												<div class="col-lg-4"></div>
+												<div class="col-lg-4">
+													<div class="row">
+														<div class="col-xs-6">
 
+
+
+
+															
+														</div>
+
+
+
+													</div>
+												</div>
 											</div>
 
 

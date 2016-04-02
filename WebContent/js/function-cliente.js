@@ -1,5 +1,19 @@
 $(document)	.ready(function(e) {
 	
+	$("#cbo_tipopersona").change(function(){
+		var valor= this.options[this.selectedIndex].value;	
+		 $('#frm_cliente').bootstrapValidator('resetField', $('#txt_ruc_guardar'));
+		 $('#frm_cliente').bootstrapValidator('resetField', $('#txt_dni_guardar') );
+		if (valor == 1){			
+			$('#txt_dni_guardar').prop( "disabled", false ).removeClass('disabled');
+			$('#txt_ruc_guardar').prop( "disabled", true ).addClass('disabled');		   
+		}else if(valor == 2){
+			
+			$('#txt_dni_guardar').prop( "disabled", true ).removeClass('disabled');
+			$('#txt_ruc_guardar').prop( "disabled", false ).addClass('disabled');
+		}
+	});
+	
 	$('#btn_nuevo').on('click', function () {		
 		 $('#tab1').prop( "disabled", true ).addClass('disabled');
 		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
@@ -9,7 +23,7 @@ $(document)	.ready(function(e) {
 	});	
 	
 	$('#btn_salir').on('click', function () {
-		$("#frm_categoria").data('bootstrapValidator').resetForm(true);/*Limpiamos todos los controles del formulario frm_Proveedor */
+		$("#frm_cliente").data('bootstrapValidator').resetForm(true);/*Limpiamos todos los controles del formulario frm_Proveedor */
 		$('#tab1').prop( "disabled", false ).removeClass('disabled');
 		$('#tab2').prop( "disabled", true ).addClass('disabled');
 		$('.nav-tabs > .active').prop( "disabled", true ).addClass('disabled').prev('li').find('a').trigger('click');  
@@ -71,7 +85,7 @@ $(document)	.ready(function(e) {
 		});
 	});
 	/* Valida las etiquedas del formulario */
-	$("#frm_categoria").bootstrapValidator({
+	$("#frm_cliente").bootstrapValidator({
 				message : 'This value is not valid',
 			feedbackIcons : {
 				valid : 'glyphicon glyphicon-ok',
@@ -79,16 +93,140 @@ $(document)	.ready(function(e) {
 				validating : 'glyphicon glyphicon-refresh'
 			},
 			fields : {
-				"txt_descripcion_guardar" : {
+				"txt_nombre_guardar" : {
 					validators : {
 						notEmpty : {
 							message : 'Ingrese Descripcion por favor.'
 						}
 					}
+				},
+				"txt_apellidos_guardar" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese Descripcion por favor.'
+						}
+					}
+				},
+				"txt_correo_guardar" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese Descripcion por favor.'
+						},
+						emailAddress : {
+							message : 'El Correo Electronico ingresado no es válida.'
+						}
+					}
+				},
+				"txt_telefono_guardar" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese telefono por favor.'
+						},
+						stringLength : {
+							min : 1,
+							max : 7,
+							message : 'Teléfono tiene 07 cifras máximo.'
+						},
+						integer : {
+							message : 'Ingrese solo números.'
+						}
+					}
+				},
+				"txt_celular_guardar" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese celular por favor.'
+						},						
+						stringLength : {
+							min : 1,
+							max : 9,
+							message : 'El Celular tiene 09 cifras máximo.'
+						},
+						integer : {
+							message : 'Ingrese solo números.'
+						}
+					}
+				},
+				"txt_ruc_guardar" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese numero de ruc por favor.'
+						},
+						stringLength : {
+							min : 1,
+							max : 11,
+							message : 'El RUC tiene 11 cifras maximo.'
+						},
+						integer : {
+							message : 'Ingrese solo numeros.'
+						}
+					}
+				},
+				"txt_dni_guardar" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese numero de dni por favor.'
+						},
+						stringLength : {
+							min : 1,
+							max : 8,
+							message : 'El DNI tiene 08 cifras maximo.'
+						},
+						integer : {
+							message : 'Ingrese solo numeros.'
+						}
+					}
+				},
+				"txt_direccion_guarda" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese direccion por favor.'
+						}
+					}
+				},
+				"txt_referencia_guardar" : {
+					validators : {
+						notEmpty : {
+							message : 'Ingrese una referencia por favor.'
+						},
+						stringLength : {
+							min : 1,
+							max : 255,
+							message : 'Ingrese 255 caracteres como maximo.'
+						}
+					}
+				},
+				"cbo_tipopersona" : {
+					validators : {
+						notEmpty : {
+							message : 'Seleccione tipo de persona por favor.'
+						}
+					}
+				},
+				"cbo_departamento" : {
+					validators : {
+						notEmpty : {
+							message : 'Seleccione un Departamento por favor.'
+						}
+					}
+				},
+				"cbo_provincia" : {
+					validators : {
+						notEmpty : {
+							message : 'Seleccione una Provincia por favor.'
+						}
+					}
+				},
+				"cbo_distrito" : {
+					validators : {
+						notEmpty : {
+							message : 'Seleccione un Distrito por favor.'
+						}
+					}
 				}
 			}
 	});
-	$('#frm_categoria').on('success.form.bv', function(e) {
+	$('#frm_cliente').on('success.form.bv', function(e) {
 		e.preventDefault();
 		GuardarCategoria();
 		if ($('#hiddenindaccion').val() == 1){/*Si es la accion de insertar se bloqueara el boton btn_enviar*/
@@ -96,6 +234,8 @@ $(document)	.ready(function(e) {
 		}
 		
 	});
+	
+	
 	
 	function GuardarCategoria(){		 
 		  $('#ModalLoading').modal('show');
@@ -127,22 +267,74 @@ $(document)	.ready(function(e) {
 					$('#mensajeAlerta').html("<div class='alert alert-danger'>Ocurrio un error por favor comuniquese con el Administrador del Sistema</div>");
 				}
 		  });
-		
-		
 	}
+	$('#cbo_departamento').change(function() {
+		var combodepartamento = $("#cbo_departamento").val(); //(cboFiltro.options[cboFiltro.selectedIndex].value
+		CargarComboDependiente(combodepartamento, 'cbo_provincia','LoadComboProvincia');
+	});
 
+	$('#cbo_provincia').change(function() {
+		var comboprovincia = $("#cbo_provincia").val();
+		CargarComboDependiente(comboprovincia, 'cbo_distrito','LoadComboDistrito');
+	});
 	
+	function CargarComboDependiente(cboFiltro, cbocascada,action) {
+	
+		cbocascada = document.getElementById(cbocascada);
+		LimpiarCombo(cbocascada);
+		$.ajax({
+			type : "get",
+			url : "cliente?metodo=" + action,
+			data : {idvalue : cboFiltro},
+			dataType : 'json',
+			success : function(resultado) {				
+				var data = resultado[0];				
+				if (data.length > 0) {
+					llenarCombo(data, cbocascada);
+				}
+			},
+			error : function(xrh, ajaxOptions, thrownError) {
+				alert("Error status code: " + xrh.status);
+				alert("Error details: " + thrownError);
+			}
+		});
+	}
+	function LimpiarCombo(cbocascada) {
+		while (cbocascada.length > 0) {
+			cbocascada.remove(cbocascada.length - 1);
+		}
+	}
+	function llenarCombo(result, cbocascada) {
+		if (cbocascada.id == 'cbo_provincia') {
+			cbocascada.options[0] = new Option('- Seleccione -', '');
+			for ( var i = 0; i < result.length; i++) {
+				cbocascada.options[cbocascada.length] = new Option(result[i].provincia, result[i].idprov);
+			}
+
+		}
+		if (cbocascada.id == 'cbo_distrito') {
+			cbocascada.options[0] = new Option('- Seleccione -', '');
+			for ( var i = 0; i < result.length; i++) {
+				cbocascada.options[cbocascada.length] = new Option(result[i].distrito, result[i].iddist);
+			}
+		}
+	}
 });
 
 /* Se ejecuta cuando carga por primera vez la pagina */
 $(window).load(function() {
 	initGrilla();
+	LoadCombos();
 	/*Desabilitamos el tab eventotab2primary*/
 	$('#eventotab2primary').click(function(event){
 	        if ($(this).hasClass('disabled')) {
 	            return false;
 	        }
 	 });
+	       
+
+	$('#txt_dni_guardar').prop( "disabled", true ).addClass('disabled');
+	$('#txt_ruc_guardar').prop( "disabled", true ).addClass('disabled');
 	
 });
 
@@ -292,4 +484,36 @@ function initGrilla(){
 		}
 	});
 	
+}
+
+
+function LoadCombos() {
+	$.ajax({
+		url : 'cliente?metodo=LoadComboDepartamento',
+		type : 'get',
+		data : '',
+		dataType : 'json',
+		success : function(result) {
+			var datosDepartamento = result[0];
+			var datosEstado = result[1];
+			var datosTipopersona = result[2];
+			
+			ComboDepartamento = document.getElementById('cbo_departamento');
+			ComboDepartamento.options[0] = new Option('- Seleccione -','');
+			for ( var i = 0; i < datosDepartamento.length; i++) {
+				ComboDepartamento.options[ComboDepartamento.length] = new Option(datosDepartamento[i].departamento, datosDepartamento[i].iddepar);
+			}
+			
+			comboestado = document.getElementById('cbo_estado');		
+			for ( var i = 0; i < datosEstado.length; i++) {
+				comboestado.options[comboestado.length] = new Option(datosEstado[i].descripcion, datosEstado[i].valor );
+			}
+			
+			combotipopersona = document.getElementById('cbo_tipopersona');		
+			combotipopersona.options[0] = new Option('- Seleccione -','');
+			for ( var i = 0; i < datosTipopersona.length; i++) {
+				combotipopersona.options[combotipopersona.length] = new Option(datosTipopersona[i].descripcion, datosTipopersona[i].valor );
+			}
+		}
+	});
 }

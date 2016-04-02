@@ -1,5 +1,6 @@
 $(document)	.ready(function(e) {
 	
+	
 	$('#btn_nuevo').on('click', function () {		
 		 $('#tab1').prop( "disabled", true ).addClass('disabled');
 		 $('#tab2').prop( "disabled", false ).removeClass('disabled');
@@ -106,6 +107,9 @@ $(document)	.ready(function(e) {
 					validators : {
 						notEmpty : {
 							message : 'Ingrese precio de compra por favor.'
+						},regexp:{
+	                        regexp: /^[0-9]+\.[0-9]{0,2}$/i,
+	                        message: 'Ingresa en formato ##.##'
 						}
 					}
 				},
@@ -113,6 +117,9 @@ $(document)	.ready(function(e) {
 					validators : {
 						notEmpty : {
 							message : 'Ingrese precio de venta por favor.'
+						},regexp:{
+	                        regexp: /^[0-9]+\.[0-9]{0,2}$/i,
+	                        message: 'Ingresa en formato ##.##'
 						}
 					}
 				},

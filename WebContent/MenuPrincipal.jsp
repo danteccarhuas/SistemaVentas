@@ -260,6 +260,7 @@
 	<script src="js/bootstrapValidator.js"></script>
 	<script src="js/modal.js"></script>
 	<script src="js/bootstrap-datepicker.min.js"></script>
+	
 </body>
 
 </html>

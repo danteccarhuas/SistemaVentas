@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,16 +9,14 @@
 <body>
 	<div id="wrapper">
 		<jsp:include page="MenuPrincipal.jsp"></jsp:include>
-	
+
 		<div id="page-wrapper">
 			<div class="container-fluid">
-				
+
 				<!-- Page Heading -->
 				<div class="row">
 					<div class="col-lg-12">
-						<h1 class="page-header">
-							Mantenimiento Trabajador
-						</h1>
+						<h1 class="page-header">Mantenimiento Trabajador</h1>
 					</div>
 				</div>
 				<div class="row">
@@ -118,8 +116,8 @@
 												<div class="col-lg-5">
 													<div class="form-group">
 
-														<label class="control-label col-lg-5" for="txt_cod_trab_guardar">Cod.
-															Trab:</label>
+														<label class="control-label col-lg-5"
+															for="txt_cod_trab_guardar">Cod. Trab:</label>
 														<div class="col-lg-7">
 															<input class="form-control" type="text"
 																id="txt_cod_trab_guardar" name="txt_cod_trab_guardar"
@@ -144,8 +142,9 @@
 
 														<label class="control-label col-lg-3" for="txt_apellidos">Apellidos:</label>
 														<div class="col-lg-9">
-															<input class="form-control" type="text" id="txt_apellidos"
-																name="txt_apellidos" placeholder="Apellidos" />
+															<input class="form-control" type="text"
+																id="txt_apellidos" name="txt_apellidos"
+																placeholder="Apellidos" />
 														</div>
 													</div>
 
@@ -160,9 +159,8 @@
 
 														<label class="control-label col-lg-5" for="txt_correo">Email:</label>
 														<div class="col-lg-7">
-															<input class="form-control" type="text"
-																id="txt_correo" name="txt_correo"
-																placeholder="Email" />
+															<input class="form-control" type="text" id="txt_correo"
+																name="txt_correo" placeholder="Email" />
 														</div>
 
 													</div>
@@ -191,13 +189,14 @@
 											<div class="row">
 												<div class="col-lg-5">
 													<div class="form-group">
-														<label class="control-label col-lg-5" for="txt_fec_nac">Fecha Nac.:</label>
+														<label class="control-label col-lg-5" for="txt_fec_nac">Fecha
+															Nac.:</label>
 														<div class="col-lg-7">
 															<div class="input-group input-append date"
 																id="datePicker">
-																<input type="text" class="form-control"
-																	id="txt_fec_nac" data-date-format="YYYY-MM-DD"
-																	name="txt_fec_nac" readonly="readonly" /> <span
+																<input type="text" class="form-control" id="txt_fec_nac"
+																	data-date-format="YYYY-MM-DD" name="txt_fec_nac"
+																	readonly="readonly" /> <span
 																	class="input-group-addon add-on span-datetime"><span
 																	class="glyphicon glyphicon-calendar"></span></span>
 															</div>
@@ -207,10 +206,11 @@
 
 												<div class="col-lg-3">
 													<div class="form-group">
-														<label class="control-label col-lg-3" for="txt_direccion">Dirección:</label>
+														<label class="control-label col-lg-3" for="cbo_tienda">Tienda:</label>
 														<div class="col-lg-9">
-															<input class="form-control" type="text" id="txt_direccion"
-																name="txt_direccion" placeholder="Dirección" />
+															<select class="form-control" name="cbo_tienda"
+																id="cbo_tienda">
+															</select>
 														</div>
 													</div>
 												</div>
@@ -219,21 +219,21 @@
 													<div class="form-group">
 														<label class="control-label col-lg-3" for="cbo_estado">Estado:</label>
 														<div class="col-lg-9">
-															<select class="form-control" name="cbo_estado" id="cbo_estado">
+															<select class="form-control" name="cbo_estado"
+																id="cbo_estado">
 															</select>
 														</div>
 													</div>
-
 												</div>
 											</div>
 											<div class="row">
-												<div class="col-lg-5">
+												<div class="col-lg-12">
 													<div class="form-group">
-														<label class="control-label col-lg-5" for="cbo_tienda">Tienda:</label>
-														<div class="col-lg-7">
-															<select class="form-control" name="cbo_tienda"
-																id="cbo_tienda">
-															</select>
+														<label class="control-label col-lg-2" for="txt_direccion">Dirección:</label>
+														<div class="col-lg-10">
+															<input class="form-control" type="text"
+																id="txt_direccion" name="txt_direccion"
+																placeholder="Dirección" />
 														</div>
 													</div>
 												</div>
@@ -250,7 +250,7 @@
 										</form>
 									</div>
 								</div>
-							<!--   <div class="tab-pane fade" id="tab3primary">Primary 3</div>
+								<!--   <div class="tab-pane fade" id="tab3primary">Primary 3</div>
 	                        <div class="tab-pane fade" id="tab4primary">Primary 4</div>
 	                        <div class="tab-pane fade" id="tab5primary">Primary 5</div> -->
 							</div>
@@ -283,7 +283,7 @@
 			</div>
 		</div>
 	</div>
-		<!-- Modal -->
+	<!-- Modal -->
 	<div class="modal fade" id="modalRemove" tabindex="-1" role="dialog"
 		aria-labelledby="myModalLabel" aria-hidden="true">
 		<div class="modal-dialog">
